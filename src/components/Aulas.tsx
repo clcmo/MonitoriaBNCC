@@ -34,6 +34,9 @@ export default function Aulas() {
                 </p>
                 <div className="content">{aula.descricao}</div>
               </div>
+              <button className="button">
+                <a href="./{aula.materialUrl}" target="_blank">Confira a Aula</a>
+              </button>
             </div>
           </div>
         ))}
