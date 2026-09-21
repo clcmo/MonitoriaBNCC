@@ -48,67 +48,99 @@
         }
     </script>
     <style>
-        html { 
-            scroll-behavior: smooth; 
+    html { 
+        scroll-behavior: smooth; 
+    }
+    
+    .canvas-container { 
+        position: relative; 
+        width: 100%; 
+        height: 320px; 
+    }
+    
+    canvas { 
+        background-color: #0f172a; 
+        border-radius: 0.75rem; 
+        width: 100%; 
+        height: 100%; 
+        display: block; 
+    }
+    
+    /* REGRAS EXCLUSIVAS PARA IMPRESSÃO / GERAÇÃO DE PDF (TEMA CLARO INVERTIDO) */
+    @media print {
+        /* 1. Oculta botões, navegadores, sliders, menus e canvas interativos */
+        footer, button, .no-print, .canvas-container, input[type="range"], select, nav {
+            display: none !important;
         }
-        
-        .canvas-container { 
-            position: relative; 
-            width: 100%; 
-            height: 320px; 
+
+        /* 2. Reseta fundo da página e textos para preto e branco básico */
+        body, html {
+            background-color: #ffffff !important;
+            background: #ffffff !important;
+            color: #0f172a !important;
         }
-        
-        canvas { 
-            background-color: #0f172a; 
-            border-radius: 0.75rem; 
-            width: 100%; 
-            height: 100%; 
-            display: block; 
+
+        /* 3. Ajuste total do Header (remove fundos escuros/gradientes) */
+        header {
+            background-color: #ffffff !important;
+            background: #ffffff !important;
+            border-bottom: 2px solid #0284c7 !important;
+            padding: 1rem 0 !important;
         }
-        
-        /* Estilos de impressão (Inversão para Tema Claro / PDF) */
-        @media print {
-            /* Oculta botões, navegadores, sliders e os canvas interativos */
-            header, footer, button, .no-print, .canvas-container, input[type="range"], select {
-                display: none !important;
-            }
-            
-            /* Fundo branco e texto escuro para economia e leitura em papel */
-            body {
-                background-color: #ffffff !important;
-                color: #0f172a !important;
-            }
-            
-            /* Ajuste dos cards e containers do Tailwind */
-            .bg-slate-800, .bg-slate-900, .bg-slate-950, 
-            .bg-slate-900\/80, .bg-slate-800\/60, .bg-slate-800\/40 {
-                background-color: #f8fafc !important;
-                color: #0f172a !important;
-                border: 1px solid #cbd5e1 !important;
-                box-shadow: none !important;
-            }
-            
-            /* Ajuste de contraste para textos claros */
-            .text-white, .text-slate-100, .text-slate-200, 
-            .text-slate-300, .text-slate-400 {
-                color: #1e293b !important;
-            }
-            
-            /* Destaques de cores ajustados para impressão */
-            .text-sky-400 { color: #0284c7 !important; }
-            .text-emerald-400 { color: #059669 !important; }
-            .text-amber-400 { color: #d97706 !important; }
-            
-            /* Evita corte indesejado de páginas no meio de questões/seções */
-            .border-slate-700, .border-slate-800 {
-                border-color: #e2e8f0 !important;
-            }
-            
-            section, article, .bg-slate-800 {
-                page-break-inside: avoid;
-            }
+
+        /* 4. Mapeamento de TODOS os cards (Teoria, Simulado e Experimento) */
+        .bg-slate-800, .bg-slate-900, .bg-slate-950, 
+        .bg-slate-900\/80, .bg-slate-800\/60, .bg-slate-800\/40,
+        [class*="bg-slate-"], [class*="bg-emerald-"] {
+            background-color: #f8fafc !important;
+            background: #f8fafc !important;
+            color: #0f172a !important;
+            border: 1px solid #cbd5e1 !important;
+            box-shadow: none !important;
         }
-    </style>
+
+        /* 5. Ajuste específico para o Card de Experimento Prático */
+        .bg-emerald-950\/30, .border-emerald-500\/30, .bg-emerald-900\/20 {
+            background-color: #f0fdf4 !important;
+            background: #f0fdf4 !important;
+            border-color: #16a34a !important;
+            color: #0f172a !important;
+        }
+
+        /* 6. Remove gradientes de cor nos fundos e títulos */
+        [class*="bg-gradient"] {
+            background: #ffffff !important;
+            background-image: none !important;
+        }
+
+        [class*="from-"], [class*="to-"], [class*="via-"] {
+            background-image: none !important;
+            -webkit-text-fill-color: initial !important;
+        }
+
+        /* 7. Ajuste de cores de texto para alta legibilidade */
+        .text-white, .text-slate-100, .text-slate-200, 
+        .text-slate-300, .text-slate-400, .text-emerald-100, .text-emerald-200 {
+            color: #0f172a !important;
+        }
+
+        /* Destaques de cor mantidos em tom escuro contrastante */
+        .text-sky-400, .text-sky-300 { color: #0284c7 !important; }
+        .text-emerald-400, .text-emerald-300 { color: #15803d !important; }
+        .text-amber-400, .text-amber-300 { color: #b45309 !important; }
+
+        /* 8. Ajustes das bordas dos containers */
+        .border-slate-700, .border-slate-800, .border-slate-600 {
+            border-color: #cbd5e1 !important;
+        }
+
+        /* 9. Quebra de página inteligente (evita cortar exercícios ou experimentos ao meio) */
+        section, article, .bg-slate-800, .rounded-xl {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+    }
+</style>
 </head>
 <body class="bg-slate-900 text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between">
 
