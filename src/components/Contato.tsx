@@ -11,8 +11,8 @@ export default function Contato() {
           <li><strong>Atendimento Presencial:</strong> Consulte os <a href="./Horarios">horários</a></li>
           <li>
             <strong>Repositório do Projeto:</strong>{' '}
-            <a href="https://github.com/clcmo/Monitoria_Fisica" target="_blank" rel="noreferrer">
-              github.com/clcmo/Monitoria_Fisica
+            <a href="https://github.com/clcmo/MonitoriaBNCC" target="_blank" rel="noreferrer">
+              github.com/clcmo/MonitoriaBNCC
             </a>
           </li>
         </ul>

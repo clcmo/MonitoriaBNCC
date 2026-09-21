@@ -34,8 +34,8 @@ export default function Aulas() {
                 </p>
                 <div className="content">{aula.descricao}</div>
                 <button className="button is-white">
-                <a href="./{aula.materialUrl}" target="_blank">Confira a Aula</a>
-              </button>
+                  <a href={aula.materialUrl} target="_blank">Confira a Aula</a>
+                </button>
               </div>
             </div>
           </div>
