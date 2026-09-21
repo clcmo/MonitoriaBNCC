@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,8 +10,9 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <!-- Configuração e Carregamento do MathJax v3 para TeX/LaTeX -->
     <script>
         window.MathJax = {
@@ -48,100 +50,168 @@
         }
     </script>
     <style>
-    html { 
-        scroll-behavior: smooth; 
-    }
-    
-    .canvas-container { 
-        position: relative; 
-        width: 100%; 
-        height: 320px; 
-    }
-    
-    canvas { 
-        background-color: #0f172a; 
-        border-radius: 0.75rem; 
-        width: 100%; 
-        height: 100%; 
-        display: block; 
-    }
-    
-    /* REGRAS EXCLUSIVAS PARA IMPRESSÃO / GERAÇÃO DE PDF (TEMA CLARO INVERTIDO) */
-    @media print {
-        /* 1. Oculta botões, navegadores, sliders, menus e canvas interativos */
-        footer, button, .no-print, .canvas-container, input[type="range"], select, nav {
-            display: none !important;
+        html {
+            scroll-behavior: smooth;
         }
 
-        /* 2. Reseta fundo da página e textos para preto e branco básico */
-        body, html {
-            background-color: #ffffff !important;
-            background: #ffffff !important;
-            color: #0f172a !important;
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            height: 320px;
         }
 
-        /* 3. Ajuste total do Header (remove fundos escuros/gradientes) */
-        header {
-            background-color: #ffffff !important;
-            background: #ffffff !important;
-            border-bottom: 2px solid #0284c7 !important;
-            padding: 1rem 0 !important;
+        canvas {
+            background-color: #0f172a;
+            border-radius: 0.75rem;
+            width: 100%;
+            height: 100%;
+            display: block;
         }
 
-        /* 4. Mapeamento de TODOS os cards (Teoria, Simulado e Experimento) */
-        .bg-slate-800, .bg-slate-900, .bg-slate-950, 
-        .bg-slate-900\/80, .bg-slate-800\/60, .bg-slate-800\/40,
-        [class*="bg-slate-"], [class*="bg-emerald-"] {
-            background-color: #f8fafc !important;
-            background: #f8fafc !important;
-            color: #0f172a !important;
-            border: 1px solid #cbd5e1 !important;
-            box-shadow: none !important;
+        /* Estilo Base (Tela) */
+        .gradiente-fisica {
+            background: linear-gradient(135deg, #38bdf8 0%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
         }
 
-        /* 5. Ajuste específico para o Card de Experimento Prático */
-        .bg-emerald-950\/30, .border-emerald-500\/30, .bg-emerald-900\/20 {
-            background-color: #f0fdf4 !important;
-            background: #f0fdf4 !important;
-            border-color: #16a34a !important;
-            color: #0f172a !important;
-        }
 
-        /* 6. Remove gradientes de cor nos fundos e títulos */
-        [class*="bg-gradient"] {
-            background: #ffffff !important;
-            background-image: none !important;
-        }
+        /* REGRAS EXCLUSIVAS PARA IMPRESSÃO / GERAÇÃO DE PDF (TEMA CLARO INVERTIDO) */
+        @media print {
 
-        [class*="from-"], [class*="to-"], [class*="via-"] {
-            background-image: none !important;
-            -webkit-text-fill-color: initial !important;
-        }
+            /* Força o navegador a imprimir cores e gradientes de fundo */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
 
-        /* 7. Ajuste de cores de texto para alta legibilidade */
-        .text-white, .text-slate-100, .text-slate-200, 
-        .text-slate-300, .text-slate-400, .text-emerald-100, .text-emerald-200 {
-            color: #0f172a !important;
-        }
+            /* 1. Oculta botões, navegadores, sliders, menus e canvas interativos */
+            footer,
+            button,
+            .no-print,
+            .canvas-container,
+            input[type="range"],
+            select,
+            nav {
+                display: none !important;
+            }
 
-        /* Destaques de cor mantidos em tom escuro contrastante */
-        .text-sky-400, .text-sky-300 { color: #0284c7 !important; }
-        .text-emerald-400, .text-emerald-300 { color: #15803d !important; }
-        .text-amber-400, .text-amber-300 { color: #b45309 !important; }
+            /* 2. Reseta fundo da página e textos para preto e branco básico */
+            body,
+            html {
+                background-color: #ffffff !important;
+                background: #ffffff !important;
+                color: #0f172a !important;
+            }
 
-        /* 8. Ajustes das bordas dos containers */
-        .border-slate-700, .border-slate-800, .border-slate-600 {
-            border-color: #cbd5e1 !important;
-        }
+            /* 3. Ajuste total do Header (remove fundos escuros/gradientes) */
+            header {
+                background-color: #ffffff !important;
+                background: #ffffff !important;
+                border-bottom: 2px solid #0284c7 !important;
+                padding: 1rem 0 !important;
+            }
 
-        /* 9. Quebra de página inteligente (evita cortar exercícios ou experimentos ao meio) */
-        section, article, .bg-slate-800, .rounded-xl {
-            page-break-inside: avoid;
-            break-inside: avoid;
+            /* 4. Mapeamento de TODOS os cards (Teoria, Simulado e Experimento) */
+            .bg-slate-800,
+            .bg-slate-900,
+            .bg-slate-950,
+            .bg-slate-900\/80,
+            .bg-slate-800\/60,
+            .bg-slate-800\/40,
+            [class*="bg-slate-"],
+            [class*="bg-emerald-"] {
+                background-color: #f8fafc !important;
+                background: #f8fafc !important;
+                color: #0f172a !important;
+                border: 1px solid #cbd5e1 !important;
+                box-shadow: none !important;
+            }
+
+            /* 5. Ajuste específico para o Card de Experimento Prático */
+            .bg-emerald-950\/30,
+            .border-emerald-500\/30,
+            .bg-emerald-900\/20 {
+                background-color: #f0fdf4 !important;
+                background: #f0fdf4 !important;
+                border-color: #16a34a !important;
+                color: #0f172a !important;
+            }
+
+            /* 6. Remove gradientes de cor nos fundos e títulos */
+            [class*="bg-gradient"] {
+                background: #ffffff !important;
+                background-image: none !important;
+            }
+
+            [class*="from-"],
+            [class*="to-"],
+            [class*="via-"] {
+                background-image: none !important;
+                -webkit-text-fill-color: initial !important;
+            }
+
+            /* 7. Ajuste de cores de texto para alta legibilidade */
+            .text-white,
+            .text-slate-100,
+            .text-slate-200,
+            .text-slate-300,
+            .text-slate-400,
+            .text-emerald-100,
+            .text-emerald-200 {
+                color: #0f172a !important;
+            }
+
+            /* Destaques de cor mantidos em tom escuro contrastante */
+            .text-sky-400,
+            .text-sky-300 {
+                color: #0284c7 !important;
+            }
+
+            .text-emerald-400,
+            .text-emerald-300 {
+                color: #15803d !important;
+            }
+
+            .text-amber-400,
+            .text-amber-300 {
+                color: #b45309 !important;
+            }
+
+            /* 8. Ajustes das bordas dos containers */
+            .border-slate-700,
+            .border-slate-800,
+            .border-slate-600 {
+                border-color: #cbd5e1 !important;
+            }
+
+            /* 9. Quebra de página inteligente (evita cortar exercícios ou experimentos ao meio) */
+            section,
+            article,
+            .bg-slate-800,
+            .rounded-xl {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+
+
+            /* Garante que o gradiente do texto apareça no PDF */
+            .gradiente-fisica {
+                background: linear-gradient(135deg, #0284c7 0%, #059669 100%) !important;
+                -webkit-background-clip: text !important;
+                -webkit-text-fill-color: transparent !important;
+                background-clip: text !important;
+                color: transparent !important;
+                display: inline-block;
+            }
         }
-    }
-</style>
+    </style>
 </head>
+
 <body class="bg-slate-900 text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between">
 
     <!-- Header/Navegação -->
@@ -151,7 +221,8 @@
                 <div class="bg-sky-500 text-slate-900 p-2 rounded-lg font-black text-xl">
                     <i class="fa-solid fa-atom"></i>
                 </div>
-                <span class="font-bold text-lg tracking-tight text-white">FísicaLab <span class="text-sky-400 font-normal">por Prof. Camila</span></span>
+                <span class="font-bold text-lg tracking-tight text-white">FísicaLab <span
+                        class="text-sky-400 font-normal">por Prof. Camila</span></span>
             </div>
             <nav class="hidden md:flex space-x-6 text-sm font-medium">
                 <a href="#circuitos" class="hover:text-sky-400 transition-colors">Circuitos Elétricos</a>
@@ -160,11 +231,13 @@
                 <a href="#questoes" class="hover:text-sky-400 transition-colors">Questões (ENEM/Provão)</a>
             </nav>
             <div class="flex items-center space-x-3">
-                <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-3 py-2 rounded-lg text-sm transition-all flex items-center gap-2">
+                <button onclick="window.print()"
+                    class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-3 py-2 rounded-lg text-sm transition-all flex items-center gap-2">
                     <i class="fa-solid fa-file-pdf text-red-400"></i>
                     <span class="hidden sm:inline">Gerar PDF</span>
                 </button>
-                <a href="#questoes" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold px-4 py-2 rounded-lg text-sm transition-all transform hover:scale-105 shadow-lg shadow-sky-500/20">
+                <a href="#questoes"
+                    class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold px-4 py-2 rounded-lg text-sm transition-all transform hover:scale-105 shadow-lg shadow-sky-500/20">
                     Testar Conhecimentos
                 </a>
             </div>
@@ -172,23 +245,29 @@
     </header>
 
     <!-- Banner Principal -->
-    <section class="relative bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 py-16 sm:py-20 border-b border-slate-800">
+    <section
+        class="relative bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 py-16 sm:py-20 border-b border-slate-800">
         <div class="max-w-5xl mx-auto text-center px-4">
-            <span class="bg-sky-500/10 text-sky-400 border border-sky-500/20 text-xs font-semibold px-3.5 py-1.5 rounded-full uppercase tracking-wider inline-block mb-4">
+            <span
+                class="bg-sky-500/10 text-sky-400 border border-sky-500/20 text-xs font-semibold px-3.5 py-1.5 rounded-full uppercase tracking-wider inline-block mb-4">
                 Monitoria de Física
             </span>
             <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight mb-6">
-                Descomplicando a <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">Física Moderna</span>
+                Descomplicando a <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400 gradiente-fisica">Física
+                    Moderna</span>
             </h1>
             <p class="text-slate-400 text-lg sm:text-xl max-w-3xl mx-auto mb-8">
                 Explore interativamente os princípios de Circuitos Elétricos e Dinâmica do Movimento.
             </p>
             <div class="flex flex-wrap justify-center gap-4 no-print">
-                <a href="#simulador-circuito" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-6 py-3 rounded-xl transition-all shadow-lg shadow-sky-500/20 flex items-center space-x-2">
+                <a href="#simulador-circuito"
+                    class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-6 py-3 rounded-xl transition-all shadow-lg shadow-sky-500/20 flex items-center space-x-2">
                     <i class="fa-solid fa-bolt"></i>
                     <span>Simulador de Circuito</span>
                 </a>
-                <a href="#simulador-movimento" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold px-6 py-3 rounded-xl transition-all flex items-center space-x-2">
+                <a href="#simulador-movimento"
+                    class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold px-6 py-3 rounded-xl transition-all flex items-center space-x-2">
                     <i class="fa-solid fa-gauge-high"></i>
                     <span>Simulador de Movimento</span>
                 </a>
@@ -208,40 +287,49 @@
         <!-- Cards de Conceitos Teóricos -->
         <div class="grid md:grid-cols-3 gap-6 mb-12">
             <div class="bg-slate-800/60 border border-slate-700/50 p-6 rounded-2xl">
-                <div class="w-12 h-12 bg-sky-500/10 text-sky-400 rounded-xl flex items-center justify-center text-xl mb-4">
+                <div
+                    class="w-12 h-12 bg-sky-500/10 text-sky-400 rounded-xl flex items-center justify-center text-xl mb-4">
                     <i class="fa-solid fa-car-battery"></i>
                 </div>
                 <h3 class="text-xl font-bold text-white mb-2">Tensão Elétrica ($V$)</h3>
                 <p class="text-slate-300 text-sm leading-relaxed">
-                    A DDP (Diferença de Potencial) representa a energia por unidade de carga. É medida em Volts ($\text{V}$). É a força eletromotriz que impulsiona as cargas no circuito:
+                    A DDP (Diferença de Potencial) representa a energia por unidade de carga. É medida em Volts
+                    ($\text{V}$). É a força eletromotriz que impulsiona as cargas no circuito:
                 </p>
-                <div class="mt-3 p-2 bg-slate-900/80 rounded-lg text-center font-mono text-sky-400 text-sm border border-slate-700/50">
+                <div
+                    class="mt-3 p-2 bg-slate-900/80 rounded-lg text-center font-mono text-sky-400 text-sm border border-slate-700/50">
                     $$U = \frac{\Delta E}{q}$$
                 </div>
             </div>
 
             <div class="bg-slate-800/60 border border-slate-700/50 p-6 rounded-2xl">
-                <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-xl flex items-center justify-center text-xl mb-4">
+                <div
+                    class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-xl flex items-center justify-center text-xl mb-4">
                     <i class="fa-solid fa-water"></i>
                 </div>
                 <h3 class="text-xl font-bold text-white mb-2">Corrente Elétrica ($I$)</h3>
                 <p class="text-slate-300 text-sm leading-relaxed">
-                    É a taxa de fluxo de carga elétrica por unidade de tempo através da seção transversal de um condutor. Medida em Ampères ($\text{A}$):
+                    É a taxa de fluxo de carga elétrica por unidade de tempo através da seção transversal de um
+                    condutor. Medida em Ampères ($\text{A}$):
                 </p>
-                <div class="mt-3 p-2 bg-slate-900/80 rounded-lg text-center font-mono text-amber-400 text-sm border border-slate-700/50">
+                <div
+                    class="mt-3 p-2 bg-slate-900/80 rounded-lg text-center font-mono text-amber-400 text-sm border border-slate-700/50">
                     $$I = \frac{\Delta Q}{\Delta t}$$
                 </div>
             </div>
 
             <div class="bg-slate-800/60 border border-slate-700/50 p-6 rounded-2xl">
-                <div class="w-12 h-12 bg-emerald-500/10 text-emerald-400 rounded-xl flex items-center justify-center text-xl mb-4">
+                <div
+                    class="w-12 h-12 bg-emerald-500/10 text-emerald-400 rounded-xl flex items-center justify-center text-xl mb-4">
                     <i class="fa-solid fa-shield-halved"></i>
                 </div>
                 <h3 class="text-xl font-bold text-white mb-2">Resistência ($R$)</h3>
                 <p class="text-slate-300 text-sm leading-relaxed">
-                    Mede a oposição ao fluxo de corrente. A 1ª Lei de Ohm relaciona tensão, resistência e corrente em condutores ôhmicos:
+                    Mede a oposição ao fluxo de corrente. A 1ª Lei de Ohm relaciona tensão, resistência e corrente em
+                    condutores ôhmicos:
                 </p>
-                <div class="mt-3 p-2 bg-slate-900/80 rounded-lg text-center font-mono text-emerald-400 text-sm border border-slate-700/50">
+                <div
+                    class="mt-3 p-2 bg-slate-900/80 rounded-lg text-center font-mono text-emerald-400 text-sm border border-slate-700/50">
                     $$V = R \cdot I \implies R = \frac{V}{I}$$
                 </div>
             </div>
@@ -252,13 +340,16 @@
             <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
                 <div>
                     <h3 class="text-2xl font-bold text-white">Laboratório Interativo: Associação de Resistores</h3>
-                    <p class="text-slate-400 text-sm">Alterne entre circuitos em Série ($R_{eq} = R_1 + R_2$) e Paralelo ($\frac{1}{R_{eq}} = \frac{1}{R_1} + \frac{1}{R_2}$).</p>
+                    <p class="text-slate-400 text-sm">Alterne entre circuitos em Série ($R_{eq} = R_1 + R_2$) e Paralelo
+                        ($\frac{1}{R_{eq}} = \frac{1}{R_1} + \frac{1}{R_2}$).</p>
                 </div>
                 <div class="flex bg-slate-900 p-1.5 rounded-xl border border-slate-700 no-print">
-                    <button id="btnSerie" onclick="setCircuitType('serie')" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-sky-500 text-slate-950">
+                    <button id="btnSerie" onclick="setCircuitType('serie')"
+                        class="px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-sky-500 text-slate-950">
                         Série
                     </button>
-                    <button id="btnParalelo" onclick="setCircuitType('paralelo')" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all text-slate-400 hover:text-white">
+                    <button id="btnParalelo" onclick="setCircuitType('paralelo')"
+                        class="px-4 py-2 rounded-lg text-sm font-semibold transition-all text-slate-400 hover:text-white">
                         Paralelo
                     </button>
                 </div>
@@ -280,7 +371,9 @@
                                 <span class="text-slate-300 font-medium">Tensão da Fonte ($V$)</span>
                                 <span id="valVoltage" class="text-sky-400 font-bold">12 V</span>
                             </div>
-                            <input id="rangeVoltage" type="range" min="1" max="24" value="12" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-sky-400" oninput="updateCircuit()">
+                            <input id="rangeVoltage" type="range" min="1" max="24" value="12"
+                                class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-sky-400"
+                                oninput="updateCircuit()">
                         </div>
 
                         <div>
@@ -288,7 +381,9 @@
                                 <span class="text-slate-300 font-medium">Resistência 1 ($R_1$)</span>
                                 <span id="valR1" class="text-sky-400 font-bold">10 $\Omega$</span>
                             </div>
-                            <input id="rangeR1" type="range" min="1" max="50" value="10" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-sky-400" oninput="updateCircuit()">
+                            <input id="rangeR1" type="range" min="1" max="50" value="10"
+                                class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-sky-400"
+                                oninput="updateCircuit()">
                         </div>
 
                         <div>
@@ -296,7 +391,9 @@
                                 <span class="text-slate-300 font-medium">Resistência 2 ($R_2$)</span>
                                 <span id="valR2" class="text-sky-400 font-bold">10 $\Omega$</span>
                             </div>
-                            <input id="rangeR2" type="range" min="1" max="50" value="10" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-sky-400" oninput="updateCircuit()">
+                            <input id="rangeR2" type="range" min="1" max="50" value="10"
+                                class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-sky-400"
+                                oninput="updateCircuit()">
                         </div>
                     </div>
 
@@ -333,34 +430,46 @@
             <!-- Cards Leis de Newton com Notação Vetorial -->
             <div class="grid md:grid-cols-3 gap-6 mb-12">
                 <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl">
-                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md">1ª Lei</span>
+                    <span
+                        class="text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md">1ª
+                        Lei</span>
                     <h3 class="text-xl font-bold text-white mt-3 mb-2">Inércia</h3>
                     <p class="text-slate-300 text-sm leading-relaxed mb-3">
-                        Se a força resultante sobre um corpo é nula, sua aceleração é zero e sua velocidade permanece constante:
+                        Se a força resultante sobre um corpo é nula, sua aceleração é zero e sua velocidade permanece
+                        constante:
                     </p>
-                    <div class="p-2 bg-slate-900/80 rounded-lg text-center font-mono text-emerald-400 text-sm border border-slate-700/50">
+                    <div
+                        class="p-2 bg-slate-900/80 rounded-lg text-center font-mono text-emerald-400 text-sm border border-slate-700/50">
                         $$\sum \vec{F} = \vec{0} \implies \vec{v} = \text{constante}$$
                     </div>
                 </div>
 
                 <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl">
-                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md">2ª Lei</span>
+                    <span
+                        class="text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md">2ª
+                        Lei</span>
                     <h3 class="text-xl font-bold text-white mt-3 mb-2">Princípio Fundamental</h3>
                     <p class="text-slate-300 text-sm leading-relaxed mb-3">
-                        A aceleração adquirida por um corpo é diretamente proporcional à força resultante e inversamente proporcional à sua massa:
+                        A aceleração adquirida por um corpo é diretamente proporcional à força resultante e inversamente
+                        proporcional à sua massa:
                     </p>
-                    <div class="p-2 bg-slate-900/80 rounded-lg text-center font-mono text-emerald-400 text-sm border border-slate-700/50">
+                    <div
+                        class="p-2 bg-slate-900/80 rounded-lg text-center font-mono text-emerald-400 text-sm border border-slate-700/50">
                         $$\vec{F}_{res} = m \cdot \vec{a}$$
                     </div>
                 </div>
 
                 <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl">
-                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md">3ª Lei</span>
+                    <span
+                        class="text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md">3ª
+                        Lei</span>
                     <h3 class="text-xl font-bold text-white mt-3 mb-2">Ação e Reação</h3>
                     <p class="text-slate-300 text-sm leading-relaxed mb-3">
-                        Toda força exercida gera uma resposta de igual intensidade e direção, mas em sentido oposto e em corpos distintos:
+                        Toda força exercida gera uma resposta de igual intensidade e direção, mas em sentido oposto e em
+                        corpos distintos:
                     </p>
-                    <div class="p-2 bg-slate-900/80 rounded-lg text-center font-mono text-emerald-400 text-sm border border-slate-700/50">
+                    <div
+                        class="p-2 bg-slate-900/80 rounded-lg text-center font-mono text-emerald-400 text-sm border border-slate-700/50">
                         $$\vec{F}_{A \to B} = -\vec{F}_{B \to A}$$
                     </div>
                 </div>
@@ -370,24 +479,29 @@
             <div id="simulador-movimento" class="bg-slate-800 border border-slate-700 rounded-2xl p-6">
                 <div class="mb-6">
                     <h3 class="text-2xl font-bold text-white">Simulador: Plano Inclinado & Gravidade</h3>
-                    <p class="text-slate-400 text-sm">Análise das componentes $P_x = m \cdot g \cdot \sin(\theta)$ e $P_y = m \cdot g \cdot \cos(\theta)$.</p>
+                    <p class="text-slate-400 text-sm">Análise das componentes $P_x = m \cdot g \cdot \sin(\theta)$ e
+                        $P_y = m \cdot g \cdot \cos(\theta)$.</p>
                 </div>
 
                 <div class="grid lg:grid-cols-3 gap-6">
-                    <div class="lg:col-span-2 bg-slate-950 rounded-xl p-2 relative overflow-hidden border border-slate-800">
+                    <div
+                        class="lg:col-span-2 bg-slate-950 rounded-xl p-2 relative overflow-hidden border border-slate-800">
                         <div class="canvas-container">
                             <canvas id="motionCanvas"></canvas>
                         </div>
                     </div>
 
-                    <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700/50 flex flex-col justify-between">
+                    <div
+                        class="bg-slate-900/80 p-5 rounded-xl border border-slate-700/50 flex flex-col justify-between">
                         <div class="space-y-5 no-print">
                             <div>
                                 <div class="flex justify-between text-sm mb-1">
                                     <span class="text-slate-300 font-medium">Ângulo de Inclinação ($\theta$)</span>
                                     <span id="valAngle" class="text-emerald-400 font-bold">30°</span>
                                 </div>
-                                <input id="rangeAngle" type="range" min="5" max="60" value="30" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-400" oninput="updateMotion()">
+                                <input id="rangeAngle" type="range" min="5" max="60" value="30"
+                                    class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-400"
+                                    oninput="updateMotion()">
                             </div>
 
                             <div>
@@ -395,7 +509,9 @@
                                     <span class="text-slate-300 font-medium">Massa da Esfera ($m$)</span>
                                     <span id="valMass" class="text-emerald-400 font-bold">2.0 kg</span>
                                 </div>
-                                <input id="rangeMass" type="range" min="0.5" max="10" step="0.5" value="2" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-400" oninput="updateMotion()">
+                                <input id="rangeMass" type="range" min="0.5" max="10" step="0.5" value="2"
+                                    class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-400"
+                                    oninput="updateMotion()">
                             </div>
 
                             <div>
@@ -403,10 +519,13 @@
                                     <span class="text-slate-300 font-medium">Coeficiente de Atrito ($\mu$)</span>
                                     <span id="valFriction" class="text-emerald-400 font-bold">0.10</span>
                                 </div>
-                                <input id="rangeFriction" type="range" min="0" max="0.5" step="0.05" value="0.1" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-400" oninput="updateMotion()">
+                                <input id="rangeFriction" type="range" min="0" max="0.5" step="0.05" value="0.1"
+                                    class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-400"
+                                    oninput="updateMotion()">
                             </div>
 
-                            <button onclick="toggleMotionSimulation()" id="btnPlayMotion" class="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl transition-all shadow-lg shadow-emerald-500/20">
+                            <button onclick="toggleMotionSimulation()" id="btnPlayMotion"
+                                class="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl transition-all shadow-lg shadow-emerald-500/20">
                                 Soltar Esfera / Iniciar
                             </button>
                         </div>
@@ -419,11 +538,13 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-slate-400">Atrito ($F_{at}$):</span>
-                                <span id="calcFat" class="text-red-400 font-bold font-mono">$F_{at} = 1.70\ \text{N}$</span>
+                                <span id="calcFat" class="text-red-400 font-bold font-mono">$F_{at} = 1.70\
+                                    \text{N}$</span>
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-slate-400">Aceleração ($a$):</span>
-                                <span id="calcAccel" class="text-emerald-400 font-bold font-mono">$a = 4.05\ \text{m/s}^2$</span>
+                                <span id="calcAccel" class="text-emerald-400 font-bold font-mono">$a = 4.05\
+                                    \text{m/s}^2$</span>
                             </div>
                         </div>
                     </div>
@@ -434,7 +555,8 @@
 
     <!-- MÓDULO 3: EXPERIMENTO PRÁTICO -->
     <section id="experimento" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-3xl p-6 sm:p-10 shadow-2xl">
+        <div
+            class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-3xl p-6 sm:p-10 shadow-2xl">
             <div class="flex items-center gap-3 text-sky-400 mb-2 font-bold uppercase tracking-wider text-sm">
                 <i class="fa-solid fa-flask text-lg"></i> Experimento Prático para Sala de Aula
             </div>
@@ -452,11 +574,16 @@
                         <i class="fa-solid fa-boxes-packing text-amber-400"></i> Materiais
                     </h3>
                     <ul class="space-y-2 text-slate-300 text-sm">
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-xs"></i> 1 Livro capa dura (comprimento $d$)</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-xs"></i> 1 Bolinha de gude ($m$)</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-xs"></i> Cronômetro ($\Delta t$)</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-xs"></i> Fita métrica ou régua</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-xs"></i> Suporte para elevação (altura $h$)</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-xs"></i> 1
+                            Livro capa dura (comprimento $d$)</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-xs"></i> 1
+                            Bolinha de gude ($m$)</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-xs"></i>
+                            Cronômetro ($\Delta t$)</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-xs"></i>
+                            Fita métrica ou régua</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-xs"></i>
+                            Suporte para elevação (altura $h$)</li>
                     </ul>
                 </div>
 
@@ -481,7 +608,8 @@
                     </h3>
                     <div class="space-y-3 text-slate-300 text-sm">
                         <p>Substituindo $v_0 = 0$ em $d = v_0 t + \frac{a t^2}{2}$:</p>
-                        <div class="bg-slate-950 p-2.5 rounded-lg text-center text-emerald-400 text-base border border-slate-800 font-mono">
+                        <div
+                            class="bg-slate-950 p-2.5 rounded-lg text-center text-emerald-400 text-base border border-slate-800 font-mono">
                             $$a_{exp} = \frac{2d}{t_{médio}^2}$$
                         </div>
                         <p class="text-xs text-slate-400">
@@ -497,33 +625,49 @@
     <section id="questoes" class="py-16 bg-slate-800/30 border-t border-slate-800">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Simulado Rápido</span>
+                <span
+                    class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Simulado
+                    Rápido</span>
                 <h2 class="text-3xl font-extrabold text-white mt-3">Questões Estilo ENEM e Provão Paulista</h2>
-                <p class="text-slate-400 text-sm mt-2">Questões com notação matemática LaTeX formal e feedback explicado passo a passo.</p>
+                <p class="text-slate-400 text-sm mt-2">Questões com notação matemática LaTeX formal e feedback explicado
+                    passo a passo.</p>
             </div>
 
             <div class="space-y-8">
                 <!-- Questão 1 (Circuitos - ENEM) -->
                 <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-md">
                     <div class="flex items-center justify-between mb-4">
-                        <span class="text-xs font-bold bg-sky-500/20 text-sky-400 px-3 py-1 rounded-md border border-sky-500/30">Questão 1 • ENEM</span>
+                        <span
+                            class="text-xs font-bold bg-sky-500/20 text-sky-400 px-3 py-1 rounded-md border border-sky-500/30">Questão
+                            1 • ENEM</span>
                         <span class="text-xs text-slate-400">Circuitos Elétricos</span>
                     </div>
                     <p class="text-slate-200 text-base leading-relaxed mb-6">
-                        Um estudante deseja instalar duas lâmpadas idênticas de resistência $R$ em sua bancada. Ele quer que ambas funcionem com a tensão máxima $V = 120\text{ V}$ da rede e que, caso uma lâmpada queime, a outra continue operando normalmente com o mesmo brilho. Como o circuito deve ser montado e qual a corrente total fornecida pela fonte?
+                        Um estudante deseja instalar duas lâmpadas idênticas de resistência $R$ em sua bancada. Ele quer
+                        que ambas funcionem com a tensão máxima $V = 120\text{ V}$ da rede e que, caso uma lâmpada
+                        queime, a outra continue operando normalmente com o mesmo brilho. Como o circuito deve ser
+                        montado e qual a corrente total fornecida pela fonte?
                     </p>
                     <div class="space-y-3" id="q1-options">
-                        <button onclick="checkAnswer(1, 'A', false)" class="w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-slate-300 text-sm flex items-start gap-3">
-                            <span class="font-bold text-sky-400">A)</span> Em série; a corrente total do circuito será $I_{total} = \frac{V}{2R}$.
+                        <button onclick="checkAnswer(1, 'A', false)"
+                            class="w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-slate-300 text-sm flex items-start gap-3">
+                            <span class="font-bold text-sky-400">A)</span> Em série; a corrente total do circuito será
+                            $I_{total} = \frac{V}{2R}$.
                         </button>
-                        <button onclick="checkAnswer(1, 'B', true)" class="w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-slate-300 text-sm flex items-start gap-3">
-                            <span class="font-bold text-sky-400">B)</span> Em paralelo; a corrente total será a soma das correntes dos ramos: $I_{total} = I_1 + I_2 = \frac{2V}{R}$.
+                        <button onclick="checkAnswer(1, 'B', true)"
+                            class="w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-slate-300 text-sm flex items-start gap-3">
+                            <span class="font-bold text-sky-400">B)</span> Em paralelo; a corrente total será a soma das
+                            correntes dos ramos: $I_{total} = I_1 + I_2 = \frac{2V}{R}$.
                         </button>
-                        <button onclick="checkAnswer(1, 'C', false)" class="w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-slate-300 text-sm flex items-start gap-3">
-                            <span class="font-bold text-sky-400">C)</span> Em série; a tensão dividida em cada lâmpada será $V_1 = V_2 = 60\text{ V}$.
+                        <button onclick="checkAnswer(1, 'C', false)"
+                            class="w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-slate-300 text-sm flex items-start gap-3">
+                            <span class="font-bold text-sky-400">C)</span> Em série; a tensão dividida em cada lâmpada
+                            será $V_1 = V_2 = 60\text{ V}$.
                         </button>
-                        <button onclick="checkAnswer(1, 'D', false)" class="w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-slate-300 text-sm flex items-start gap-3">
-                            <span class="font-bold text-sky-400">D)</span> Em paralelo; a resistência equivalente será $R_{eq} = 2R$.
+                        <button onclick="checkAnswer(1, 'D', false)"
+                            class="w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-slate-300 text-sm flex items-start gap-3">
+                            <span class="font-bold text-sky-400">D)</span> Em paralelo; a resistência equivalente será
+                            $R_{eq} = 2R$.
                         </button>
                     </div>
                     <div id="q1-feedback" class="mt-4 hidden p-4 rounded-xl border text-sm"></div>
@@ -532,23 +676,32 @@
                 <!-- Questão 2 (Força e Movimento - Provão Paulista) -->
                 <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-md">
                     <div class="flex items-center justify-between mb-4">
-                        <span class="text-xs font-bold bg-amber-500/20 text-amber-400 px-3 py-1 rounded-md border border-amber-500/30">Questão 2 • Provão Paulista</span>
+                        <span
+                            class="text-xs font-bold bg-amber-500/20 text-amber-400 px-3 py-1 rounded-md border border-amber-500/30">Questão
+                            2 • Provão Paulista</span>
                         <span class="text-xs text-slate-400">Leis de Newton / Cinemática</span>
                     </div>
                     <p class="text-slate-200 text-base leading-relaxed mb-6">
-                        Um bloco de massa $m = 4\text{ kg}$ é puxado sobre uma superfície horizontal sem atrito por uma força constante $F = 20\text{ N}$ paralela ao plano. Sabendo que o bloco estava inicialmente em repouso ($v_0 = 0$), qual será a sua velocidade $v$ após percorrer um deslocamento $\Delta s = 8\text{ m}$?
+                        Um bloco de massa $m = 4\text{ kg}$ é puxado sobre uma superfície horizontal sem atrito por uma
+                        força constante $F = 20\text{ N}$ paralela ao plano. Sabendo que o bloco estava inicialmente em
+                        repouso ($v_0 = 0$), qual será a sua velocidade $v$ após percorrer um deslocamento $\Delta s =
+                        8\text{ m}$?
                     </p>
                     <div class="space-y-3" id="q2-options">
-                        <button onclick="checkAnswer(2, 'A', false)" class="w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-slate-300 text-sm flex items-start gap-3">
+                        <button onclick="checkAnswer(2, 'A', false)"
+                            class="w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-slate-300 text-sm flex items-start gap-3">
                             <span class="font-bold text-amber-400">A)</span> $v = 4\text{ m/s}$
                         </button>
-                        <button onclick="checkAnswer(2, 'B', false)" class="w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-slate-300 text-sm flex items-start gap-3">
+                        <button onclick="checkAnswer(2, 'B', false)"
+                            class="w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-slate-300 text-sm flex items-start gap-3">
                             <span class="font-bold text-amber-400">B)</span> $v = 6\text{ m/s}$
                         </button>
-                        <button onclick="checkAnswer(2, 'C', true)" class="w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-slate-300 text-sm flex items-start gap-3">
+                        <button onclick="checkAnswer(2, 'C', true)"
+                            class="w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-slate-300 text-sm flex items-start gap-3">
                             <span class="font-bold text-amber-400">C)</span> $v = 8\text{ m/s}$
                         </button>
-                        <button onclick="checkAnswer(2, 'D', false)" class="w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-slate-300 text-sm flex items-start gap-3">
+                        <button onclick="checkAnswer(2, 'D', false)"
+                            class="w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-slate-300 text-sm flex items-start gap-3">
                             <span class="font-bold text-amber-400">D)</span> $v = 10\text{ m/s}$
                         </button>
                     </div>
@@ -562,7 +715,8 @@
     <footer class="bg-slate-950 border-t border-slate-800 py-8 text-center text-xs text-slate-500 no-print">
         <div class="max-w-7xl mx-auto px-4">
             <p>© 2026 Apprendendo • Todos os Direitos Reservados</p>
-            <p class="mt-2 text-slate-600">Desenvolvido com suporte nativo a simulações visuais e equações matematicamente formatadas em LaTeX (MathJax).</p>
+            <p class="mt-2 text-slate-600">Desenvolvido com suporte nativo a simulações visuais e equações
+                matematicamente formatadas em LaTeX (MathJax).</p>
         </div>
     </footer>
 
@@ -583,11 +737,11 @@
 
         function setCircuitType(type) {
             circuitType = type;
-            document.getElementById('btnSerie').className = type === 'serie' ? 
-                'px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-sky-500 text-slate-950' : 
+            document.getElementById('btnSerie').className = type === 'serie' ?
+                'px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-sky-500 text-slate-950' :
                 'px-4 py-2 rounded-lg text-sm font-semibold transition-all text-slate-400 hover:text-white';
-            document.getElementById('btnParalelo').className = type === 'paralelo' ? 
-                'px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-sky-500 text-slate-950' : 
+            document.getElementById('btnParalelo').className = type === 'paralelo' ?
+                'px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-sky-500 text-slate-950' :
                 'px-4 py-2 rounded-lg text-sm font-semibold transition-all text-slate-400 hover:text-white';
             updateCircuit();
         }
@@ -624,7 +778,7 @@
             const canvas = document.getElementById('circuitCanvas');
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
-            
+
             canvas.width = canvas.parentElement.clientWidth;
             canvas.height = canvas.parentElement.clientHeight;
 
@@ -636,7 +790,7 @@
             const V = parseFloat(document.getElementById('rangeVoltage').value);
             const R1 = parseFloat(document.getElementById('rangeR1').value);
             const R2 = parseFloat(document.getElementById('rangeR2').value);
-            
+
             let Req = circuitType === 'serie' ? (R1 + R2) : ((R1 * R2) / (R1 + R2));
             let I = V / Req;
 
@@ -650,28 +804,28 @@
                 ctx.rect(pad, pad, w - 2 * pad, h - 2 * pad);
                 ctx.stroke();
 
-                drawBulb(ctx, w/2 - 50, pad, R1, V);
-                drawBulb(ctx, w/2 + 50, pad, R2, V);
+                drawBulb(ctx, w / 2 - 50, pad, R1, V);
+                drawBulb(ctx, w / 2 + 50, pad, R2, V);
             } else {
                 ctx.rect(pad, pad, w - 2 * pad, h - 2 * pad);
                 ctx.stroke();
-                
+
                 ctx.beginPath();
-                ctx.moveTo(w/2, pad);
-                ctx.lineTo(w/2, h - pad);
+                ctx.moveTo(w / 2, pad);
+                ctx.lineTo(w / 2, h - pad);
                 ctx.stroke();
 
-                drawBulb(ctx, w/2, pad + (h - 2*pad)/3, R1, V);
-                drawBulb(ctx, w/2, pad + 2*(h - 2*pad)/3, R2, V);
+                drawBulb(ctx, w / 2, pad + (h - 2 * pad) / 3, R1, V);
+                drawBulb(ctx, w / 2, pad + 2 * (h - 2 * pad) / 3, R2, V);
             }
 
-            drawBattery(ctx, w/2, h - pad, V);
+            drawBattery(ctx, w / 2, h - pad, V);
 
             // Animação do Fluxo de Elétrons
             electronPhase += I * 0.05;
             ctx.fillStyle = '#facc15';
             const numElectrons = 16;
-            
+
             if (circuitType === 'serie') {
                 const totalLen = 2 * (w - 2 * pad) + 2 * (h - 2 * pad);
                 for (let i = 0; i < numElectrons; i++) {
@@ -692,7 +846,7 @@
             ctx.strokeStyle = '#f59e0b';
             ctx.lineWidth = 3;
 
-            let glow = Math.min(30, (V*V / R) * 0.5);
+            let glow = Math.min(30, (V * V / R) * 0.5);
             ctx.shadowColor = '#facc15';
             ctx.shadowBlur = glow;
 
@@ -720,13 +874,13 @@
         }
 
         function getRectPoint(d, x, y, w, h) {
-            if (d < w) return { x: x + d, y: y };
+            if (d < w) return {x: x + d, y: y};
             d -= w;
-            if (d < h) return { x: x + w, y: y + d };
+            if (d < h) return {x: x + w, y: y + d};
             d -= h;
-            if (d < w) return { x: x + w - d, y: y + h };
+            if (d < w) return {x: x + w - d, y: y + h};
             d -= w;
-            return { x: x, y: y + h - d };
+            return {x: x, y: y + h - d};
         }
 
         // --- SIMULADOR DE FORÇA E MOVIMENTO ---
@@ -891,7 +1045,7 @@
         }
 
         // --- INICIALIZAÇÃO DA PÁGINA ---
-        window.onload = function() {
+        window.onload = function () {
             updateCircuit();
             updateMotion();
             drawCircuit();
@@ -900,4 +1054,5 @@
         };
     </script>
 </body>
+
 </html>
