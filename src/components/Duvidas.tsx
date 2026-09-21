@@ -12,6 +12,22 @@ export default function Duvidas() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const destinatario = 'monitoriaetecbraz@gmail.com';
+    const assunto = encodeURIComponent(`[Monitoria - ${duvida.disciplina}] Dúvida de ${duvida.nomeAluno}`);
+    
+    const corpoEmail = encodeURIComponent(
+      `Dúvida enviada via Portal de Monitoria\n\n` +
+      `Aluno(a): ${duvida.nomeAluno}\n` +
+      `E-mail do Aluno: ${duvida.emailAluno}\n` +
+      `Componente: ${duvida.disciplina}\n` +
+      `Série/Ano: ${duvida.serie.replace('_', 'º ')}\n\n` +
+      `Dúvida / Exercício:\n${duvida.duvidaTexto}`
+    );
+
+    // Abre o leitor de e-mail padrão do usuário com tudo preenchido
+    window.location.href = `mailto:${destinatario}?subject=${assunto}&body=${corpoEmail}`;
+
     setSucesso(true);
     setTimeout(() => setSucesso(false), 5000);
     setDuvida({ disciplina: 'Física', nomeAluno: '', emailAluno: '', serie: '1_EM', duvidaTexto: '' });
@@ -26,7 +42,7 @@ export default function Duvidas() {
 
       {sucesso && (
         <div className="notification is-success is-light">
-          ✓ Sua dúvida foi enviada com sucesso! O monitor responsável entrará em contato.
+          ✓ Seu leitor de e-mail foi aberto para confirmar o envio da dúvida!
         </div>
       )}
 
