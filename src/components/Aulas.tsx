@@ -33,10 +33,10 @@ export default function Aulas() {
                   {new Date(aula.data).toLocaleDateString('pt-BR')}
                 </p>
                 <div className="content">{aula.descricao}</div>
-              </div>
-              <button className="button">
+                <button className="button is-white">
                 <a href="./{aula.materialUrl}" target="_blank">Confira a Aula</a>
               </button>
+              </div>
             </div>
           </div>
         ))}
