@@ -17,7 +17,7 @@ export const AULAS_MOCK: Aula[] = [
         disciplina: 'Física',
         serie: '2_EM',
         descricao: 'Correntes Eletricas e suas Leis',
-        data: '2026-09-15'
+        data: '2026-09-15',
         materialUrl: './aulas/circuitos.html'
     },
     {
