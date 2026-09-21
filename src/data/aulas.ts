@@ -18,6 +18,7 @@ export const AULAS_MOCK: Aula[] = [
         serie: '2_EM',
         descricao: 'Correntes Eletricas e suas Leis',
         data: '2026-09-15'
+        materialUrl: './aulas/circuitos.html'
     },
     {
     id: '2',
