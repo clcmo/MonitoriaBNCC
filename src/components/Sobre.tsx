@@ -1,35 +1,42 @@
 export default function Sobre() {
   return (
-    <section className="box">
-      <h2 className="title is-4">Sobre o Projeto de Monitoria</h2>
-      <div className="content">
+    <div>
+      <section className="hero">
+        <span className="eyebrow">Projeto de Monitoria</span>
+        <h1>Suporte contínuo em Ciências Exatas, alinhado à BNCC</h1>
         <p>
-          O projeto de monitoria visa oferecer suporte contínuo para os estudantes no
-          aprendizado das disciplinas de <strong>Ciências da Natureza e Matemática</strong> no
-          Ensino Médio, alinhado aos pressupostos da{' '}
-          <strong>BNCC (Base Nacional Comum Curricular)</strong>.
+          Atendimento síncrono (presencial e online) e plantão de dúvidas para o Ensino
+          Médio, com foco no desenvolvimento da autonomia dos estudantes, do raciocínio
+          crítico-científico e da resolução de problemas práticos do cotidiano.
         </p>
-        <p>
-          Através de atendimento síncrono (presencial e online) e plantão de dúvidas,
-          buscamos desenvolver a autonomia dos alunos, o raciocínio crítico-científico e a
-          resolução de problemas práticos do cotidiano.
-        </p>
-      </div>
+        <div className="hero-meta">
+          <span className="pill">Física</span>
+          <span className="pill">Química</span>
+          <span className="pill">Biologia</span>
+          <span className="pill">Matemática</span>
+        </div>
+      </section>
 
-      <div className="columns mt-4">
-        <div className="column">
-          <div className="notification is-info is-light">
-            <p className="has-text-weight-bold">Aprendizagem Ativa</p>
-            <p>Apoio focado no desenvolvimento do protagonismo do estudante na resolução de problemas.</p>
+      <section className="section">
+        <div className="section-heading">
+          <h2>Como atuamos</h2>
+          <p>Três pilares orientam o trabalho da monitoria ao longo do ano letivo.</p>
+        </div>
+        <div className="objectives">
+          <div className="objective">
+            <strong>Aprendizagem Ativa</strong>
+            <span>Apoio focado no protagonismo do estudante na resolução de problemas.</span>
+          </div>
+          <div className="objective">
+            <strong>Integração BNCC</strong>
+            <span>Foco nas competências de investigação científica e modelagem matemática.</span>
+          </div>
+          <div className="objective">
+            <strong>Autonomia</strong>
+            <span>Incentivo ao raciocínio crítico-científico e à resolução prática de problemas.</span>
           </div>
         </div>
-        <div className="column">
-          <div className="notification is-success is-light">
-            <p className="has-text-weight-bold">Integração BNCC</p>
-            <p>Foco nas competências específicas de investigação científica e modelagem matemática.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }

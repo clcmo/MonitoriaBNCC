@@ -15,29 +15,35 @@ export default function Aulas() {
   }, []);
 
   return (
-    <section className="box">
-      <h2 className="title is-4">Aulas</h2>
-      <p className="mb-4">Confira as próximas aulas e materiais de apoio disponíveis.</p>
+    <section className="section">
+      <div className="section-heading">
+        <h2>Aulas</h2>
+        <p>Confira as próximas aulas e materiais de apoio disponíveis.</p>
+      </div>
 
-      {carregando && <progress className="progress is-small is-info" max={100} />}
-      {erro && <div className="notification is-danger is-light">{erro}</div>}
+      {carregando && <p className="loading-text">Carregando aulas…</p>}
+      {erro && <div className="alert alert-danger">{erro}</div>}
 
-      <div className="columns is-multiline">
+      <div className="cards">
         {aulas.map((aula) => (
-          <div className="column is-half" key={aula.id}>
-            <div className="card">
-              <div className="card-content">
-                <p className="tag is-link mb-2">{aula.disciplina}</p>
-                <p className="title is-5">{aula.titulo}</p>
-                <p className="subtitle is-6 has-text-grey">
-                  {new Date(aula.data).toLocaleDateString('pt-BR')}
-                </p>
-                <div className="content">{aula.descricao}</div>
-                <button className="button is-white">
-                  <a href={aula.materialUrl} target="_blank">Confira a Aula</a>
-                </button>
-              </div>
-            </div>
+          <div className="card theory-card" key={aula.id}>
+            <span className="card-tag">{aula.disciplina}</span>
+            <h3>{aula.titulo}</h3>
+            <p style={{ color: 'var(--muted)', fontSize: '0.82rem', margin: '4px 0 10px' }}>
+              {new Date(aula.data).toLocaleDateString('pt-BR')}
+            </p>
+            <p>{aula.descricao}</p>
+            {aula.materialUrl && (
+              <a
+                className="btn btn-primary"
+                style={{ marginTop: 16 }}
+                href={aula.materialUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Confira a Aula
+              </a>
+            )}
           </div>
         ))}
       </div>

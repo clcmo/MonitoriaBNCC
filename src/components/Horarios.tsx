@@ -2,31 +2,23 @@ import { MONITORES } from '../data/monitores';
 
 export default function Horarios() {
   return (
-    <section className="box">
-      <h2 className="title is-4">Horários de Atendimento</h2>
-      <p className="mb-4">Confira a disponibilidade para atendimentos presenciais e plantões digitais:</p>
+    <section className="section">
+      <div className="section-heading">
+        <h2>Horários de Atendimento</h2>
+        <p>Confira a disponibilidade para atendimentos presenciais e plantões digitais.</p>
+      </div>
 
-      <div className="table-container">
-        <table className="table is-fullwidth is-striped is-hoverable">
-          <thead>
-            <tr>
-              <th>Disciplina</th>
-              <th>Área BNCC</th>
-              <th>Atendimento / Horário</th>
-              <th>Local</th>
-            </tr>
-          </thead>
-          <tbody>
-            {MONITORES.map((m) => (
-              <tr key={m.id}>
-                <td className="has-text-weight-bold">{m.materia}</td>
-                <td className="has-text-grey">{m.areaBNCC}</td>
-                <td>{m.horario}</td>
-                <td>{m.local}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="cards">
+        {MONITORES.map((m) => (
+          <div className="card theory-card" key={m.id}>
+            <span className="card-tag">{m.areaBNCC}</span>
+            <h3>{m.materia}</h3>
+            <p>{m.nome}</p>
+            <p style={{ marginTop: 10, color: '#cbd5e1' }}>
+              {m.horario} · {m.local}
+            </p>
+          </div>
+        ))}
       </div>
     </section>
   );
