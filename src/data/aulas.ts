@@ -22,7 +22,7 @@ export const AULAS_MOCK: Aula[] = [
     },
     {
         id:'2',
-        titulo: 'Trigonometria Aplicada'
+        titulo: 'Trigonometria Aplicada',
         disciplina: 'Física',
         serie: '1_EM',
         descricao: 'Seno, Cosseno e Tangente Aplicadas',
