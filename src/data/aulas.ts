@@ -20,4 +20,13 @@ export const AULAS_MOCK: Aula[] = [
         data: '2026-09-22',
         materialUrl: './aulas/circuitos'
     },
+    {
+        id:'2',
+        titulo: 'Trigonometria Aplicada'
+        disciplina: 'Física',
+        serie: '1_EM',
+        descricao: 'Seno, Cosseno e Tangente Aplicadas',
+        data: '2026-09-29',
+        materialUrl: './aulas/trigonometria'
+    }
 ];
