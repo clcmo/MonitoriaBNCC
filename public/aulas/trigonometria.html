@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Física Interativa: Trigonometria Aplicada - Seno, Cosseno, Tangente e Movimento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']], processEscapes: true },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] } } }
+        }
+    </script>
+    <style>
+        :root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+        html { scroll-behavior: smooth; scroll-padding-top: env(safe-area-inset-top, 0px); }
+        .canvas-box { position: relative; width: 100%; height: 280px; }
+        canvas.draw { background-color: #0f172a; border-radius: 0.75rem; width: 100%; height: 100%; display: block; }
+        .gradiente-trig {
+            background: linear-gradient(135deg, #a78bfa 0%, #38bdf8 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; color: transparent; font-weight: 800;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-900 text-slate-100 font-sans antialiased min-h-screen">
+
+    <header class="sticky z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800" style="top: env(safe-area-inset-top, 0px);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-violet-500 text-slate-900 p-2 rounded-lg font-black text-xl"><i class="fa-solid fa-triangle-exclamation" style="transform: scaleY(-1);"></i></div>
+                <span class="font-bold text-lg tracking-tight text-white">FísicaLab <span class="text-violet-400 font-normal">por Prof. Camila</span></span>
+            </div>
+            <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="#trig" class="hover:text-violet-400 transition-colors">Seno, Cosseno e Tangente</a>
+                <a href="#plano-inclinado" class="hover:text-sky-400 transition-colors">Aplicação no Movimento</a>
+                <a href="#questoes" class="hover:text-emerald-400 transition-colors">Simulado</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="relative bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 py-16 border-b border-slate-800">
+        <div class="max-w-5xl mx-auto text-center px-4">
+            <span class="bg-violet-500/10 text-violet-300 border border-violet-500/20 text-xs font-semibold px-3.5 py-1.5 rounded-full inline-block mb-4">Trigonometria do triângulo retângulo</span>
+            <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight mb-6">
+                Do <span class="gradiente-trig">ângulo</span> ao movimento
+            </h1>
+            <p class="text-slate-400 text-lg sm:text-xl max-w-3xl mx-auto">
+                Entenda seno, cosseno e tangente manipulando um triângulo — e depois veja essas mesmas razões decidirem a velocidade e o deslocamento de um corpo em um plano inclinado.
+            </p>
+        </div>
+    </section>
+
+    <!-- MÓDULO 1: TRIGONOMETRIA -->
+    <section id="trig" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-10">
+            <h2 class="text-3xl font-bold text-white flex items-center gap-3"><i class="fa-solid fa-shapes text-violet-400"></i> 1. Seno, Cosseno e Tangente</h2>
+            <p class="text-slate-400 mt-2">Num triângulo retângulo, cada razão trigonométrica compara dois lados em relação a um ângulo $\theta$.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6 mb-12">
+            <div class="bg-slate-800/60 border border-slate-700/50 p-6 rounded-2xl">
+                <h3 class="text-xl font-bold text-white mb-2">Seno</h3>
+                <p class="text-slate-300 text-sm leading-relaxed">Razão entre o cateto <strong>oposto</strong> ao ângulo e a hipotenusa.</p>
+                <div class="mt-3 p-2 bg-slate-900/80 rounded-lg text-center font-mono text-violet-300 text-sm border border-slate-700/50">$$\sin\theta = \frac{\text{cateto oposto}}{\text{hipotenusa}}$$</div>
+            </div>
+            <div class="bg-slate-800/60 border border-slate-700/50 p-6 rounded-2xl">
+                <h3 class="text-xl font-bold text-white mb-2">Cosseno</h3>
+                <p class="text-slate-300 text-sm leading-relaxed">Razão entre o cateto <strong>adjacente</strong> ao ângulo e a hipotenusa.</p>
+                <div class="mt-3 p-2 bg-slate-900/80 rounded-lg text-center font-mono text-sky-300 text-sm border border-slate-700/50">$$\cos\theta = \frac{\text{cateto adjacente}}{\text{hipotenusa}}$$</div>
+            </div>
+            <div class="bg-slate-800/60 border border-slate-700/50 p-6 rounded-2xl">
+                <h3 class="text-xl font-bold text-white mb-2">Tangente</h3>
+                <p class="text-slate-300 text-sm leading-relaxed">Razão entre o cateto oposto e o adjacente — ou entre seno e cosseno.</p>
+                <div class="mt-3 p-2 bg-slate-900/80 rounded-lg text-center font-mono text-emerald-300 text-sm border border-slate-700/50">$$\tan\theta = \frac{\text{oposto}}{\text{adjacente}} = \frac{\sin\theta}{\cos\theta}$$</div>
+            </div>
+        </div>
+
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6">
+            <h3 class="text-2xl font-bold text-white mb-1">Laboratório: Triângulo Interativo</h3>
+            <p class="text-slate-400 text-sm mb-6">Mova o ângulo e o tamanho da hipotenusa e observe como os catetos e as razões mudam.</p>
+            <div class="grid lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 bg-slate-950 rounded-xl p-2 border border-slate-800">
+                    <div class="canvas-box"><canvas id="triCanvas" class="draw"></canvas></div>
+                </div>
+                <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700/50 flex flex-col justify-between">
+                    <div class="space-y-5">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-slate-300 font-medium">Ângulo ($\theta$)</span><span id="valTheta" class="text-violet-300 font-bold">40°</span></div>
+                            <input id="rangeTheta" type="range" min="5" max="85" value="40" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-violet-400" oninput="updateTriangle()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-slate-300 font-medium">Hipotenusa ($H$)</span><span id="valHip" class="text-violet-300 font-bold">5.0 m</span></div>
+                            <input id="rangeHip" type="range" min="1" max="10" step="0.5" value="5" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-violet-400" oninput="updateTriangle()">
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-800 space-y-2 text-sm">
+                        <div class="flex justify-between"><span class="text-slate-400">Cateto oposto:</span><span id="calcOp" class="text-white font-bold font-mono"></span></div>
+                        <div class="flex justify-between"><span class="text-slate-400">Cateto adjacente:</span><span id="calcAdj" class="text-white font-bold font-mono"></span></div>
+                        <div class="flex justify-between"><span class="text-violet-300">$\sin\theta$:</span><span id="calcSin" class="text-violet-300 font-bold font-mono"></span></div>
+                        <div class="flex justify-between"><span class="text-sky-300">$\cos\theta$:</span><span id="calcCos" class="text-sky-300 font-bold font-mono"></span></div>
+                        <div class="flex justify-between"><span class="text-emerald-300">$\tan\theta$:</span><span id="calcTan" class="text-emerald-300 font-bold font-mono"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MÓDULO 2: APLICAÇÃO NO PLANO INCLINADO -->
+    <section id="plano-inclinado" class="py-16 bg-slate-800/40 border-y border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold text-white flex items-center gap-3"><i class="fa-solid fa-truck-ramp-box text-sky-400"></i> 2. Aplicação: Movimento no Plano Inclinado</h2>
+                <p class="text-slate-400 mt-2">O mesmo $\sin\theta$ e $\cos\theta$ decompõem o peso do corpo e definem sua aceleração, velocidade e deslocamento ao longo do tempo.</p>
+            </div>
+
+            <div class="bg-slate-800/60 border border-slate-700/50 p-5 rounded-2xl mb-8 text-sm text-slate-300 leading-relaxed">
+                Decompondo o peso: $P_x = mg\sin\theta$ (empurra o corpo rampa abaixo) e $P_y = mg\cos\theta$ (pressiona o corpo contra a rampa, gerando atrito $F_{at} = \mu \cdot mg\cos\theta$). A aceleração resultante é
+                <span class="text-sky-300 font-mono">$a = g(\sin\theta - \mu\cos\theta)$</span>, e a partir dela: $v(t) = a\,t$ e $s(t) = \tfrac{1}{2}a\,t^2$.
+            </div>
+
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6">
+                <h3 class="text-2xl font-bold text-white mb-1">Laboratório: Velocidade e Deslocamento no Tempo</h3>
+                <p class="text-slate-400 text-sm mb-6">Ajuste ângulo, massa e atrito, depois arraste o controle de tempo para ler $v(t)$ e $s(t)$ em qualquer instante.</p>
+
+                <div class="grid lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 space-y-4">
+                        <div class="bg-slate-950 rounded-xl p-2 border border-slate-800">
+                            <div class="canvas-box"><canvas id="rampCanvas" class="draw"></canvas></div>
+                        </div>
+                        <div class="bg-slate-900/80 rounded-xl border border-slate-700/50 p-3" style="height:220px;">
+                            <canvas id="chartCanvas"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700/50 flex flex-col justify-between">
+                        <div class="space-y-5">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1"><span class="text-slate-300 font-medium">Ângulo ($\theta$)</span><span id="valAngle" class="text-sky-300 font-bold">30°</span></div>
+                                <input id="rangeAngle" type="range" min="5" max="60" value="30" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-sky-400" oninput="onParamsChange()">
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1"><span class="text-slate-300 font-medium">Massa ($m$)</span><span id="valMass" class="text-sky-300 font-bold">2.0 kg</span></div>
+                                <input id="rangeMass" type="range" min="0.5" max="10" step="0.5" value="2" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-sky-400" oninput="onParamsChange()">
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1"><span class="text-slate-300 font-medium">Coef. de atrito ($\mu$)</span><span id="valFric" class="text-sky-300 font-bold">0.10</span></div>
+                                <input id="rangeFric" type="range" min="0" max="0.6" step="0.02" value="0.1" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-sky-400" oninput="onParamsChange()">
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1"><span class="text-slate-300 font-medium">Tempo ($t$)</span><span id="valTime" class="text-emerald-300 font-bold">0.0 s</span></div>
+                                <input id="rangeTime" type="range" min="0" max="5" step="0.1" value="0" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-400" oninput="onParamsChange()">
+                            </div>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-slate-800 space-y-2 text-sm">
+                            <div class="flex justify-between"><span class="text-slate-400">Aceleração ($a$):</span><span id="calcAccel" class="text-white font-bold font-mono"></span></div>
+                            <div class="flex justify-between"><span class="text-sky-300">Velocidade $v(t)$:</span><span id="calcV" class="text-sky-300 font-bold font-mono"></span></div>
+                            <div class="flex justify-between"><span class="text-emerald-300">Deslocamento $s(t)$:</span><span id="calcS" class="text-emerald-300 font-bold font-mono"></span></div>
+                            <p id="staticNote" class="text-amber-300 text-xs pt-1 hidden">Como $\tan\theta \le \mu$, o corpo permanece em repouso (atrito estático supera a componente do peso).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MÓDULO 3: SIMULADO -->
+    <section id="questoes" class="py-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-semibold px-3 py-1 rounded-full inline-block">Simulado • 10 questões</span>
+            <h2 class="text-3xl font-extrabold text-white mt-3">Trigonometria e Cinemática no Plano Inclinado</h2>
+            <p class="text-slate-400 text-sm mt-2">Combine o que você explorou nos dois laboratórios acima para responder.</p>
+        </div>
+        <div id="quizContainer" class="space-y-6"></div>
+        <div id="quizScore" class="mt-8 text-center text-lg font-bold hidden"></div>
+    </section>
+
+    <footer class="bg-slate-950 border-t border-slate-800 py-8 text-center text-xs text-slate-500" style="padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));">
+        <p>© 2026 Apprendendo • Trigonometria aplicada à cinemática</p>
+    </footer>
+
+    <script>
+        function refreshMathJax() { if (window.MathJax && window.MathJax.typesetPromise) window.MathJax.typesetPromise().catch(console.error); }
+
+        // ---- MÓDULO 1: TRIÂNGULO ----
+        function updateTriangle() {
+            const thetaDeg = parseFloat(document.getElementById('rangeTheta').value);
+            const H = parseFloat(document.getElementById('rangeHip').value);
+            const rad = thetaDeg * Math.PI / 180;
+            const opp = H * Math.sin(rad);
+            const adj = H * Math.cos(rad);
+
+            document.getElementById('valTheta').textContent = thetaDeg + '°';
+            document.getElementById('valHip').textContent = H.toFixed(1) + ' m';
+            document.getElementById('calcOp').textContent = opp.toFixed(2) + ' m';
+            document.getElementById('calcAdj').textContent = adj.toFixed(2) + ' m';
+            document.getElementById('calcSin').textContent = Math.sin(rad).toFixed(4);
+            document.getElementById('calcCos').textContent = Math.cos(rad).toFixed(4);
+            document.getElementById('calcTan').textContent = Math.tan(rad).toFixed(4);
+
+            drawTriangle(thetaDeg, H);
+        }
+
+        function drawTriangle(thetaDeg, H) {
+            const canvas = document.getElementById('triCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+            const w = canvas.width, h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+
+            const rad = thetaDeg * Math.PI / 180;
+            const scale = Math.min(w - 140, h - 100) / 10;
+            const hipPx = H * scale;
+            const adjPx = hipPx * Math.cos(rad);
+            const oppPx = hipPx * Math.sin(rad);
+
+            const Ax = 70, Ay = h - 60;
+            const Bx = Ax + adjPx, By = Ay;
+            const Cx = Bx, Cy = Ay - oppPx;
+
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#38bdf8';
+            ctx.beginPath(); ctx.moveTo(Ax, Ay); ctx.lineTo(Bx, By); ctx.stroke(); // adjacente
+            ctx.strokeStyle = '#34d399';
+            ctx.beginPath(); ctx.moveTo(Bx, By); ctx.lineTo(Cx, Cy); ctx.stroke(); // oposto
+            ctx.strokeStyle = '#a78bfa';
+            ctx.beginPath(); ctx.moveTo(Ax, Ay); ctx.lineTo(Cx, Cy); ctx.stroke(); // hipotenusa
+
+            // ângulo reto
+            ctx.strokeStyle = '#64748b'; ctx.lineWidth = 2;
+            ctx.strokeRect(Bx - 14, By - 14, 14, 14);
+
+            // arco do ângulo theta
+            ctx.strokeStyle = '#facc15';
+            ctx.beginPath(); ctx.arc(Ax, Ay, 30, -rad, 0); ctx.stroke();
+
+            ctx.fillStyle = '#e2e8f0';
+            ctx.font = '13px Inter';
+            ctx.fillText('θ', Ax + 38, Ay - 10);
+            ctx.fillStyle = '#38bdf8'; ctx.fillText('adjacente', (Ax + Bx) / 2 - 20, Ay + 20);
+            ctx.fillStyle = '#34d399'; ctx.fillText('oposto', Bx + 8, (By + Cy) / 2);
+            ctx.fillStyle = '#a78bfa'; ctx.fillText('hipotenusa', (Ax + Cx) / 2 - 45, (Ay + Cy) / 2 - 8);
+        }
+
+        // ---- MÓDULO 2: PLANO INCLINADO + GRÁFICO ----
+        let velChart;
+        function initChart() {
+            const ctx = document.getElementById('chartCanvas').getContext('2d');
+            velChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [
+                        { label: 'v(t) — m/s', data: [], borderColor: '#38bdf8', backgroundColor: 'transparent', yAxisID: 'y', tension: 0.15, pointRadius: 0 },
+                        { label: 's(t) — m', data: [], borderColor: '#34d399', backgroundColor: 'transparent', yAxisID: 'y1', tension: 0.15, pointRadius: 0 },
+                        { label: 'instante atual', data: [], borderColor: '#facc15', backgroundColor: '#facc15', yAxisID: 'y', showLine: false, pointRadius: 5 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    animation: false,
+                    interaction: { mode: 'index', intersect: false },
+                    scales: {
+                        x: { title: { display: true, text: 't (s)', color: '#94a3b8' }, ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } },
+                        y: { position: 'left', title: { display: true, text: 'v (m/s)', color: '#38bdf8' }, ticks: { color: '#38bdf8' }, grid: { color: '#1e293b' } },
+                        y1: { position: 'right', title: { display: true, text: 's (m)', color: '#34d399' }, ticks: { color: '#34d399' }, grid: { drawOnChartArea: false } }
+                    },
+                    plugins: { legend: { labels: { color: '#e2e8f0' } } }
+                }
+            });
+        }
+
+        function computeAccel(thetaDeg, mu) {
+            const g = 9.8, rad = thetaDeg * Math.PI / 180;
+            const sinT = Math.sin(rad), cosT = Math.cos(rad);
+            let a = g * (sinT - mu * cosT);
+            return a < 0 ? 0 : a;
+        }
+
+        function onParamsChange() {
+            const thetaDeg = parseFloat(document.getElementById('rangeAngle').value);
+            const mass = parseFloat(document.getElementById('rangeMass').value);
+            const mu = parseFloat(document.getElementById('rangeFric').value);
+            const t = parseFloat(document.getElementById('rangeTime').value);
+            const rad = thetaDeg * Math.PI / 180;
+
+            document.getElementById('valAngle').textContent = thetaDeg + '°';
+            document.getElementById('valMass').textContent = mass.toFixed(1) + ' kg';
+            document.getElementById('valFric').textContent = mu.toFixed(2);
+            document.getElementById('valTime').textContent = t.toFixed(1) + ' s';
+
+            const a = computeAccel(thetaDeg, mu);
+            const staysStill = Math.tan(rad) <= mu;
+            document.getElementById('staticNote').classList.toggle('hidden', !staysStill);
+
+            const v = a * t;
+            const s = 0.5 * a * t * t;
+
+            document.getElementById('calcAccel').innerHTML = `$a = ${a.toFixed(2)}\\ \\text{m/s}^2$`;
+            document.getElementById('calcV').innerHTML = `$v(${t.toFixed(1)}) = ${v.toFixed(2)}\\ \\text{m/s}$`;
+            document.getElementById('calcS').innerHTML = `$s(${t.toFixed(1)}) = ${s.toFixed(2)}\\ \\text{m}$`;
+            refreshMathJax();
+
+            // gráfico
+            const Tmax = 5, steps = 25;
+            const labels = [], vData = [], sData = [];
+            for (let i = 0; i <= steps; i++) {
+                const ti = (Tmax * i / steps);
+                labels.push(ti.toFixed(1));
+                vData.push(a * ti);
+                sData.push(0.5 * a * ti * ti);
+            }
+            velChart.data.labels = labels;
+            velChart.data.datasets[0].data = vData;
+            velChart.data.datasets[1].data = sData;
+            const idx = Math.round((t / Tmax) * steps);
+            velChart.data.datasets[2].data = labels.map((_, i) => i === idx ? v : null);
+            velChart.update();
+
+            drawRamp(thetaDeg, mass, s, a);
+        }
+
+        function drawRamp(thetaDeg, mass, s, a) {
+            const canvas = document.getElementById('rampCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+            const w = canvas.width, h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+
+            const rad = thetaDeg * Math.PI / 180;
+            const rampLen = w * 0.65;
+            const x0 = 50, y0 = h - 40;
+            const x1 = x0 + rampLen * Math.cos(rad), y1 = y0 - rampLen * Math.sin(rad);
+
+            ctx.strokeStyle = '#475569'; ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.moveTo(x0 - 20, y0); ctx.lineTo(w - 20, y0); ctx.stroke();
+
+            ctx.fillStyle = '#1e293b';
+            ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.lineTo(x1, y0); ctx.closePath(); ctx.fill();
+            ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 3; ctx.stroke();
+
+            // posição da esfera ao longo da rampa, limitada ao comprimento físico
+            const rampLenMeters = 5; // rampa representa 5 m de percurso
+            const frac = Math.min(1, s / rampLenMeters);
+            const curX = x0 + (x1 - x0) * frac;
+            const curY = y0 + (y1 - y0) * frac;
+            const radius = 10 + mass * 1.3;
+
+            ctx.beginPath(); ctx.arc(curX, curY - radius, radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#facc15'; ctx.fill();
+            ctx.strokeStyle = '#fde68a'; ctx.lineWidth = 2; ctx.stroke();
+        }
+
+        // ---- MÓDULO 3: SIMULADO ----
+        const quizData = [
+            { prompt: "Num triângulo retângulo com hipotenusa $H = 10\\ \\text{m}$ e ângulo $\\theta = 30°$ ($\\sin 30° = 0{,}5$), qual o valor do cateto oposto a $\\theta$?", options: ["$2{,}5\\ \\text{m}$", "$5{,}0\\ \\text{m}$", "$8{,}7\\ \\text{m}$", "$10{,}0\\ \\text{m}$"], correct: 1, explanation: "$\\text{oposto} = H \\cdot \\sin\\theta = 10 \\times 0{,}5 = 5{,}0\\ \\text{m}$." },
+            { prompt: "Se $\\cos\\theta = 0{,}6$ para um ângulo agudo, qual é o valor de $\\sin\\theta$? (use $\\sin^2\\theta + \\cos^2\\theta = 1$)", options: ["$0{,}4$", "$0{,}6$", "$0{,}8$", "$1{,}0$"], correct: 2, explanation: "$\\sin\\theta = \\sqrt{1 - 0{,}6^2} = \\sqrt{0{,}64} = 0{,}8$." },
+            { prompt: "Se $\\sin\\theta = 0{,}6$ e $\\cos\\theta = 0{,}8$ para o mesmo ângulo, qual é $\\tan\\theta$?", options: ["$0{,}48$", "$0{,}60$", "$0{,}75$", "$1{,}33$"], correct: 2, explanation: "$\\tan\\theta = \\dfrac{\\sin\\theta}{\\cos\\theta} = \\dfrac{0{,}6}{0{,}8} = 0{,}75$." },
+            { prompt: "Para qual ângulo $\\theta$ temos $\\tan\\theta = 1$?", options: ["$0°$", "$30°$", "$45°$", "$90°$"], correct: 2, explanation: "Em $45°$, o cateto oposto é igual ao adjacente, logo $\\tan 45° = \\dfrac{\\sin 45°}{\\cos 45°} = 1$." },
+            { prompt: "Uma rampa forma $37°$ com a horizontal ($\\sin 37° \\approx 0{,}6$). Um bloco de $m = 5\\ \\text{kg}$ está sobre ela ($g = 10\\ \\text{m/s}^2$). Qual a componente do peso paralela à rampa, $P_x = mg\\sin\\theta$?", options: ["$20\\ \\text{N}$", "$30\\ \\text{N}$", "$40\\ \\text{N}$", "$50\\ \\text{N}$"], correct: 1, explanation: "$P_x = 5 \\times 10 \\times 0{,}6 = 30\\ \\text{N}$." },
+            { prompt: "Ainda com $\\theta = 37°$, considerando a rampa <strong>sem atrito</strong>, qual é a aceleração do bloco ($a = g\\sin\\theta$)?", options: ["$4{,}0\\ \\text{m/s}^2$", "$6{,}0\\ \\text{m/s}^2$", "$8{,}0\\ \\text{m/s}^2$", "$10{,}0\\ \\text{m/s}^2$"], correct: 1, explanation: "$a = g\\sin\\theta = 10 \\times 0{,}6 = 6{,}0\\ \\text{m/s}^2$." },
+            { prompt: "Agora com atrito $\\mu = 0{,}2$ e $\\cos 37° \\approx 0{,}8$, qual é a nova aceleração $a = g(\\sin\\theta - \\mu\\cos\\theta)$?", options: ["$3{,}6\\ \\text{m/s}^2$", "$4{,}0\\ \\text{m/s}^2$", "$4{,}4\\ \\text{m/s}^2$", "$5{,}0\\ \\text{m/s}^2$"], correct: 2, explanation: "$a = 10 \\times (0{,}6 - 0{,}2 \\times 0{,}8) = 10 \\times 0{,}44 = 4{,}4\\ \\text{m/s}^2$." },
+            { prompt: "Partindo do repouso com $a = 4{,}4\\ \\text{m/s}^2$, qual a velocidade após $t = 2\\ \\text{s}$ ($v = a\\,t$)?", options: ["$4{,}4\\ \\text{m/s}$", "$6{,}6\\ \\text{m/s}$", "$8{,}8\\ \\text{m/s}$", "$11{,}0\\ \\text{m/s}$"], correct: 2, explanation: "$v(2) = 4{,}4 \\times 2 = 8{,}8\\ \\text{m/s}$." },
+            { prompt: "Nas mesmas condições, qual o deslocamento em $t = 2\\ \\text{s}$ ($s = \\tfrac{1}{2}a\\,t^2$)?", options: ["$4{,}4\\ \\text{m}$", "$6{,}6\\ \\text{m}$", "$8{,}8\\ \\text{m}$", "$17{,}6\\ \\text{m}$"], correct: 2, explanation: "$s(2) = 0{,}5 \\times 4{,}4 \\times 2^2 = 8{,}8\\ \\text{m}$." },
+            { prompt: "Um bloco está numa rampa de $30°$ ($\\tan 30° \\approx 0{,}577$) com coeficiente de atrito $\\mu = 1{,}0$. O que acontece com o bloco?", options: ["Desce com aceleração alta", "Desce com velocidade constante", "Permanece em repouso, pois $\\mu > \\tan\\theta$", "Sobe a rampa sozinho"], correct: 2, explanation: "Como o atrito estático pode superar a componente do peso ($\\mu = 1{,}0 > \\tan 30° \\approx 0{,}577$), o bloco não se move." }
+        ];
+
+        function renderQuiz() {
+            const container = document.getElementById('quizContainer');
+            quizData.forEach((q, qi) => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-md";
+                let optsHtml = '';
+                q.options.forEach((opt, oi) => {
+                    optsHtml += `<button onclick="checkQuizAnswer(${qi}, ${oi})" id="q${qi}-opt${oi}"
+                        class="w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-slate-300 text-sm flex items-start gap-3">
+                        <span class="font-bold text-emerald-400">${String.fromCharCode(65 + oi)})</span> ${opt}
+                    </button>`;
+                });
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-md border border-emerald-500/30">Questão ${qi + 1}</span>
+                    </div>
+                    <p class="text-slate-200 text-base leading-relaxed mb-6">${q.prompt}</p>
+                    <div class="space-y-3">${optsHtml}</div>
+                    <div id="q${qi}-feedback" class="mt-4 hidden p-4 rounded-xl border text-sm"></div>
+                `;
+                container.appendChild(card);
+            });
+            refreshMathJax();
+        }
+
+        const quizAnswered = {};
+        function checkQuizAnswer(qi, oi) {
+            if (quizAnswered[qi] !== undefined) return;
+            quizAnswered[qi] = oi;
+            const q = quizData[qi];
+            const isCorrect = oi === q.correct;
+            const feedbackElem = document.getElementById(`q${qi}-feedback`);
+            feedbackElem.classList.remove('hidden');
+
+            q.options.forEach((_, i) => {
+                const btn = document.getElementById(`q${qi}-opt${i}`);
+                btn.classList.add('opacity-60', 'cursor-default');
+                if (i === q.correct) btn.classList.add('border-emerald-500/50');
+                if (i === oi && !isCorrect) btn.classList.add('border-red-500/50');
+            });
+
+            if (isCorrect) {
+                feedbackElem.className = "mt-4 p-4 rounded-xl border text-sm bg-emerald-500/10 border-emerald-500/30 text-emerald-300";
+                feedbackElem.innerHTML = `<strong>✅ Correto!</strong> ${q.explanation}`;
+            } else {
+                feedbackElem.className = "mt-4 p-4 rounded-xl border text-sm bg-red-500/10 border-red-500/30 text-red-300";
+                feedbackElem.innerHTML = `<strong>❌ Incorreto.</strong> ${q.explanation}`;
+            }
+            refreshMathJax();
+            updateScore();
+        }
+
+        function updateScore() {
+            const answeredCount = Object.keys(quizAnswered).length;
+            if (answeredCount < quizData.length) return;
+            let correctCount = 0;
+            quizData.forEach((q, qi) => { if (quizAnswered[qi] === q.correct) correctCount++; });
+            const scoreElem = document.getElementById('quizScore');
+            scoreElem.classList.remove('hidden');
+            scoreElem.textContent = `Você acertou ${correctCount} de ${quizData.length} questões.`;
+            scoreElem.className = "mt-8 text-center text-lg font-bold " + (correctCount >= 7 ? "text-emerald-400" : "text-amber-400");
+        }
+
+        window.onload = function () {
+            updateTriangle();
+            initChart();
+            onParamsChange();
+            renderQuiz();
+            refreshMathJax();
+        };
+        window.addEventListener('resize', () => { updateTriangle(); drawRamp(
+            parseFloat(document.getElementById('rangeAngle').value),
+            parseFloat(document.getElementById('rangeMass').value),
+            0, 0); });
+    </script>
+</body>
+</html>
