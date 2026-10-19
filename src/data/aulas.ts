@@ -28,5 +28,14 @@ export const AULAS_MOCK: Aula[] = [
         descricao: 'Seno, Cosseno e Tangente Aplicadas',
         data: '2026-09-29',
         materialUrl: './aulas/trigonometria'
-    }
+    },
+  {
+    id:'3',
+        titulo: 'Simulado Provão',
+        disciplina: 'Física',
+        serie: '1_EM',
+        descricao: 'Simulado dedicado as questões de ciências exatas',
+        data: '2026-10-20',
+        materialUrl: './aulas/simulado'
+  }
 ];
