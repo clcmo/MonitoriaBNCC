@@ -3,15 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super Aula Preparatória — Provão Paulista & FUVEST (STEM + Gestão & TI)</title>
+    <title>Super Aula Preparatória - Provão Paulista & FUVEST</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- KaTeX CDN para Renderização de Fórmulas TeX/LaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap');
         body {
             font-family: 'Inter', sans-serif;
+        }
+        code, pre {
+            font-family: 'Fira Code', monospace;
         }
 
         /* Estilização otimizada para Exportação/Impressão em PDF */
@@ -43,6 +52,9 @@
             .accordion-content {
                 display: block !important;
             }
+            .simulator-box {
+                display: none !important;
+            }
         }
     </style>
 </head>
@@ -52,17 +64,17 @@
     <header class="sticky top-0 z-50 bg-slate-900/95 backdrop-blur border-b border-slate-800 text-white no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="p-2 bg-indigo-600 rounded-lg">
+                <div class="p-2 bg-indigo-600 rounded-lg shadow-md">
                     <i data-lucide="graduation-cap" class="w-6 h-6 text-white"></i>
                 </div>
                 <div>
-                    <span class="font-bold text-lg leading-tight block">Provão Paulista & FUVEST</span>
-                    <span class="text-xs text-indigo-400 font-medium">STEM + Administração, RH e TI</span>
+                    <span class="font-bold text-lg leading-tight block">Super Revisão</span>
+                    <span class="text-xs text-indigo-400 font-medium">Ciências Exatas e da Natureza + Administração, RH e Informática</span>
                 </div>
             </div>
 
             <div class="flex items-center space-x-3">
-                <button onclick="window.print()" class="flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors shadow-sm">
+                <button onclick="window.print()" class="flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-semibold text-sm transition-all shadow-sm active:scale-95">
                     <i data-lucide="printer" class="w-4 h-4"></i>
                     <span class="hidden sm:inline">Exportar / Imprimir PDF</span>
                 </button>
@@ -75,14 +87,14 @@
         <div class="max-w-7xl mx-auto text-center sm:text-left flex flex-col md:flex-row items-center justify-between gap-8">
             <div class="max-w-3xl space-y-4">
                 <div class="inline-flex items-center space-x-2 bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
-                    <i data-lucide="book-open-check" class="w-3.5 h-3.5"></i>
-                    <span>Super Aula Interdisciplinar Integrada</span>
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                    <span>Material Completo e Expandido</span>
                 </div>
-                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
-                    Preparatório Exatas & Natureza Aplicadas à Gestão
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                    Ciências Exatas & Natureza na Prática Corporativa
                 </h1>
-                <p class="text-slate-300 text-base sm:text-lg">
-                    Domine os conteúdos mais cobrados da <strong>FUVEST</strong> e do <strong>Provão Paulista</strong> integrando conceitos de <em>Matemática, Física, Química e Biologia</em> com cenários práticos de <strong>Administração, RH e Informática</strong>.
+                <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+                    Aprofundamento teórico rigoroso alinhado às matrizes da <strong>FUVEST</strong> e do <strong>Provão Paulista</strong>. Formatação em TeX/LaTeX para equações de <em>Matemática, Física, Química e Biologia</em> integradas ao cotidiano corporativo de Gestão e TI.
                 </p>
             </div>
             
@@ -90,23 +102,23 @@
             <div class="w-full md:w-auto bg-slate-800/80 backdrop-blur p-5 rounded-2xl border border-slate-700/60 shadow-xl no-print">
                 <div class="text-sm font-semibold text-slate-300 mb-3 flex items-center gap-2">
                     <i data-lucide="compass" class="w-4 h-4 text-indigo-400"></i>
-                    Navegação Rápida
+                    Acesso Rápido às Disciplinas
                 </div>
                 <div class="grid grid-cols-2 gap-2 text-xs font-medium">
-                    <a href="#aula" onclick="switchTab('matematica')" class="p-2.5 bg-slate-700/60 hover:bg-indigo-600/80 rounded-lg flex items-center gap-2 transition">
+                    <button onclick="switchTab('matematica'); scrollToSection('aula')" class="p-2.5 bg-slate-700/60 hover:bg-indigo-600/80 rounded-lg flex items-center gap-2 transition text-left">
                         <i data-lucide="calculator" class="w-4 h-4 text-amber-400"></i> Matemática
-                    </a>
-                    <a href="#aula" onclick="switchTab('fisica')" class="p-2.5 bg-slate-700/60 hover:bg-indigo-600/80 rounded-lg flex items-center gap-2 transition">
+                    </button>
+                    <button onclick="switchTab('fisica'); scrollToSection('aula')" class="p-2.5 bg-slate-700/60 hover:bg-indigo-600/80 rounded-lg flex items-center gap-2 transition text-left">
                         <i data-lucide="zap" class="w-4 h-4 text-cyan-400"></i> Física
-                    </a>
-                    <a href="#aula" onclick="switchTab('quimica')" class="p-2.5 bg-slate-700/60 hover:bg-indigo-600/80 rounded-lg flex items-center gap-2 transition">
+                    </button>
+                    <button onclick="switchTab('quimica'); scrollToSection('aula')" class="p-2.5 bg-slate-700/60 hover:bg-indigo-600/80 rounded-lg flex items-center gap-2 transition text-left">
                         <i data-lucide="flask-conical" class="w-4 h-4 text-emerald-400"></i> Química
-                    </a>
-                    <a href="#aula" onclick="switchTab('biologia')" class="p-2.5 bg-slate-700/60 hover:bg-indigo-600/80 rounded-lg flex items-center gap-2 transition">
+                    </button>
+                    <button onclick="switchTab('biologia'); scrollToSection('aula')" class="p-2.5 bg-slate-700/60 hover:bg-indigo-600/80 rounded-lg flex items-center gap-2 transition text-left">
                         <i data-lucide="dna" class="w-4 h-4 text-rose-400"></i> Biologia
-                    </a>
+                    </button>
                     <a href="#teste1" class="col-span-2 p-2.5 bg-indigo-600 hover:bg-indigo-500 rounded-lg flex items-center justify-center gap-2 text-white font-semibold transition mt-1">
-                        <i data-lucide="file-check-2" class="w-4 h-4"></i> Ir para os Testes (1º e 2º Ano)
+                        <i data-lucide="file-check-2" class="w-4 h-4"></i> Avaliações (1º e 2º Ano)
                     </a>
                 </div>
             </div>
@@ -122,128 +134,211 @@
                 <div>
                     <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3">
                         <i data-lucide="book-open" class="w-8 h-8 text-indigo-600"></i>
-                        Super Aula Teórico-Prática
+                        Super Aula Teórico-Prática Aprofundada
                     </h2>
-                    <p class="text-sm text-slate-500 mt-1">Selecione as disciplinas abaixo para explorar o conteúdo teórico contextualizado.</p>
+                    <p class="text-sm text-slate-500 mt-1">Selecione uma disciplina abaixo para estudar a teoria, equações em LaTeX, exemplos e simuladores interativos.</p>
                 </div>
             </div>
 
             <!-- Abas da Aula (no-print) -->
             <div class="flex flex-wrap gap-2 border-b border-slate-200 no-print" id="tab-buttons">
                 <button onclick="switchTab('matematica')" id="tab-btn-matematica" class="tab-btn px-5 py-3 rounded-t-xl font-semibold text-sm flex items-center gap-2 transition border-b-2 border-indigo-600 text-indigo-600 bg-white">
-                    <i data-lucide="calculator" class="w-4 h-4"></i> Matemática
+                    <i data-lucide="calculator" class="w-4 h-4"></i> Matemática Aplicada
                 </button>
                 <button onclick="switchTab('fisica')" id="tab-btn-fisica" class="tab-btn px-5 py-3 rounded-t-xl font-semibold text-sm flex items-center gap-2 transition border-b-2 border-transparent text-slate-600 hover:text-slate-900 bg-slate-100">
-                    <i data-lucide="zap" class="w-4 h-4"></i> Física
+                    <i data-lucide="zap" class="w-4 h-4"></i> Física Aplicada
                 </button>
                 <button onclick="switchTab('quimica')" id="tab-btn-quimica" class="tab-btn px-5 py-3 rounded-t-xl font-semibold text-sm flex items-center gap-2 transition border-b-2 border-transparent text-slate-600 hover:text-slate-900 bg-slate-100">
-                    <i data-lucide="flask-conical" class="w-4 h-4"></i> Química
+                    <i data-lucide="flask-conical" class="w-4 h-4"></i> Química Aplicada
                 </button>
                 <button onclick="switchTab('biologia')" id="tab-btn-biologia" class="tab-btn px-5 py-3 rounded-t-xl font-semibold text-sm flex items-center gap-2 transition border-b-2 border-transparent text-slate-600 hover:text-slate-900 bg-slate-100">
-                    <i data-lucide="dna" class="w-4 h-4"></i> Biologia
+                    <i data-lucide="dna" class="w-4 h-4"></i> Biologia Aplicada
                 </button>
             </div>
 
-            <!-- Conteúdo da Aba: MATEMÁTICA -->
-            <div id="tab-matematica" class="tab-content bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
-                <div class="flex items-center gap-3 text-amber-600 font-bold text-xl border-b pb-3 border-slate-100">
-                    <i data-lucide="calculator" class="w-6 h-6"></i>
-                    <h3>Matemática: Estatística, Porcentagem e Matemática Financeira</h3>
+            <!-- =====================================
+                 CONTEÚDO DA ABA: MATEMÁTICA
+            ====================================== -->
+            <div id="tab-matematica" class="tab-content bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-8">
+                <div class="flex items-center gap-3 text-amber-600 font-bold text-2xl border-b pb-3 border-slate-100">
+                    <i data-lucide="calculator" class="w-7 h-7"></i>
+                    <h3>Matemática: Estatística, Amortização e Modelos Exponenciais</h3>
                 </div>
 
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="space-y-4">
-                        <h4 class="font-semibold text-slate-900 text-lg flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-                            Estatística Aplicada a RH: Média Ponderada & Turnover
-                        </h4>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            No vestibular da FUVEST e no Provão Paulista, problemas de estatística cobram frecuentemente a interpretação de tabelas de frequência e cálculo de <strong>média aritmética ponderada</strong>.
-                        </p>
-                        <div class="bg-amber-50/60 border border-amber-200 p-4 rounded-xl text-xs sm:text-sm text-amber-900 space-y-2">
-                            <span class="font-bold block text-amber-950">Fórmula da Média Ponderada:</span>
-                            <code class="block bg-white p-2 rounded border border-amber-200 font-mono text-center">
-                                M_p = (x₁·w₁ + x₂·w₂ + ... + xₙ·wₙ) / (w₁ + w₂ + ... + wₙ)
-                            </code>
-                            <p class="text-xs text-amber-800">Onde <em>x</em> representa o valor da variável (ex: nota de desempenho) e <em>w</em> o peso/frequência (ex: quantidade de colaboradores do setor).</p>
+                <!-- Tópico 1.1 -->
+                <div class="space-y-4">
+                    <h4 class="font-bold text-slate-900 text-lg flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                        1.1 Estatística Avançada em RH e Operações (Turnover, Absenteísmo & Desvio Padrão)
+                    </h4>
+                    <p class="text-sm text-slate-700 leading-relaxed">
+                        A estatística descritiva é pilar fundamental tanto nas provas de exatas quanto nas tomadas de decisão em <strong>Recursos Humanos (RH)</strong>. Além da média aritmética ponderada $\bar{x}_p$, a FUVEST e o Provão Paulista cobram medidas de variação como a <strong>Variância ($\sigma^2$)</strong> e o <strong>Desvio Padrão ($\sigma$)</strong>.
+                    </p>
+
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-amber-50/60 border border-amber-200 p-4 rounded-xl text-xs sm:text-sm text-amber-950 space-y-2">
+                            <span class="font-bold block text-amber-900 uppercase">Métricas Fundamentais de RH:</span>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li><strong>Turnover (%):</strong> $\text{Turnover} = \left(\frac{N_{\text{admissões}} + N_{\text{desligamentos}}}{2 \cdot N_{\text{total}}}\right) \times 100$</li>
+                                <li><strong>Absenteísmo (%):</strong> $\text{Absenteísmo} = \left(\frac{H_{\text{faltas}}}{H_{\text{previstas}}}\right) \times 100$</li>
+                            </ul>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl text-xs sm:text-sm space-y-2">
+                            <span class="font-bold block text-slate-900 uppercase">Desvio Padrão Populacional ($\sigma$):</span>
+                            <div class="p-3 bg-white rounded border border-slate-200 text-center">
+                                $$\sigma = \sqrt{\frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n}}$$
+                            </div>
+                            <p class="text-slate-600 text-xs">Indica a homogeneidade no cumprimento de metas entre equipes da empresa.</p>
                         </div>
                     </div>
+                </div>
 
-                    <div class="space-y-4">
-                        <h4 class="font-semibold text-slate-900 text-lg flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-                            Matemática Financeira & Depreciação de Ativos de TI
-                        </h4>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            Em Administração e Informática, a compra de equipamentos exige o cálculo de juros compostos e <strong>depreciação de ativos</strong>.
-                        </p>
-                        <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl text-xs sm:text-sm space-y-2">
-                            <p class="font-semibold text-slate-800">Equação de Juros Compostos / Montante:</p>
-                            <code class="block bg-white p-2 rounded border border-slate-200 font-mono text-center text-indigo-700">
-                                M = C · (1 + i)ᵗ
-                            </code>
-                            <p class="font-semibold text-slate-800 pt-1">Depreciação Percentual Sucessiva:</p>
-                            <code class="block bg-white p-2 rounded border border-slate-200 font-mono text-center text-rose-700">
-                                V = V₀ · (1 - i)ᵗ
-                            </code>
-                        </div>
+                <!-- Tópico 1.2 -->
+                <div class="space-y-4 border-t pt-6 border-slate-100">
+                    <h4 class="font-bold text-slate-900 text-lg flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                        1.2 Matemática Financeira: Amortização (Price vs. SAC) e Depreciação de TI
+                    </h4>
+                    <p class="text-sm text-slate-700 leading-relaxed">
+                        Em Administração e TI, o valor dos servidores sofre depreciação periódica dada por $V(t) = V_0 - d \cdot t$ (linear) ou $V(t) = V_0 \cdot (1 - i)^t$ (exponencial). Já os investimentos financeiros são calculados com a fórmula de juros compostos:
+                    </p>
+
+                    <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-center font-bold text-amber-950">
+                        $$M(t) = C_0 \cdot (1 + i)^t$$
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs sm:text-sm text-left border-collapse border border-slate-200 rounded-lg">
+                            <thead class="bg-slate-100 text-slate-800">
+                                <tr>
+                                    <th class="p-3 border">Parâmetro</th>
+                                    <th class="p-3 border">Tabela Price (Prestação Constante)</th>
+                                    <th class="p-3 border">Sistema SAC (Amortização Constante)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr>
+                                    <td class="p-3 font-semibold border">Valor da Parcela ($P$)</td>
+                                    <td class="p-3 border text-emerald-700 font-medium">Fixa / Constante ao longo do tempo</td>
+                                    <td class="p-3 border text-amber-700 font-medium">Decrescente (começa mais alta)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold border">Amortização ($A$)</td>
+                                    <td class="p-3 border">Crescente a cada período</td>
+                                    <td class="p-3 border font-mono">Constante: $A = \frac{PV}{n}$</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold border">Juros Pagos ($J$)</td>
+                                    <td class="p-3 border">Maior montante total acumulado</td>
+                                    <td class="p-3 border">Menor montante acumulado final</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tópico 1.3 -->
+                <div class="space-y-4 border-t pt-6 border-slate-100">
+                    <h4 class="font-bold text-slate-900 text-lg flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                        1.3 Funções Exponenciais e Logarítmicas na Escala de Software
+                    </h4>
+                    <p class="text-sm text-slate-700 leading-relaxed">
+                        Modelos de crescimento de base de dados e tráfego web utilizam a função exponencial $f(t) = a \cdot b^t$. A inversa é dada pela função logarítmica:
+                    </p>
+                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center">
+                        $$t = \log_b \left(\frac{f(t)}{a}\right) = \frac{\ln f(t) - \ln a}{\ln b}$$
                     </div>
                 </div>
 
                 <!-- Exemplo Prático Resolvido -->
                 <div class="bg-slate-900 text-white p-6 rounded-xl space-y-3">
                     <div class="flex items-center gap-2 text-amber-400 font-bold text-sm uppercase tracking-wider">
-                        <i data-lucide="lightbulb" class="w-4 h-4"></i> Exemplo Prático Resolvido (Estilo FUVEST)
+                        <i data-lucide="lightbulb" class="w-4 h-4"></i> Exemplo Prático Resolvido (FUVEST)
                     </div>
                     <p class="text-sm text-slate-200">
-                        Um departamento de TI adquiriu um servidor por R$ 20.000,00. Estimou-se que o equipamento sofrerá uma depreciação anual de 10% sobre o valor acumulado. Qual será o valor do servidor após 2 anos?
+                        Um parque fabril comprou um servidor por $C_0 = \text{R\$ } 50.000,00$. Adota-se depreciação linear de $15\%$ ao ano. Ao mesmo tempo, um fundo financeiro de $\text{R\$ } 50.000,00$ rende juros compostos de $10\%$ ao ano. Qual a diferença entre os montantes após $t = 2$ anos?
                     </p>
-                    <div class="bg-slate-800/80 p-4 rounded-lg font-mono text-xs sm:text-sm space-y-1 text-slate-300">
-                        <p><strong>Resolução:</strong></p>
-                        <p>V₀ = 20.000 | i = 10% = 0,10 | t = 2 anos</p>
-                        <p>V = 20.000 · (1 - 0,10)²</p>
-                        <p>V = 20.000 · (0,90)² = 20.000 · 0,81 = <strong>R$ 16.200,00</strong></p>
+                    <div class="bg-slate-800/80 p-4 rounded-lg text-xs sm:text-sm space-y-3 text-slate-300">
+                        <p><strong>1. Servidor (Depreciação Linear):</strong></p>
+                        <p>$$V(2) = 50.000 - (0,15 \cdot 50.000 \cdot 2) = 50.000 - 15.000 = \text{R\$ } 35.000,00$$</p>
+                        <p><strong>2. Aplicação Financeira (Juros Compostos):</strong></p>
+                        <p>$$M(2) = 50.000 \cdot (1 + 0,10)^2 = 50.000 \cdot 1,21 = \text{R\$ } 60.500,00$$</p>
+                        <p><strong>Diferença de Patrimônio:</strong> $\text{R\$ } 60.500,00 - \text{R\$ } 35.000,00 = \mathbf{\text{R\$ } 25.500,00}$</p>
                     </div>
+                </div>
+
+                <!-- SIMULADOR MATEMÁTICO (no-print) -->
+                <div class="simulator-box bg-slate-100 p-5 rounded-xl border border-slate-300 space-y-4 no-print">
+                    <div class="flex items-center gap-2 text-slate-900 font-bold text-sm uppercase tracking-wider">
+                        <i data-lucide="sliders" class="w-4 h-4 text-amber-600"></i> Simulador Interativo: Depreciação vs Juros Compostos
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                        <div>
+                            <label class="block font-semibold mb-1">Valor Inicial (R$):</label>
+                            <input type="number" id="sim-mat-val" value="10000" class="w-full p-2 rounded border border-slate-300 font-mono">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-1">Taxa ao ano (%):</label>
+                            <input type="number" id="sim-mat-taxa" value="10" class="w-full p-2 rounded border border-slate-300 font-mono">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-1">Anos (t):</label>
+                            <input type="number" id="sim-mat-tempo" value="3" class="w-full p-2 rounded border border-slate-300 font-mono">
+                        </div>
+                    </div>
+                    <button onclick="simularMatematica()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 rounded text-xs transition">Calcular Resultados Simulado</button>
+                    <div id="sim-mat-res" class="text-xs font-mono bg-white p-3 rounded border border-slate-200 hidden"></div>
                 </div>
             </div>
 
-            <!-- Conteúdo da Aba: FÍSICA -->
-            <div id="tab-fisica" class="tab-content hidden bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
-                <div class="flex items-center gap-3 text-cyan-600 font-bold text-xl border-b pb-3 border-slate-100">
-                    <i data-lucide="zap" class="w-6 h-6"></i>
-                    <h3>Física: Eletrodinâmica, Potência Elétrica e Efeito Joule</h3>
+            <!-- =====================================
+                 CONTEÚDO DA ABA: FÍSICA
+            ====================================== -->
+            <div id="tab-fisica" class="tab-content hidden bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-8">
+                <div class="flex items-center gap-3 text-cyan-600 font-bold text-2xl border-b pb-3 border-slate-100">
+                    <i data-lucide="zap" class="w-7 h-7"></i>
+                    <h3>Física: Eletrodinâmica, No-Breaks, Dimensionamento & Termodinâmica</h3>
                 </div>
 
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="space-y-4">
-                        <h4 class="font-semibold text-slate-900 text-lg flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-cyan-500"></span>
-                            Potência Elétrica & Consumo Energético em Escritórios
-                        </h4>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            No dimensionamento de redes de TI e infraestrutura corporativa, deve-se calcular o consumo em kWh para controle de custos e prevenção de sobrecarga em disjuntores.
-                        </p>
-                        <div class="bg-cyan-50/60 border border-cyan-200 p-4 rounded-xl text-xs sm:text-sm text-cyan-900 space-y-2">
-                            <span class="font-bold block">Fórmulas Essenciais de Eletrodinâmica:</span>
-                            <ul class="list-disc list-inside space-y-1 font-mono text-xs">
-                                <li>Potência: P = U · i (Tensão × Corrente)</li>
-                                <li>Energia (kWh): E = P (em kW) · Δt (em horas)</li>
-                                <li>Resistência (Lei de Ohm): U = R · i</li>
-                            </ul>
+                <!-- Tópico 2.1 -->
+                <div class="space-y-4">
+                    <h4 class="font-bold text-slate-900 text-lg flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-cyan-500"></span>
+                        2.1 Eletrodinâmica Corporal e Industrial (Lei de Ohm e Potência em TI)
+                    </h4>
+                    <p class="text-sm text-slate-700 leading-relaxed">
+                        A infraestrutura tecnológica de um Data Center obedece à <strong>Primeira Lei de Ohm</strong> e à equação da <strong>Potência Elétrica Dissipada</strong> por Efeito Joule:
+                    </p>
+
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-cyan-50/60 border border-cyan-200 p-4 rounded-xl text-xs sm:text-sm text-cyan-950 space-y-2">
+                            <span class="font-bold block text-cyan-900 uppercase">Primeira Lei de Ohm & Potência:</span>
+                            <div class="p-2 bg-white rounded border border-cyan-200 text-center">
+                                $$U = R \cdot i \quad \implies \quad P = U \cdot i = R \cdot i^2 = \frac{U^2}{R}$$
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl text-xs sm:text-sm space-y-2">
+                            <span class="font-bold block text-slate-900 uppercase">Potência Ativa vs Aparente (No-Breaks):</span>
+                            <div class="p-2 bg-white rounded border border-slate-200 text-center">
+                                $$P_{\text{Ativa}} (\text{W}) = S_{\text{Aparente}} (\text{VA}) \cdot FP$$
+                            </div>
+                            <p class="text-slate-600 text-xs">Onde $FP$ é o Fator de Potência do circuito elétrico.</p>
                         </div>
                     </div>
+                </div>
 
-                    <div class="space-y-4">
-                        <h4 class="font-semibold text-slate-900 text-lg flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-cyan-500"></span>
-                            Efeito Joule & Climatização de Data Centers
-                        </h4>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            O <strong>Efeito Joule</strong> ocorre quando a passagem de corrente elétrica gera dissipação de energia térmica (calor): <strong>P = R · i²</strong>.
-                        </p>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            Em salas de servidores de TI, a dissipated térmica constante exige ar-condicionado de alta potência, exigindo do gestor o cálculo da carga térmica total.
-                        </p>
+                <!-- Tópico 2.2 -->
+                <div class="space-y-4 border-t pt-6 border-slate-100">
+                    <h4 class="font-bold text-slate-900 text-lg flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-cyan-500"></span>
+                        2.2 Termodinâmica e Refrigeração (Primeira e Segunda Lei)
+                    </h4>
+                    <p class="text-sm text-slate-700 leading-relaxed">
+                        Conforme a <strong>Primeira Lei da Termodinâmica</strong> ($\Delta U = Q - W$), o calor dissipado pelos servidores $Q_1$ exige trabalho elétrico $W$ dos compressores para rejeitar calor $Q_2$ ao ambiente externo:
+                    </p>
+                    <div class="p-4 bg-cyan-50 border border-cyan-200 rounded-xl text-center text-cyan-950">
+                        $$Q_2 = Q_1 + W \quad \implies \quad \text{COP (Coeficiente de Performance)} = \frac{Q_1}{W}$$
                     </div>
                 </div>
 
@@ -253,51 +348,88 @@
                         <i data-lucide="lightbulb" class="w-4 h-4"></i> Exemplo Prático Resolvido (Provão Paulista)
                     </div>
                     <p class="text-sm text-slate-200">
-                        Um setor administrativo opera 15 computadores (200 W cada) e 1 ar-condicionado (3000 W) durante 8 horas diárias de expediente. Qual é o consumo diário em kWh desse setor?
+                        Um servidor opera a $U = 220 \text{ V}$ absorvendo corrente de $i = 10 \text{ A}$. Sabendo que a tarifa é $\text{R\$ } 0,80\text{/kWh}$, qual o custo financeiro mensal ($30 \text{ dias} \times 24 \text{ h} = 720 \text{ h}$)?
                     </p>
-                    <div class="bg-slate-800/80 p-4 rounded-lg font-mono text-xs sm:text-sm space-y-1 text-slate-300">
-                        <p><strong>Resolução:</strong></p>
-                        <p>P_comp = 15 × 200 W = 3.000 W = 3 kW</p>
-                        <p>P_ar = 3.000 W = 3 kW ⇒ Potência Total = 3 kW + 3 kW = 6 kW</p>
-                        <p>E = P · Δt = 6 kW × 8 h = <strong>48 kWh/dia</strong></p>
+                    <div class="bg-slate-800/80 p-4 rounded-lg text-xs sm:text-sm space-y-3 text-slate-300">
+                        <p><strong>1. Potência do Servidor:</strong></p>
+                        <p>$$P = U \cdot i = 220 \cdot 10 = 2200 \text{ W} = 2,2 \text{ kW}$$</p>
+                        <p><strong>2. Energia Consumida ($E = P \cdot \Delta t$):</strong></p>
+                        <p>$$E = 2,2 \text{ kW} \cdot 720 \text{ h} = 1584 \text{ kWh}$$</p>
+                        <p><strong>Custo Financeiro Total:</strong> $\text{Custo} = 1584 \cdot 0,80 = \mathbf{\text{R\$ } 1.267,20}$</p>
                     </div>
+                </div>
+
+                <!-- SIMULADOR FÍSICO (no-print) -->
+                <div class="simulator-box bg-slate-100 p-5 rounded-xl border border-slate-300 space-y-4 no-print">
+                    <div class="flex items-center gap-2 text-slate-900 font-bold text-sm uppercase tracking-wider">
+                        <i data-lucide="sliders" class="w-4 h-4 text-cyan-600"></i> Simulador Interativo: Consumo Elétrico & Refrigeração BTU
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                        <div>
+                            <label class="block font-semibold mb-1">Tensão (Volts):</label>
+                            <input type="number" id="sim-fis-volts" value="220" class="w-full p-2 rounded border border-slate-300 font-mono">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-1">Corrente (Amperes):</label>
+                            <input type="number" id="sim-fis-amp" value="5" class="w-full p-2 rounded border border-slate-300 font-mono">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-1">Horas por dia:</label>
+                            <input type="number" id="sim-fis-horas" value="8" class="w-full p-2 rounded border border-slate-300 font-mono">
+                        </div>
+                    </div>
+                    <button onclick="simularFisica()" class="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-2 rounded text-xs transition">Calcular Potência e Refrigeração</button>
+                    <div id="sim-fis-res" class="text-xs font-mono bg-white p-3 rounded border border-slate-200 hidden"></div>
                 </div>
             </div>
 
-            <!-- Conteúdo da Aba: QUÍMICA -->
-            <div id="tab-quimica" class="tab-content hidden bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
-                <div class="flex items-center gap-3 text-emerald-600 font-bold text-xl border-b pb-3 border-slate-100">
-                    <i data-lucide="flask-conical" class="w-6 h-6"></i>
-                    <h3>Química: Soluções, Concentração Molar e Biossegurança Sanitária</h3>
+            <!-- =====================================
+                 CONTEÚDO DA ABA: QUÍMICA
+            ====================================== -->
+            <div id="tab-quimica" class="tab-content hidden bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-8">
+                <div class="flex items-center gap-3 text-emerald-600 font-bold text-2xl border-b pb-3 border-slate-100">
+                    <i data-lucide="flask-conical" class="w-7 h-7"></i>
+                    <h3>Química: Concentração, Diluição, Estequiometria e E-Lixo</h3>
                 </div>
 
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="space-y-4">
-                        <h4 class="font-semibold text-slate-900 text-lg flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                            Concentração Comum e Molaridade na Higienização
-                        </h4>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            No setor de Segurança do Trabalho e Serviços Gerais (RH/ADM), a manipulação de produtos saneantes e antissépticos requer compreensão exata das concentrações aquosas.
-                        </p>
-                        <div class="bg-emerald-50/60 border border-emerald-200 p-4 rounded-xl text-xs sm:text-sm text-emerald-950 space-y-2 font-mono">
-                            <p><strong>Concentração Comum (g/L):</strong> C = m / V</p>
-                            <p><strong>Concentração Molar (mol/L):</strong> M = n / V = m / (M_M · V)</p>
-                            <p><strong>Diluição de Soluções:</strong> C₁ · V₁ = C₂ · V₂</p>
+                <!-- Tópico 3.1 -->
+                <div class="space-y-4">
+                    <h4 class="font-bold text-slate-900 text-lg flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                        3.1 Concentrações de Soluções e Diluição Sanitária Corporativa
+                    </h4>
+                    <p class="text-sm text-slate-700 leading-relaxed">
+                        A biossegurança no ambiente de trabalho exige a preparação rigorosa de soluções desinfetantes. As fórmulas mais importantes cobradas nos exames são:
+                    </p>
+
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-emerald-50/60 border border-emerald-200 p-4 rounded-xl text-xs space-y-1">
+                            <span class="font-bold text-emerald-950 block">Concentração Comum ($C$):</span>
+                            <div class="p-2 bg-white rounded border text-center">$$C = \frac{m_{\text{soluto}}}{V_{\text{solução}}}$$</div>
+                        </div>
+                        <div class="bg-emerald-50/60 border border-emerald-200 p-4 rounded-xl text-xs space-y-1">
+                            <span class="font-bold text-emerald-950 block">Molaridade ($M$):</span>
+                            <div class="p-2 bg-white rounded border text-center">$$M = \frac{m}{M_M \cdot V}$$</div>
+                        </div>
+                        <div class="bg-emerald-50/60 border border-emerald-200 p-4 rounded-xl text-xs space-y-1">
+                            <span class="font-bold text-emerald-950 block">Equação da Diluição:</span>
+                            <div class="p-2 bg-white rounded border text-center">$$C_1 \cdot V_1 = C_2 \cdot V_2$$</div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="space-y-4">
-                        <h4 class="font-semibold text-slate-900 text-lg flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                            Estequiometria e Neutralização de Efluentes
-                        </h4>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            Empresas de TI e indústrias geram resíduos que necessitam de descarte adequado (como ácido de baterias de no-breaks). A reação de <strong>neutralização ácido-base</strong> garante a redução do impacto ambiental.
-                        </p>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            Ácido + Base → Sal + Água (ex: H₂SO₄ + 2 NaOH → Na₂SO₄ + 2 H₂O).
-                        </p>
+                <!-- Tópico 3.2 -->
+                <div class="space-y-4 border-t pt-6 border-slate-100">
+                    <h4 class="font-bold text-slate-900 text-lg flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                        3.2 Reações de Oxirredução em Pilhas de Lítio (E-Lixo)
+                    </h4>
+                    <p class="text-sm text-slate-700 leading-relaxed">
+                        Baterias de Íon-Lítio em notebooks funcionam por transferência de elétrons (redox). No descarte inadequado, causam poluição por metais pesados:
+                    </p>
+                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl text-xs sm:text-sm font-mono space-y-2 text-center">
+                        <p>$$\text{Anodo (Oxidação): } \text{LiC}_6 \longrightarrow \text{Li}^+ + e^- + 6\text{C}$$</p>
+                        <p>$$\text{Catodo (Redução): } \text{CoO}_2 + \text{Li}^+ + e^- \longrightarrow \text{LiCoO}_2$$</p>
                     </div>
                 </div>
 
@@ -307,65 +439,74 @@
                         <i data-lucide="lightbulb" class="w-4 h-4"></i> Exemplo Prático Resolvido (FUVEST)
                     </div>
                     <p class="text-sm text-slate-200">
-                        Para desinfecção de teclados e bancadas de um laboratório de TI, foi preparada uma solução aquosa contendo 46 g de etanol (C₂H₆O, M_M = 46 g/mol) dissolvidos em água até o volume de 2 Litros. Qual é a concentração molar da solução?
+                        Um setor de higienização possui $V_1 = 1 \text{ L}$ de sanitizante concentrado a $C_1 = 100 \text{ g/L}$. Qual o volume de água a ser adicionado para diluir a solução até $C_2 = 5 \text{ g/L}$?
                     </p>
-                    <div class="bg-slate-800/80 p-4 rounded-lg font-mono text-xs sm:text-sm space-y-1 text-slate-300">
-                        <p><strong>Resolução:</strong></p>
-                        <p>1º passo (mols de soluto): n = m / M_M = 46 g / (46 g/mol) = 1 mol de C₂H₆O</p>
-                        <p>2º passo (Molaridade): M = n / V = 1 mol / 2 L = <strong>0,5 mol/L</strong></p>
+                    <div class="bg-slate-800/80 p-4 rounded-lg text-xs sm:text-sm space-y-3 text-slate-300">
+                        <p><strong>1. Calculando o Volume Final $V_2$:</strong></p>
+                        <p>$$C_1 \cdot V_1 = C_2 \cdot V_2 \implies 100 \cdot 1 = 5 \cdot V_2 \implies V_2 = \frac{100}{5} = 20 \text{ Litros}$$</p>
+                        <p><strong>2. Adição de Água:</strong> $V_{\text{água}} = V_2 - V_1 = 20 - 1 = \mathbf{19 \text{ Litros de água}}$</p>
                     </div>
+                </div>
+
+                <!-- SIMULADOR QUÍMICO (no-print) -->
+                <div class="simulator-box bg-slate-100 p-5 rounded-xl border border-slate-300 space-y-4 no-print">
+                    <div class="flex items-center gap-2 text-slate-900 font-bold text-sm uppercase tracking-wider">
+                        <i data-lucide="sliders" class="w-4 h-4 text-emerald-600"></i> Simulador Interativo: Calculadora de Diluição de Sanitizantes
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                        <div>
+                            <label class="block font-semibold mb-1">Concentração Inicial C₁ (g/L):</label>
+                            <input type="number" id="sim-qui-c1" value="100" class="w-full p-2 rounded border border-slate-300 font-mono">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-1">Volume Inicial V₁ (L):</label>
+                            <input type="number" id="sim-qui-v1" value="2" class="w-full p-2 rounded border border-slate-300 font-mono">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-1">Concentração Desejada C₂ (g/L):</label>
+                            <input type="number" id="sim-qui-c2" value="10" class="w-full p-2 rounded border border-slate-300 font-mono">
+                        </div>
+                    </div>
+                    <button onclick="simularQuimica()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded text-xs transition">Calcular Volume Final e Adição</button>
+                    <div id="sim-qui-res" class="text-xs font-mono bg-white p-3 rounded border border-slate-200 hidden"></div>
                 </div>
             </div>
 
-            <!-- Conteúdo da Aba: BIOLOGIA -->
-            <div id="tab-biologia" class="tab-content hidden bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
-                <div class="flex items-center gap-3 text-rose-600 font-bold text-xl border-b pb-3 border-slate-100">
-                    <i data-lucide="dna" class="w-6 h-6"></i>
-                    <h3>Biologia: Fisiologia Humana, Ergonomia e ESG Corporativo</h3>
+            <!-- =====================================
+                 CONTEÚDO DA ABA: BIOLOGIA
+            ====================================== -->
+            <div id="tab-biologia" class="tab-content hidden bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-8">
+                <div class="flex items-center gap-3 text-rose-600 font-bold text-2xl border-b pb-3 border-slate-100">
+                    <i data-lucide="dna" class="w-7 h-7"></i>
+                    <h3>Biologia: Ergonomia, Neurobiologia do Estresse e ESG Corporativo</h3>
                 </div>
 
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="space-y-4">
-                        <h4 class="font-semibold text-slate-900 text-lg flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-rose-500"></span>
-                            Fisiologia Muscular e Prevenção de LER/DORT (RH)
-                        </h4>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            Em Recursos Humanos, a promoção da saúde ocupacional combate as <strong>Lesões por Esforços Repetitivos (LER)</strong> e os <strong>Distúrbios Osteomusculares Relacionados ao Trabalho (DORT)</strong>.
-                        </p>
-                        <div class="bg-rose-50/60 border border-rose-200 p-4 rounded-xl text-xs sm:text-sm text-rose-950 space-y-2">
-                            <span class="font-bold block">Aspecto Fisiológico:</span>
-                            <p class="text-xs text-rose-900">
-                                A manutenção prolongada de postura estática (ex: digitar sem apoio nos braços) comprime os vasos sanguíneos musculares. Em falta de O₂, a célula muscular realiza <strong>fermentação láctica</strong>, resultando no acúmulo de ácido láctico e dor muscular.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="space-y-4">
-                        <h4 class="font-semibold text-slate-900 text-lg flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-rose-500"></span>
-                            Ecologia, Ciclo do Carbono e ESG em Administração
-                        </h4>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            A governança corporativa moderna adota diretrizes <strong>ESG (Environmental, Social, and Governance)</strong>. No aspecto ambiental, empresas medem sua "pegada de carbono" (emissão de CO₂).
-                        </p>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            A neutralização de carbono é alcançada através da **fotossíntese** executada por áreas reflorestadas: <code class="bg-slate-100 px-1 py-0.5 rounded">6 CO₂ + 6 H₂O + luz → C₆H₁₂O₆ + 6 O₂</code>.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Exemplo Prático Resolvido -->
-                <div class="bg-slate-900 text-white p-6 rounded-xl space-y-3">
-                    <div class="flex items-center gap-2 text-rose-400 font-bold text-sm uppercase tracking-wider">
-                        <i data-lucide="lightbulb" class="w-4 h-4"></i> Exemplo Prático Resolvido (Provão Paulista)
-                    </div>
-                    <p class="text-sm text-slate-200">
-                        Por que o departamento de RH orienta pausas ativas e ginástica laboral a cada 1 hora para funcionários de digitação contínua?
+                <!-- Tópico 4.1 -->
+                <div class="space-y-4">
+                    <h4 class="font-bold text-slate-900 text-lg flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                        4.1 Fisiologia Muscular, Biomecânica da Coluna e Ergonomia (LER/DORT)
+                    </h4>
+                    <p class="text-sm text-slate-700 leading-relaxed">
+                        A estase muscular estática reduz a perfusão de $O_2$ nos tecidos. Na ausência do aceptor final de elétrons, a célula muscular realiza <strong>Fermentação Láctica</strong> para continuar gerando ATP emergencial:
                     </p>
-                    <div class="bg-slate-800/80 p-4 rounded-lg font-mono text-xs sm:text-sm space-y-1 text-slate-300">
-                        <p><strong>Resolução:</strong></p>
-                        <p>A pausa restaura o fluxo sanguíneo muscular, oxigenando o tecido e interrompendo a via metabólica da fermentação láctica, o que previne a fadiga muscular precoce e o desenvolvimento de DORT.</p>
+
+                    <div class="p-4 bg-rose-50/60 border border-rose-200 rounded-xl text-center text-rose-950">
+                        $$\text{C}_6\text{H}_{12}\text{O}_6 \xrightarrow{\text{Via Anaeróbica}} 2 \text{ C}_3\text{H}_5\text{O}_3^- (\text{Lactato}) + 2 \text{ H}^+ + 2 \text{ ATP}$$
+                    </div>
+                </div>
+
+                <!-- Tópico 4.2 -->
+                <div class="space-y-4 border-t pt-6 border-slate-100">
+                    <h4 class="font-bold text-slate-900 text-lg flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                        4.2 ESG e a Equação Geral da Fotossíntese na Neutralização de Carbono
+                    </h4>
+                    <p class="text-sm text-slate-700 leading-relaxed">
+                        No comitê ESG, o plantio compensatório de árvores baseia-se na fixação autotrófica do dióxido de carbono orgânico:
+                    </p>
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl text-center">
+                        $$6\text{ CO}_2 + 6\text{ H}_2\text{O} \xrightarrow{\text{Luz / Clorofila}} \text{C}_6\text{H}_{12}\text{O}_6 + 6\text{ O}_2$$
                     </div>
                 </div>
             </div>
@@ -373,20 +514,22 @@
 
         <hr class="border-slate-200 no-print">
 
-        <!-- SEÇÃO: TESTE 1 (1º ANO) -->
+        <!-- =====================================
+             SEÇÃO: TESTE 1 (1º ANO)
+        ====================================== -->
         <section id="teste1" class="space-y-6 page-break">
-            <div class="bg-slate-900 text-white p-6 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div class="bg-slate-900 text-white p-6 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-lg">
                 <div>
-                    <span class="inline-block bg-indigo-500/30 text-indigo-300 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-2">Simulado Nível Inicial</span>
+                    <span class="inline-block bg-indigo-500/30 text-indigo-300 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-2">Simulado Nível Inicial (1º Ano)</span>
                     <h2 class="text-xl sm:text-2xl font-bold flex items-center gap-2">
                         <i data-lucide="file-text" class="w-6 h-6 text-indigo-400"></i>
-                        Teste 1: 1º Ano do Ensino Médio / Técnico
+                        Avaliação Diagnóstica 1: Provão Paulista & FUVEST
                     </h2>
-                    <p class="text-xs sm:text-sm text-slate-300">4 Questões Objetivas com correção instantânea e pontuação.</p>
+                    <p class="text-xs sm:text-sm text-slate-300">6 Questões Inéditas Contextualizadas em Gestão & TI.</p>
                 </div>
                 <div class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-xl font-mono text-sm text-right">
                     <span class="text-slate-400 text-xs block">Sua Pontuação</span>
-                    <span id="score-t1" class="font-bold text-lg text-emerald-400">0 / 4</span>
+                    <span id="score-t1" class="font-bold text-lg text-emerald-400">0 / 6</span>
                 </div>
             </div>
 
@@ -395,28 +538,28 @@
                 <!-- Q1 Matemática -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4" id="card-t1-q1">
                     <div class="flex items-center justify-between border-b pb-2">
-                        <span class="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full uppercase">Matemática | RH</span>
+                        <span class="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full uppercase">Matemática | Média Ponderada</span>
                         <span class="text-xs text-slate-400 font-mono">Questão 1</span>
                     </div>
                     <p class="font-medium text-slate-900 text-sm sm:text-base">
-                        Uma empresa com 100 colaboradores avaliou a satisfação dos funcionários em 3 setores: Administração (20 colaboradores, nota média 8,0), Atendimento (50 colaboradores, nota média 5,0) e TI (30 colaboradores, nota média 9,0). Qual é a nota média ponderada de satisfação da empresa inteira?
+                        O departamento de RH avaliou a satisfação das equipes: Comercial ($40$ funcionários, nota $6,0$), Operações ($50$ funcionários, nota $8,0$) e Diretoria ($10$ funcionários, nota $9,0$). A nota média ponderada geral $\bar{x}_p$ é:
                     </p>
                     <div class="space-y-2 text-sm">
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t1_q1" value="A" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
-                            <span>a) 6,5</span>
+                            <input type="radio" name="t1_q1" value="A" class="h-4 w-4 text-indigo-600">
+                            <span>a) 7,0</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t1_q1" value="B" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
-                            <span>b) 6,8</span>
+                            <input type="radio" name="t1_q1" value="B" class="h-4 w-4 text-indigo-600">
+                            <span>b) 7,3</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t1_q1" value="C" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
-                            <span>c) 7,3</span>
+                            <input type="radio" name="t1_q1" value="C" class="h-4 w-4 text-indigo-600">
+                            <span>c) 7,5</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t1_q1" value="D" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
-                            <span>d) 7,5</span>
+                            <input type="radio" name="t1_q1" value="D" class="h-4 w-4 text-indigo-600">
+                            <span>d) 7,8</span>
                         </label>
                     </div>
                     <div id="feedback-t1-q1" class="hidden p-4 rounded-xl text-xs sm:text-sm font-mono mt-3"></div>
@@ -425,28 +568,28 @@
                 <!-- Q2 Física -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4" id="card-t1-q2">
                     <div class="flex items-center justify-between border-b pb-2">
-                        <span class="text-xs font-bold text-cyan-700 bg-cyan-100 px-2.5 py-1 rounded-full uppercase">Física | Informática</span>
+                        <span class="text-xs font-bold text-cyan-700 bg-cyan-100 px-2.5 py-1 rounded-full uppercase">Física | Consumo Energético</span>
                         <span class="text-xs text-slate-400 font-mono">Questão 2</span>
                     </div>
                     <p class="font-medium text-slate-900 text-sm sm:text-base">
-                        Um computador do setor de RH opera ligado a uma tomada de 220 V absorvendo uma corrente elétrica de 1,5 A. Se este computador permanecer ligado por 10 horas durante a jornada de trabalho, qual o consumo de energia em kWh nesse dia?
+                        Um laboratório possui $20$ computadores operando com potência $P = 300 \text{ W}$ cada. Se funcionam $8 \text{ h/dia}$ durante $20 \text{ dias}$ no mês, o consumo mensal em $\text{kWh}$ é:
                     </p>
                     <div class="space-y-2 text-sm">
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t1_q2" value="A" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
-                            <span>a) 1,50 kWh</span>
+                            <input type="radio" name="t1_q2" value="A" class="h-4 w-4 text-indigo-600">
+                            <span>a) 480 kWh</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t1_q2" value="B" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
-                            <span>c) 3,30 kWh</span>
+                            <input type="radio" name="t1_q2" value="B" class="h-4 w-4 text-indigo-600">
+                            <span>b) 960 kWh</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t1_q2" value="C" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
-                            <span>c) 4,80 kWh</span>
+                            <input type="radio" name="t1_q2" value="C" class="h-4 w-4 text-indigo-600">
+                            <span>c) 1.200 kWh</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t1_q2" value="D" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
-                            <span>d) 33,0 kWh</span>
+                            <input type="radio" name="t1_q2" value="D" class="h-4 w-4 text-indigo-600">
+                            <span>d) 9.600 kWh</span>
                         </label>
                     </div>
                     <div id="feedback-t1-q2" class="hidden p-4 rounded-xl text-xs sm:text-sm font-mono mt-3"></div>
@@ -455,28 +598,28 @@
                 <!-- Q3 Química -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4" id="card-t1-q3">
                     <div class="flex items-center justify-between border-b pb-2">
-                        <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full uppercase">Química | Biossegurança</span>
+                        <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full uppercase">Química | Concentração Comum</span>
                         <span class="text-xs text-slate-400 font-mono">Questão 3</span>
                     </div>
                     <p class="font-medium text-slate-900 text-sm sm:text-base">
-                        Para a higienização dos equipamentos de um escritório, dissolveu-se 20 gramas de hipoclorito de sódio em água até atingir o volume final de 500 mL. Qual é a concentração comum (C) dessa solução desinfetante em g/L?
+                        Um desinfetante foi preparado dissolvendo-se $m = 300 \text{ g}$ do soluto em água até atingir $V = 1,5 \text{ L}$. A concentração comum $C$ dessa solução é:
                     </p>
                     <div class="space-y-2 text-sm">
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t1_q3" value="A" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
-                            <span>a) 10 g/L</span>
+                            <input type="radio" name="t1_q3" value="A" class="h-4 w-4 text-indigo-600">
+                            <span>a) 150 g/L</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t1_q3" value="B" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
-                            <span>b) 20 g/L</span>
+                            <input type="radio" name="t1_q3" value="B" class="h-4 w-4 text-indigo-600">
+                            <span>b) 200 g/L</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t1_q3" value="C" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
-                            <span>c) 40 g/L</span>
+                            <input type="radio" name="t1_q3" value="C" class="h-4 w-4 text-indigo-600">
+                            <span>c) 300 g/L</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t1_q3" value="D" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
-                            <span>d) 100 g/L</span>
+                            <input type="radio" name="t1_q3" value="D" class="h-4 w-4 text-indigo-600">
+                            <span>d) 450 g/L</span>
                         </label>
                     </div>
                     <div id="feedback-t1-q3" class="hidden p-4 rounded-xl text-xs sm:text-sm font-mono mt-3"></div>
@@ -485,37 +628,97 @@
                 <!-- Q4 Biologia -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4" id="card-t1-q4">
                     <div class="flex items-center justify-between border-b pb-2">
-                        <span class="text-xs font-bold text-rose-700 bg-rose-100 px-2.5 py-1 rounded-full uppercase">Biologia | Ergonomia</span>
+                        <span class="text-xs font-bold text-rose-700 bg-rose-100 px-2.5 py-1 rounded-full uppercase">Biologia | Ergonomia & Fisiologia</span>
                         <span class="text-xs text-slate-400 font-mono">Questão 4</span>
                     </div>
                     <p class="font-medium text-slate-900 text-sm sm:text-base">
-                        Funcionários administrativos que passam horas seguidas mantendo a musculatura dos braços tensionada sem apoio adequado costumam reclamar de fadiga e dores. Fisiologicamente, essa dor muscular localizada deve-se ao acúmulo de qual substância?
+                        Durante longas jornadas sem suporte biomecânico, as células musculares sofrem hipóxia e produzem ATP emergencial via anaeróbica. Esse processo fisiológico é chamado de:
                     </p>
                     <div class="space-y-2 text-sm">
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t1_q4" value="A" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
-                            <span>a) Ácido Úrico decorrente do catabolismo protéico.</span>
+                            <input type="radio" name="t1_q4" value="A" class="h-4 w-4 text-indigo-600">
+                            <span>a) Fermentação Láctica.</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t1_q4" value="B" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
-                            <span>b) Ácido Láctico acumulado por fermentação no tecido muscular.</span>
+                            <input type="radio" name="t1_q4" value="B" class="h-4 w-4 text-indigo-600">
+                            <span>b) Respiração Aeróbica Mitocondrial.</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t1_q4" value="C" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
-                            <span>c) Glicose não metabolizada no fígado.</span>
+                            <input type="radio" name="t1_q4" value="C" class="h-4 w-4 text-indigo-600">
+                            <span>c) Glicogenólise Hepática.</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t1_q4" value="D" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
-                            <span>d) Ureia em excesso na corrente sanguínea.</span>
+                            <input type="radio" name="t1_q4" value="D" class="h-4 w-4 text-indigo-600">
+                            <span>d) Ciclo de Krebs sem Acetil-CoA.</span>
                         </label>
                     </div>
                     <div id="feedback-t1-q4" class="hidden p-4 rounded-xl text-xs sm:text-sm font-mono mt-3"></div>
                 </div>
 
+                <!-- Q5 Matemática 2 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4" id="card-t1-q5">
+                    <div class="flex items-center justify-between border-b pb-2">
+                        <span class="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full uppercase">Matemática | Depreciação Linear</span>
+                        <span class="text-xs text-slate-400 font-mono">Questão 5</span>
+                    </div>
+                    <p class="font-medium text-slate-900 text-sm sm:text-base">
+                        Um lote de equipamentos custou $V_0 = \text{R\$ } 12.000,00$. Sabendo que a depreciação linear é de $d = \text{R\$ } 1.500,00\text{/ano}$, após quantos anos o valor contábil será $V(t) = \text{R\$ } 3.000,00$?
+                    </p>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q5" value="A" class="h-4 w-4 text-indigo-600">
+                            <span>a) 4 anos</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q5" value="B" class="h-4 w-4 text-indigo-600">
+                            <span>b) 5 anos</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q5" value="C" class="h-4 w-4 text-indigo-600">
+                            <span>c) 6 anos</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q5" value="D" class="h-4 w-4 text-indigo-600">
+                            <span>d) 8 anos</span>
+                        </label>
+                    </div>
+                    <div id="feedback-t1-q5" class="hidden p-4 rounded-xl text-xs sm:text-sm font-mono mt-3"></div>
+                </div>
+
+                <!-- Q6 Física 2 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4" id="card-t1-q6">
+                    <div class="flex items-center justify-between border-b pb-2">
+                        <span class="text-xs font-bold text-cyan-700 bg-cyan-100 px-2.5 py-1 rounded-full uppercase">Física | Primeira Lei de Ohm</span>
+                        <span class="text-xs text-slate-400 font-mono">Questão 6</span>
+                    </div>
+                    <p class="font-medium text-slate-900 text-sm sm:text-base">
+                        Um no-break operando em uma rede elétrica de $U = 110 \text{ V}$ possui resistência interna equivalente de $R = 22 \ \Omega$. A corrente elétrica $i$ percorrida é:
+                    </p>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q6" value="A" class="h-4 w-4 text-indigo-600">
+                            <span>a) 2 A</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q6" value="B" class="h-4 w-4 text-indigo-600">
+                            <span>b) 5 A</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q6" value="C" class="h-4 w-4 text-indigo-600">
+                            <span>c) 10 A</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q6" value="D" class="h-4 w-4 text-indigo-600">
+                            <span>d) 22 A</span>
+                        </label>
+                    </div>
+                    <div id="feedback-t1-q6" class="hidden p-4 rounded-xl text-xs sm:text-sm font-mono mt-3"></div>
+                </div>
+
                 <div class="flex justify-end no-print">
                     <button type="button" onclick="calcularTeste1()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md flex items-center gap-2">
                         <i data-lucide="check-circle-2" class="w-5 h-5"></i>
-                        Corrigir Teste 1
+                        Corrigir Teste 1 (6 Questões)
                     </button>
                 </div>
             </form>
@@ -523,20 +726,22 @@
 
         <hr class="border-slate-200 no-print">
 
-        <!-- SEÇÃO: TESTE 2 (2º ANO) -->
+        <!-- =====================================
+             SEÇÃO: TESTE 2 (2º ANO)
+        ====================================== -->
         <section id="teste2" class="space-y-6 page-break">
-            <div class="bg-slate-900 text-white p-6 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div class="bg-slate-900 text-white p-6 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-lg">
                 <div>
-                    <span class="inline-block bg-purple-500/30 text-purple-300 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-2">Simulado Nível Avançado</span>
+                    <span class="inline-block bg-purple-500/30 text-purple-300 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-2">Simulado Nível Avançado (2º Ano)</span>
                     <h2 class="text-xl sm:text-2xl font-bold flex items-center gap-2">
                         <i data-lucide="file-check" class="w-6 h-6 text-purple-400"></i>
-                        Teste 2: 2º Ano do Ensino Médio / Técnico
+                        Avaliação Diagnóstica 2: Provão Paulista & FUVEST
                     </h2>
-                    <p class="text-xs sm:text-sm text-slate-300">4 Questões Objetivas com cálculo aprofundado e resolução.</p>
+                    <p class="text-xs sm:text-sm text-slate-300">6 Questões Inéditas com Cálculo e Aprofundamento Teórico.</p>
                 </div>
                 <div class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-xl font-mono text-sm text-right">
                     <span class="text-slate-400 text-xs block">Sua Pontuação</span>
-                    <span id="score-t2" class="font-bold text-lg text-emerald-400">0 / 4</span>
+                    <span id="score-t2" class="font-bold text-lg text-emerald-400">0 / 6</span>
                 </div>
             </div>
 
@@ -545,28 +750,28 @@
                 <!-- Q1 Matemática -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4" id="card-t2-q1">
                     <div class="flex items-center justify-between border-b pb-2">
-                        <span class="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full uppercase">Matemática | Funções & RH</span>
+                        <span class="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full uppercase">Matemática | Funções Exponenciais</span>
                         <span class="text-xs text-slate-400 font-mono">Questão 1</span>
                     </div>
                     <p class="font-medium text-slate-900 text-sm sm:text-base">
-                        Um relatório de desempenho de treinamento do RH determinou que a pontuação média N obtida por um colaborador em função do número de semanas t de treinamento segue a função linear: <code class="bg-slate-100 px-2 py-1 rounded">N(t) = 1,5t + 2,0</code>. Quantas semanas são necessárias para o funcionário atingir a nota máxima N = 9,5?
+                        O número de acessos a um sistema cresce segundo $P(t) = 800 \cdot 2^{0,5t}$, com $t$ em meses. Quantos meses são necessários para que $P(t) = 6.400$?
                     </p>
                     <div class="space-y-2 text-sm">
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t2_q1" value="A" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
-                            <span>a) 4 semanas</span>
+                            <input type="radio" name="t2_q1" value="A" class="h-4 w-4 text-purple-600">
+                            <span>a) 4 meses</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t2_q1" value="B" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
-                            <span>b) 5 semanas</span>
+                            <input type="radio" name="t2_q1" value="B" class="h-4 w-4 text-purple-600">
+                            <span>b) 6 meses</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t2_q1" value="C" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
-                            <span>c) 6 semanas</span>
+                            <input type="radio" name="t2_q1" value="C" class="h-4 w-4 text-purple-600">
+                            <span>c) 8 meses</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t2_q1" value="D" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
-                            <span>d) 7 semanas</span>
+                            <input type="radio" name="t2_q1" value="D" class="h-4 w-4 text-purple-600">
+                            <span>d) 10 meses</span>
                         </label>
                     </div>
                     <div id="feedback-t2-q1" class="hidden p-4 rounded-xl text-xs sm:text-sm font-mono mt-3"></div>
@@ -579,24 +784,24 @@
                         <span class="text-xs text-slate-400 font-mono">Questão 2</span>
                     </div>
                     <p class="font-medium text-slate-900 text-sm sm:text-base">
-                        Um ar-condicionado de precisão para sala de servidores retira 12.000 J de calor (Q_fria) do ambiente interno a cada segundo, consumindo 4.000 J de trabalho elétrico (W) do compressor. Qual é a quantidade de calor total (Q_quente) rejeitada para o meio externo a cada segundo?
+                        Um refrigerador transfere $Q_1 = 15.000 \text{ J}$ de calor da fonte fria a cada ciclo, recebendo $W = 5.000 \text{ J}$ de trabalho elétrico. O Coeficiente de Performance ($\text{COP} = Q_1 / W$) é:
                     </p>
                     <div class="space-y-2 text-sm">
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t2_q2" value="A" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
-                            <span>a) 8.000 J</span>
+                            <input type="radio" name="t2_q2" value="A" class="h-4 w-4 text-purple-600">
+                            <span>a) 2,0</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t2_q2" value="B" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
-                            <span>b) 12.000 J</span>
+                            <input type="radio" name="t2_q2" value="B" class="h-4 w-4 text-purple-600">
+                            <span>b) 3,0</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t2_q2" value="C" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
-                            <span>c) 16.000 J</span>
+                            <input type="radio" name="t2_q2" value="C" class="h-4 w-4 text-purple-600">
+                            <span>c) 4,0</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t2_q2" value="D" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
-                            <span>d) 24.000 J</span>
+                            <input type="radio" name="t2_q2" value="D" class="h-4 w-4 text-purple-600">
+                            <span>d) 5,0</span>
                         </label>
                     </div>
                     <div id="feedback-t2-q2" class="hidden p-4 rounded-xl text-xs sm:text-sm font-mono mt-3"></div>
@@ -605,28 +810,28 @@
                 <!-- Q3 Química -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4" id="card-t2-q3">
                     <div class="flex items-center justify-between border-b pb-2">
-                        <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full uppercase">Química | Estequiometria & TI</span>
+                        <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full uppercase">Química | Molaridade</span>
                         <span class="text-xs text-slate-400 font-mono">Questão 3</span>
                     </div>
                     <p class="font-medium text-slate-900 text-sm sm:text-base">
-                        No descarte seguro de eletrônicos, o vazamento de ácido sulfúrico (H₂SO₄) de baterias de no-breaks é neutralizado com hidróxido de sódio (NaOH) conforme a reação: <code class="bg-slate-100 px-1 py-0.5 rounded">H₂SO₄ + 2 NaOH → Na₂SO₄ + 2 H₂O</code>. Para neutralizar totalmente 2 mols de H₂SO₄, qual a massa necessária de NaOH (Massa Molar = 40 g/mol)?
+                        Para desinfecção de componentes, dissolveu-se $m = 92 \text{ g}$ de etanol ($\text{C}_2\text{H}_6\text{O}$, $M_M = 46 \text{ g/mol}$) em água até completar $V = 4 \text{ L}$. A molaridade $M$ da solução é:
                     </p>
                     <div class="space-y-2 text-sm">
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t2_q3" value="A" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
-                            <span>a) 80 g</span>
+                            <input type="radio" name="t2_q3" value="A" class="h-4 w-4 text-purple-600">
+                            <span>a) 0,25 mol/L</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t2_q3" value="B" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
-                            <span>b) 120 g</span>
+                            <input type="radio" name="t2_q3" value="B" class="h-4 w-4 text-purple-600">
+                            <span>b) 0,50 mol/L</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t2_q3" value="C" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
-                            <span>c) 160 g</span>
+                            <input type="radio" name="t2_q3" value="C" class="h-4 w-4 text-purple-600">
+                            <span>c) 1,00 mol/L</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t2_q3" value="D" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
-                            <span>d) 200 g</span>
+                            <input type="radio" name="t2_q3" value="D" class="h-4 w-4 text-purple-600">
+                            <span>d) 2,00 mol/L</span>
                         </label>
                     </div>
                     <div id="feedback-t2-q3" class="hidden p-4 rounded-xl text-xs sm:text-sm font-mono mt-3"></div>
@@ -635,37 +840,97 @@
                 <!-- Q4 Biologia -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4" id="card-t2-q4">
                     <div class="flex items-center justify-between border-b pb-2">
-                        <span class="text-xs font-bold text-rose-700 bg-rose-100 px-2.5 py-1 rounded-full uppercase">Biologia | ESG Corporativo</span>
+                        <span class="text-xs font-bold text-rose-700 bg-rose-100 px-2.5 py-1 rounded-full uppercase">Biologia | Neurobiologia do Estresse</span>
                         <span class="text-xs text-slate-400 font-mono">Questão 4</span>
                     </div>
                     <p class="font-medium text-slate-900 text-sm sm:text-base">
-                        Como parte do projeto sustentável (ESG) de uma empresa de logística, o comitê de gestão adquiriu créditos de carbono baseados em projetos de reflorestamento. Qual o processo biológico responsável pela captura e fixação direta do carbono atmosférico na biomassa vegetal?
+                        Em quadros de esgotamento de estresse no trabalho (Burnout), a ativação do Eixo HPA estimula o córtex adrenal a secretar em excesso qual hormônio?
                     </p>
                     <div class="space-y-2 text-sm">
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t2_q4" value="A" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
-                            <span>a) Respiração Celular Mitocondrial</span>
+                            <input type="radio" name="t2_q4" value="A" class="h-4 w-4 text-purple-600">
+                            <span>a) Insulina</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t2_q4" value="B" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
-                            <span>b) Fotossíntese</span>
+                            <input type="radio" name="t2_q4" value="B" class="h-4 w-4 text-purple-600">
+                            <span>b) Cortisol</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t2_q4" value="C" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
-                            <span>c) Transpiração Estomática</span>
+                            <input type="radio" name="t2_q4" value="C" class="h-4 w-4 text-purple-600">
+                            <span>c) Melatonina</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="t2_q4" value="D" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
-                            <span>d) Decomposição Aeróbica</span>
+                            <input type="radio" name="t2_q4" value="D" class="h-4 w-4 text-purple-600">
+                            <span>d) Tiroxina (T4)</span>
                         </label>
                     </div>
                     <div id="feedback-t2-q4" class="hidden p-4 rounded-xl text-xs sm:text-sm font-mono mt-3"></div>
                 </div>
 
+                <!-- Q5 Química 2 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4" id="card-t2-q5">
+                    <div class="flex items-center justify-between border-b pb-2">
+                        <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full uppercase">Química | Diluição</span>
+                        <span class="text-xs text-slate-400 font-mono">Questão 5</span>
+                    </div>
+                    <p class="font-medium text-slate-900 text-sm sm:text-base">
+                        Deseja-se preparar $V_2 = 500 \text{ mL}$ de solução a $C_2 = 2 \text{ g/L}$ a partir de frasco concentrado $C_1 = 10 \text{ g/L}$. O volume $V_1$ retirado do frasco concentrado deve ser:
+                    </p>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q5" value="A" class="h-4 w-4 text-purple-600">
+                            <span>a) 50 mL</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q5" value="B" class="h-4 w-4 text-purple-600">
+                            <span>b) 100 mL</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q5" value="C" class="h-4 w-4 text-purple-600">
+                            <span>c) 150 mL</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q5" value="D" class="h-4 w-4 text-purple-600">
+                            <span>d) 200 mL</span>
+                        </label>
+                    </div>
+                    <div id="feedback-t2-q5" class="hidden p-4 rounded-xl text-xs sm:text-sm font-mono mt-3"></div>
+                </div>
+
+                <!-- Q6 Matemática 2 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4" id="card-t2-q6">
+                    <div class="flex items-center justify-between border-b pb-2">
+                        <span class="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full uppercase">Matemática | Juros Compostos</span>
+                        <span class="text-xs text-slate-400 font-mono">Questão 6</span>
+                    </div>
+                    <p class="font-medium text-slate-900 text-sm sm:text-base">
+                        Um capital de $C_0 = \text{R\$ } 10.000,00$ rendeu juros compostos de $i = 20\%$ ao ano. O montante final ao término de $t = 2$ anos é:
+                    </p>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q6" value="A" class="h-4 w-4 text-purple-600">
+                            <span>a) R$ 12.000,00</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q6" value="B" class="h-4 w-4 text-purple-600">
+                            <span>b) R$ 14.000,00</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q6" value="C" class="h-4 w-4 text-purple-600">
+                            <span>c) R$ 14.400,00</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q6" value="D" class="h-4 w-4 text-purple-600">
+                            <span>d) R$ 16.000,00</span>
+                        </label>
+                    </div>
+                    <div id="feedback-t2-q6" class="hidden p-4 rounded-xl text-xs sm:text-sm font-mono mt-3"></div>
+                </div>
+
                 <div class="flex justify-end no-print">
                     <button type="button" onclick="calcularTeste2()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md flex items-center gap-2">
                         <i data-lucide="check-circle-2" class="w-5 h-5"></i>
-                        Corrigir Teste 2
+                        Corrigir Teste 2 (6 Questões)
                     </button>
                 </div>
             </form>
@@ -685,6 +950,29 @@
         // Inicializar Lucide Icons
         lucide.createIcons();
 
+        // Renderizar Fórmulas TeX/LaTeX via KaTeX no carregamento do DOM
+        document.addEventListener("DOMContentLoaded", function() {
+            renderKaTeX();
+        });
+
+        function renderKaTeX(container = document.body) {
+            if (window.renderMathInElement) {
+                renderMathInElement(container, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        // Rolagem Suave
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
         // Lógica de Troca de Abas da Aula
         function switchTab(tabId) {
             const tabs = ['matematica', 'fisica', 'quimica', 'biologia'];
@@ -697,6 +985,7 @@
                     content.classList.remove('hidden');
                     btn.classList.add('border-indigo-600', 'text-indigo-600', 'bg-white');
                     btn.classList.remove('border-transparent', 'text-slate-600', 'bg-slate-100');
+                    renderKaTeX(content); // Re-renderiza KaTeX na aba exibida
                 } else {
                     content.classList.add('hidden');
                     btn.classList.remove('border-indigo-600', 'text-indigo-600', 'bg-white');
@@ -705,43 +994,73 @@
             });
         }
 
-        // Lógica de Correção do Teste 1 (1º Ano)
-        function calcularTeste1() {
-            const respostasGabarito = {
-                t1_q1: { ans: 'B', expl: 'Correto! M_p = [(20×8) + (50×5) + (30×9)] / 100 = (160 + 250 + 270) / 100 = 680 / 100 = 6,8.' },
-                t1_q2: { ans: 'B', expl: 'Correto! P = 220 V × 1,5 A = 330 W = 0,33 kW. Consumo = 0,33 kW × 10 h = 3,30 kWh.' },
-                t1_q3: { ans: 'C', expl: 'Correto! Volume = 500 mL = 0,5 L. C = 20 g / 0,5 L = 40 g/L.' },
-                t1_q4: { ans: 'B', expl: 'Correto! A contração contínua diminui a irrigação de O₂, forçando o músculo a realizar fermentação láctica.' }
-            };
+        // --- SIMULADORES INTERATIVOS ---
+        function simularMatematica() {
+            const V0 = parseFloat(document.getElementById('sim-mat-val').value) || 0;
+            const i = (parseFloat(document.getElementById('sim-mat-taxa').value) || 0) / 100;
+            const t = parseFloat(document.getElementById('sim-mat-tempo').value) || 0;
 
-            let pontos = 0;
+            const jurosCompostos = V0 * Math.pow(1 + i, t);
+            const depreLinear = Math.max(0, V0 - (V0 * i * t));
 
-            for (let q in respostasGabarito) {
-                const selected = document.querySelector(`input[name="${q}"]:checked`);
-                const feedbackEl = document.getElementById(`feedback-${q}`);
-                feedbackEl.classList.remove('hidden', 'bg-emerald-50', 'bg-rose-50', 'text-emerald-900', 'text-rose-900', 'border-emerald-200', 'border-rose-200');
-                feedbackEl.classList.add('border');
-
-                if (selected && selected.value === respostasGabarito[q].ans) {
-                    pontos++;
-                    feedbackEl.classList.add('bg-emerald-50', 'text-emerald-900', 'border-emerald-200');
-                    feedbackEl.innerHTML = `<strong>✓ Resposta Correta!</strong> ${respostasGabarito[q].expl}`;
-                } else {
-                    feedbackEl.classList.add('bg-rose-50', 'text-rose-900', 'border-rose-200');
-                    feedbackEl.innerHTML = `<strong>✗ Resposta Incorreta.</strong> A opção correta é a letra <strong>${respostasGabarito[q].ans}</strong>. ${respostasGabarito[q].expl}`;
-                }
-            }
-
-            document.getElementById('score-t1').innerText = `${pontos} / 4`;
+            const res = document.getElementById('sim-mat-res');
+            res.classList.remove('hidden');
+            res.innerHTML = `
+                <p class="text-emerald-700 font-bold">1. Montante Investido (Juros Compostos): R$ ${jurosCompostos.toFixed(2)}</p>
+                <p class="text-rose-700 font-bold">2. Valor do Equipamento (Depreciação): R$ ${depreLinear.toFixed(2)}</p>
+                <p class="text-slate-800 pt-1">Diferença de Patrimônio: <strong>R$ ${(jurosCompostos - depreLinear).toFixed(2)}</strong></p>
+            `;
         }
 
-        // Lógica de Correção do Teste 2 (2º Ano)
-        function calcularTeste2() {
+        function simularFisica() {
+            const U = parseFloat(document.getElementById('sim-fis-volts').value) || 0;
+            const i = parseFloat(document.getElementById('sim-fis-amp').value) || 0;
+            const h = parseFloat(document.getElementById('sim-fis-horas').value) || 0;
+
+            const P_watts = U * i;
+            const P_kw = P_watts / 1000;
+            const kWh_dia = P_kw * h;
+            const btu_necessario = P_watts * 3.412;
+
+            const res = document.getElementById('sim-fis-res');
+            res.classList.remove('hidden');
+            res.innerHTML = `
+                <p class="text-cyan-800 font-bold">Potência Elétrica: ${P_watts} W (${P_kw.toFixed(2)} kW)</p>
+                <p class="text-slate-800">Consumo Diário: <strong>${kWh_dia.toFixed(2)} kWh/dia</strong></p>
+                <p class="text-amber-700">Carga Térmica Requerida p/ Refrigeração: <strong>~${Math.round(btu_necessario)} BTU/h</strong></p>
+            `;
+        }
+
+        function simularQuimica() {
+            const C1 = parseFloat(document.getElementById('sim-qui-c1').value) || 0;
+            const V1 = parseFloat(document.getElementById('sim-qui-v1').value) || 0;
+            const C2 = parseFloat(document.getElementById('sim-qui-c2').value) || 0;
+
+            if (C2 >= C1 || C2 <= 0) {
+                alert('A concentração desejada (C2) deve ser menor que a concentração inicial (C1).');
+                return;
+            }
+
+            const V2 = (C1 * V1) / C2;
+            const V_agua = V2 - V1;
+
+            const res = document.getElementById('sim-qui-res');
+            res.classList.remove('hidden');
+            res.innerHTML = `
+                <p class="text-emerald-800 font-bold">Volume Final da Solução (V₂): ${V2.toFixed(2)} Litros</p>
+                <p class="text-indigo-800 font-bold">Volume de Água a Adicionar: ${V_agua.toFixed(2)} Litros</p>
+            `;
+        }
+
+        // --- CORREÇÃO DOS TESTES ---
+        function calcularTeste1() {
             const respostasGabarito = {
-                t2_q1: { ans: 'B', expl: 'Correto! 1,5t + 2,0 = 9,5 ⇒ 1,5t = 7,5 ⇒ t = 5 semanas.' },
-                t2_q2: { ans: 'C', expl: 'Correto! Conservação de energia: Q_quente = Q_fria + W = 12.000 J + 4.000 J = 16.000 J.' },
-                t2_q3: { ans: 'C', expl: 'Correto! Pela estequiometria (1 mol H₂SO₄ : 2 mol NaOH), 2 mols de ácido requerem 4 mols de NaOH. Massa = 4 × 40 g/mol = 160 g.' },
-                t2_q4: { ans: 'B', expl: 'Correto! A fotossíntese absorve CO₂ da atmosfera e sintetiza glicose/biomassa vegetal.' }
+                t1_q1: { ans: 'B', expl: '$\\bar{x}_p = \\frac{(40 \\cdot 6) + (50 \\cdot 8) + (10 \\cdot 9)}{100} = \\frac{730}{100} = 7,3$.' },
+                t1_q2: { ans: 'B', expl: '$P = 20 \\cdot 300 \\text{ W} = 6 \\text{ kW}$. Tempo $= 8 \\cdot 20 = 160 \\text{ h}$. Consumo $E = 6 \\cdot 160 = 960 \\text{ kWh}$.' },
+                t1_q3: { ans: 'B', expl: '$C = \\frac{m}{V} = \\frac{300 \\text{ g}}{1,5 \\text{ L}} = 200 \\text{ g/L}$.' },
+                t1_q4: { ans: 'A', expl: 'A carência de $O_2$ direciona o tecido muscular para a fermentação láctica.' },
+                t1_q5: { ans: 'C', expl: 'Redução $= 12.000 - 3.000 = 9.000$. Anos $t = \\frac{9.000}{1.500} = 6 \\text{ anos}$.' },
+                t1_q6: { ans: 'B', expl: '$U = R \\cdot i \\implies 110 = 22 \\cdot i \\implies i = 5 \\text{ A}$.' }
             };
 
             let pontos = 0;
@@ -755,14 +1074,47 @@
                 if (selected && selected.value === respostasGabarito[q].ans) {
                     pontos++;
                     feedbackEl.classList.add('bg-emerald-50', 'text-emerald-900', 'border-emerald-200');
-                    feedbackEl.innerHTML = `<strong>✓ Resposta Correta!</strong> ${respostasGabarito[q].expl}`;
+                    feedbackEl.innerHTML = `<strong>✓ Correto!</strong> ${respostasGabarito[q].expl}`;
                 } else {
                     feedbackEl.classList.add('bg-rose-50', 'text-rose-900', 'border-rose-200');
-                    feedbackEl.innerHTML = `<strong>✗ Resposta Incorreta.</strong> A opção correta é a letra <strong>${respostasGabarito[q].ans}</strong>. ${respostasGabarito[q].expl}`;
+                    feedbackEl.innerHTML = `<strong>✗ Incorreto.</strong> A resposta certa é a alternativa <strong>${respostasGabarito[q].ans}</strong>. ${respostasGabarito[q].expl}`;
                 }
+                renderKaTeX(feedbackEl);
             }
 
-            document.getElementById('score-t2').innerText = `${pontos} / 4`;
+            document.getElementById('score-t1').innerText = `${pontos} / 6`;
+        }
+
+        function calcularTeste2() {
+            const respostasGabarito = {
+                t2_q1: { ans: 'B', expl: '$6.400 = 800 \\cdot 2^{0,5t} \\implies 8 = 2^{0,5t} \\implies 2^3 = 2^{0,5t} \\implies 0,5t = 3 \\implies t = 6 \\text{ meses}$.' },
+                t2_q2: { ans: 'B', expl: '$\\text{COP} = \\frac{Q_1}{W} = \\frac{15.000}{5.000} = 3,0$.' },
+                t2_q3: { ans: 'B', expl: '$n = \\frac{92}{46} = 2 \\text{ mols}$. Molaridade $M = \\frac{2 \\text{ mols}}{4 \\text{ L}} = 0,50 \\text{ mol/L}$.' },
+                t2_q4: { ans: 'B', expl: 'O estresse crônico estimula a liberação contínua de Cortisol pelo Eixo HPA.' },
+                t2_q5: { ans: 'B', expl: '$C_1 \\cdot V_1 = C_2 \\cdot V_2 \\implies 10 \\cdot V_1 = 2 \\cdot 500 \\implies V_1 = 100 \\text{ mL}$.' },
+                t2_q6: { ans: 'C', expl: '$M = C_0 \\cdot (1 + i)^t = 10.000 \\cdot (1 + 0,20)^2 = 10.000 \\cdot 1,44 = \\text{R\$ } 14.400,00$.' }
+            };
+
+            let pontos = 0;
+
+            for (let q in respostasGabarito) {
+                const selected = document.querySelector(`input[name="${q}"]:checked`);
+                const feedbackEl = document.getElementById(`feedback-${q}`);
+                feedbackEl.classList.remove('hidden', 'bg-emerald-50', 'bg-rose-50', 'text-emerald-900', 'text-rose-900', 'border-emerald-200', 'border-rose-200');
+                feedbackEl.classList.add('border');
+
+                if (selected && selected.value === respostasGabarito[q].ans) {
+                    pontos++;
+                    feedbackEl.classList.add('bg-emerald-50', 'text-emerald-900', 'border-emerald-200');
+                    feedbackEl.innerHTML = `<strong>✓ Correto!</strong> ${respostasGabarito[q].expl}`;
+                } else {
+                    feedbackEl.classList.add('bg-rose-50', 'text-rose-900', 'border-rose-200');
+                    feedbackEl.innerHTML = `<strong>✗ Incorreto.</strong> A resposta certa é a alternativa <strong>${respostasGabarito[q].ans}</strong>. ${respostasGabarito[q].expl}`;
+                }
+                renderKaTeX(feedbackEl);
+            }
+
+            document.getElementById('score-t2').innerText = `${pontos} / 6`;
         }
     </script>
 </body>
