@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Aula Preparatória — Provão Paulista & FUVEST (STEM + Gestão & TI)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Estilização otimizada para Exportação/Impressão em PDF */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: white !important;
+                color: black !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .print-container {
+                max-width: 100% !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+            }
+            .page-break {
+                page-break-before: always;
+                break-before: page;
+            }
+            .tab-content {
+                display: block !important;
+                opacity: 1 !important;
+            }
+            .accordion-content {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-50 bg-slate-900/95 backdrop-blur border-b border-slate-800 text-white no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-indigo-600 rounded-lg">
+                    <i data-lucide="graduation-cap" class="w-6 h-6 text-white"></i>
+                </div>
+                <div>
+                    <span class="font-bold text-lg leading-tight block">Provão Paulista & FUVEST</span>
+                    <span class="text-xs text-indigo-400 font-medium">STEM + Administração, RH e TI</span>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-3">
+                <button onclick="window.print()" class="flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors shadow-sm">
+                    <i data-lucide="printer" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">Exportar / Imprimir PDF</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Banner Principal / Hero -->
+    <section class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white py-12 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto text-center sm:text-left flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="max-w-3xl space-y-4">
+                <div class="inline-flex items-center space-x-2 bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
+                    <i data-lucide="book-open-check" class="w-3.5 h-3.5"></i>
+                    <span>Super Aula Interdisciplinar Integrada</span>
+                </div>
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
+                    Preparatório Exatas & Natureza Aplicadas à Gestão
+                </h1>
+                <p class="text-slate-300 text-base sm:text-lg">
+                    Domine os conteúdos mais cobrados da <strong>FUVEST</strong> e do <strong>Provão Paulista</strong> integrando conceitos de <em>Matemática, Física, Química e Biologia</em> com cenários práticos de <strong>Administração, RH e Informática</strong>.
+                </p>
+            </div>
+            
+            <!-- Card de Navegação Rápida -->
+            <div class="w-full md:w-auto bg-slate-800/80 backdrop-blur p-5 rounded-2xl border border-slate-700/60 shadow-xl no-print">
+                <div class="text-sm font-semibold text-slate-300 mb-3 flex items-center gap-2">
+                    <i data-lucide="compass" class="w-4 h-4 text-indigo-400"></i>
+                    Navegação Rápida
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-xs font-medium">
+                    <a href="#aula" onclick="switchTab('matematica')" class="p-2.5 bg-slate-700/60 hover:bg-indigo-600/80 rounded-lg flex items-center gap-2 transition">
+                        <i data-lucide="calculator" class="w-4 h-4 text-amber-400"></i> Matemática
+                    </a>
+                    <a href="#aula" onclick="switchTab('fisica')" class="p-2.5 bg-slate-700/60 hover:bg-indigo-600/80 rounded-lg flex items-center gap-2 transition">
+                        <i data-lucide="zap" class="w-4 h-4 text-cyan-400"></i> Física
+                    </a>
+                    <a href="#aula" onclick="switchTab('quimica')" class="p-2.5 bg-slate-700/60 hover:bg-indigo-600/80 rounded-lg flex items-center gap-2 transition">
+                        <i data-lucide="flask-conical" class="w-4 h-4 text-emerald-400"></i> Química
+                    </a>
+                    <a href="#aula" onclick="switchTab('biologia')" class="p-2.5 bg-slate-700/60 hover:bg-indigo-600/80 rounded-lg flex items-center gap-2 transition">
+                        <i data-lucide="dna" class="w-4 h-4 text-rose-400"></i> Biologia
+                    </a>
+                    <a href="#teste1" class="col-span-2 p-2.5 bg-indigo-600 hover:bg-indigo-500 rounded-lg flex items-center justify-center gap-2 text-white font-semibold transition mt-1">
+                        <i data-lucide="file-check-2" class="w-4 h-4"></i> Ir para os Testes (1º e 2º Ano)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12 print-container">
+
+        <!-- SEÇÃO: SUPER AULA -->
+        <section id="aula" class="space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 pb-4">
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3">
+                        <i data-lucide="book-open" class="w-8 h-8 text-indigo-600"></i>
+                        Super Aula Teórico-Prática
+                    </h2>
+                    <p class="text-sm text-slate-500 mt-1">Selecione as disciplinas abaixo para explorar o conteúdo teórico contextualizado.</p>
+                </div>
+            </div>
+
+            <!-- Abas da Aula (no-print) -->
+            <div class="flex flex-wrap gap-2 border-b border-slate-200 no-print" id="tab-buttons">
+                <button onclick="switchTab('matematica')" id="tab-btn-matematica" class="tab-btn px-5 py-3 rounded-t-xl font-semibold text-sm flex items-center gap-2 transition border-b-2 border-indigo-600 text-indigo-600 bg-white">
+                    <i data-lucide="calculator" class="w-4 h-4"></i> Matemática
+                </button>
+                <button onclick="switchTab('fisica')" id="tab-btn-fisica" class="tab-btn px-5 py-3 rounded-t-xl font-semibold text-sm flex items-center gap-2 transition border-b-2 border-transparent text-slate-600 hover:text-slate-900 bg-slate-100">
+                    <i data-lucide="zap" class="w-4 h-4"></i> Física
+                </button>
+                <button onclick="switchTab('quimica')" id="tab-btn-quimica" class="tab-btn px-5 py-3 rounded-t-xl font-semibold text-sm flex items-center gap-2 transition border-b-2 border-transparent text-slate-600 hover:text-slate-900 bg-slate-100">
+                    <i data-lucide="flask-conical" class="w-4 h-4"></i> Química
+                </button>
+                <button onclick="switchTab('biologia')" id="tab-btn-biologia" class="tab-btn px-5 py-3 rounded-t-xl font-semibold text-sm flex items-center gap-2 transition border-b-2 border-transparent text-slate-600 hover:text-slate-900 bg-slate-100">
+                    <i data-lucide="dna" class="w-4 h-4"></i> Biologia
+                </button>
+            </div>
+
+            <!-- Conteúdo da Aba: MATEMÁTICA -->
+            <div id="tab-matematica" class="tab-content bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <div class="flex items-center gap-3 text-amber-600 font-bold text-xl border-b pb-3 border-slate-100">
+                    <i data-lucide="calculator" class="w-6 h-6"></i>
+                    <h3>Matemática: Estatística, Porcentagem e Matemática Financeira</h3>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <h4 class="font-semibold text-slate-900 text-lg flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                            Estatística Aplicada a RH: Média Ponderada & Turnover
+                        </h4>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            No vestibular da FUVEST e no Provão Paulista, problemas de estatística cobram frecuentemente a interpretação de tabelas de frequência e cálculo de <strong>média aritmética ponderada</strong>.
+                        </p>
+                        <div class="bg-amber-50/60 border border-amber-200 p-4 rounded-xl text-xs sm:text-sm text-amber-900 space-y-2">
+                            <span class="font-bold block text-amber-950">Fórmula da Média Ponderada:</span>
+                            <code class="block bg-white p-2 rounded border border-amber-200 font-mono text-center">
+                                M_p = (x₁·w₁ + x₂·w₂ + ... + xₙ·wₙ) / (w₁ + w₂ + ... + wₙ)
+                            </code>
+                            <p class="text-xs text-amber-800">Onde <em>x</em> representa o valor da variável (ex: nota de desempenho) e <em>w</em> o peso/frequência (ex: quantidade de colaboradores do setor).</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h4 class="font-semibold text-slate-900 text-lg flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                            Matemática Financeira & Depreciação de Ativos de TI
+                        </h4>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Em Administração e Informática, a compra de equipamentos exige o cálculo de juros compostos e <strong>depreciação de ativos</strong>.
+                        </p>
+                        <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl text-xs sm:text-sm space-y-2">
+                            <p class="font-semibold text-slate-800">Equação de Juros Compostos / Montante:</p>
+                            <code class="block bg-white p-2 rounded border border-slate-200 font-mono text-center text-indigo-700">
+                                M = C · (1 + i)ᵗ
+                            </code>
+                            <p class="font-semibold text-slate-800 pt-1">Depreciação Percentual Sucessiva:</p>
+                            <code class="block bg-white p-2 rounded border border-slate-200 font-mono text-center text-rose-700">
+                                V = V₀ · (1 - i)ᵗ
+                            </code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exemplo Prático Resolvido -->
+                <div class="bg-slate-900 text-white p-6 rounded-xl space-y-3">
+                    <div class="flex items-center gap-2 text-amber-400 font-bold text-sm uppercase tracking-wider">
+                        <i data-lucide="lightbulb" class="w-4 h-4"></i> Exemplo Prático Resolvido (Estilo FUVEST)
+                    </div>
+                    <p class="text-sm text-slate-200">
+                        Um departamento de TI adquiriu um servidor por R$ 20.000,00. Estimou-se que o equipamento sofrerá uma depreciação anual de 10% sobre o valor acumulado. Qual será o valor do servidor após 2 anos?
+                    </p>
+                    <div class="bg-slate-800/80 p-4 rounded-lg font-mono text-xs sm:text-sm space-y-1 text-slate-300">
+                        <p><strong>Resolução:</strong></p>
+                        <p>V₀ = 20.000 | i = 10% = 0,10 | t = 2 anos</p>
+                        <p>V = 20.000 · (1 - 0,10)²</p>
+                        <p>V = 20.000 · (0,90)² = 20.000 · 0,81 = <strong>R$ 16.200,00</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conteúdo da Aba: FÍSICA -->
+            <div id="tab-fisica" class="tab-content hidden bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <div class="flex items-center gap-3 text-cyan-600 font-bold text-xl border-b pb-3 border-slate-100">
+                    <i data-lucide="zap" class="w-6 h-6"></i>
+                    <h3>Física: Eletrodinâmica, Potência Elétrica e Efeito Joule</h3>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <h4 class="font-semibold text-slate-900 text-lg flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-cyan-500"></span>
+                            Potência Elétrica & Consumo Energético em Escritórios
+                        </h4>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            No dimensionamento de redes de TI e infraestrutura corporativa, deve-se calcular o consumo em kWh para controle de custos e prevenção de sobrecarga em disjuntores.
+                        </p>
+                        <div class="bg-cyan-50/60 border border-cyan-200 p-4 rounded-xl text-xs sm:text-sm text-cyan-900 space-y-2">
+                            <span class="font-bold block">Fórmulas Essenciais de Eletrodinâmica:</span>
+                            <ul class="list-disc list-inside space-y-1 font-mono text-xs">
+                                <li>Potência: P = U · i (Tensão × Corrente)</li>
+                                <li>Energia (kWh): E = P (em kW) · Δt (em horas)</li>
+                                <li>Resistência (Lei de Ohm): U = R · i</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h4 class="font-semibold text-slate-900 text-lg flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-cyan-500"></span>
+                            Efeito Joule & Climatização de Data Centers
+                        </h4>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            O <strong>Efeito Joule</strong> ocorre quando a passagem de corrente elétrica gera dissipação de energia térmica (calor): <strong>P = R · i²</strong>.
+                        </p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Em salas de servidores de TI, a dissipated térmica constante exige ar-condicionado de alta potência, exigindo do gestor o cálculo da carga térmica total.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Exemplo Prático Resolvido -->
+                <div class="bg-slate-900 text-white p-6 rounded-xl space-y-3">
+                    <div class="flex items-center gap-2 text-cyan-400 font-bold text-sm uppercase tracking-wider">
+                        <i data-lucide="lightbulb" class="w-4 h-4"></i> Exemplo Prático Resolvido (Provão Paulista)
+                    </div>
+                    <p class="text-sm text-slate-200">
+                        Um setor administrativo opera 15 computadores (200 W cada) e 1 ar-condicionado (3000 W) durante 8 horas diárias de expediente. Qual é o consumo diário em kWh desse setor?
+                    </p>
+                    <div class="bg-slate-800/80 p-4 rounded-lg font-mono text-xs sm:text-sm space-y-1 text-slate-300">
+                        <p><strong>Resolução:</strong></p>
+                        <p>P_comp = 15 × 200 W = 3.000 W = 3 kW</p>
+                        <p>P_ar = 3.000 W = 3 kW ⇒ Potência Total = 3 kW + 3 kW = 6 kW</p>
+                        <p>E = P · Δt = 6 kW × 8 h = <strong>48 kWh/dia</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conteúdo da Aba: QUÍMICA -->
+            <div id="tab-quimica" class="tab-content hidden bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <div class="flex items-center gap-3 text-emerald-600 font-bold text-xl border-b pb-3 border-slate-100">
+                    <i data-lucide="flask-conical" class="w-6 h-6"></i>
+                    <h3>Química: Soluções, Concentração Molar e Biossegurança Sanitária</h3>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <h4 class="font-semibold text-slate-900 text-lg flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                            Concentração Comum e Molaridade na Higienização
+                        </h4>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            No setor de Segurança do Trabalho e Serviços Gerais (RH/ADM), a manipulação de produtos saneantes e antissépticos requer compreensão exata das concentrações aquosas.
+                        </p>
+                        <div class="bg-emerald-50/60 border border-emerald-200 p-4 rounded-xl text-xs sm:text-sm text-emerald-950 space-y-2 font-mono">
+                            <p><strong>Concentração Comum (g/L):</strong> C = m / V</p>
+                            <p><strong>Concentração Molar (mol/L):</strong> M = n / V = m / (M_M · V)</p>
+                            <p><strong>Diluição de Soluções:</strong> C₁ · V₁ = C₂ · V₂</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h4 class="font-semibold text-slate-900 text-lg flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                            Estequiometria e Neutralização de Efluentes
+                        </h4>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Empresas de TI e indústrias geram resíduos que necessitam de descarte adequado (como ácido de baterias de no-breaks). A reação de <strong>neutralização ácido-base</strong> garante a redução do impacto ambiental.
+                        </p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Ácido + Base → Sal + Água (ex: H₂SO₄ + 2 NaOH → Na₂SO₄ + 2 H₂O).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Exemplo Prático Resolvido -->
+                <div class="bg-slate-900 text-white p-6 rounded-xl space-y-3">
+                    <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm uppercase tracking-wider">
+                        <i data-lucide="lightbulb" class="w-4 h-4"></i> Exemplo Prático Resolvido (FUVEST)
+                    </div>
+                    <p class="text-sm text-slate-200">
+                        Para desinfecção de teclados e bancadas de um laboratório de TI, foi preparada uma solução aquosa contendo 46 g de etanol (C₂H₆O, M_M = 46 g/mol) dissolvidos em água até o volume de 2 Litros. Qual é a concentração molar da solução?
+                    </p>
+                    <div class="bg-slate-800/80 p-4 rounded-lg font-mono text-xs sm:text-sm space-y-1 text-slate-300">
+                        <p><strong>Resolução:</strong></p>
+                        <p>1º passo (mols de soluto): n = m / M_M = 46 g / (46 g/mol) = 1 mol de C₂H₆O</p>
+                        <p>2º passo (Molaridade): M = n / V = 1 mol / 2 L = <strong>0,5 mol/L</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conteúdo da Aba: BIOLOGIA -->
+            <div id="tab-biologia" class="tab-content hidden bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <div class="flex items-center gap-3 text-rose-600 font-bold text-xl border-b pb-3 border-slate-100">
+                    <i data-lucide="dna" class="w-6 h-6"></i>
+                    <h3>Biologia: Fisiologia Humana, Ergonomia e ESG Corporativo</h3>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <h4 class="font-semibold text-slate-900 text-lg flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                            Fisiologia Muscular e Prevenção de LER/DORT (RH)
+                        </h4>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Em Recursos Humanos, a promoção da saúde ocupacional combate as <strong>Lesões por Esforços Repetitivos (LER)</strong> e os <strong>Distúrbios Osteomusculares Relacionados ao Trabalho (DORT)</strong>.
+                        </p>
+                        <div class="bg-rose-50/60 border border-rose-200 p-4 rounded-xl text-xs sm:text-sm text-rose-950 space-y-2">
+                            <span class="font-bold block">Aspecto Fisiológico:</span>
+                            <p class="text-xs text-rose-900">
+                                A manutenção prolongada de postura estática (ex: digitar sem apoio nos braços) comprime os vasos sanguíneos musculares. Em falta de O₂, a célula muscular realiza <strong>fermentação láctica</strong>, resultando no acúmulo de ácido láctico e dor muscular.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h4 class="font-semibold text-slate-900 text-lg flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                            Ecologia, Ciclo do Carbono e ESG em Administração
+                        </h4>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            A governança corporativa moderna adota diretrizes <strong>ESG (Environmental, Social, and Governance)</strong>. No aspecto ambiental, empresas medem sua "pegada de carbono" (emissão de CO₂).
+                        </p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            A neutralização de carbono é alcançada através da **fotossíntese** executada por áreas reflorestadas: <code class="bg-slate-100 px-1 py-0.5 rounded">6 CO₂ + 6 H₂O + luz → C₆H₁₂O₆ + 6 O₂</code>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Exemplo Prático Resolvido -->
+                <div class="bg-slate-900 text-white p-6 rounded-xl space-y-3">
+                    <div class="flex items-center gap-2 text-rose-400 font-bold text-sm uppercase tracking-wider">
+                        <i data-lucide="lightbulb" class="w-4 h-4"></i> Exemplo Prático Resolvido (Provão Paulista)
+                    </div>
+                    <p class="text-sm text-slate-200">
+                        Por que o departamento de RH orienta pausas ativas e ginástica laboral a cada 1 hora para funcionários de digitação contínua?
+                    </p>
+                    <div class="bg-slate-800/80 p-4 rounded-lg font-mono text-xs sm:text-sm space-y-1 text-slate-300">
+                        <p><strong>Resolução:</strong></p>
+                        <p>A pausa restaura o fluxo sanguíneo muscular, oxigenando o tecido e interrompendo a via metabólica da fermentação láctica, o que previne a fadiga muscular precoce e o desenvolvimento de DORT.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-slate-200 no-print">
+
+        <!-- SEÇÃO: TESTE 1 (1º ANO) -->
+        <section id="teste1" class="space-y-6 page-break">
+            <div class="bg-slate-900 text-white p-6 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <span class="inline-block bg-indigo-500/30 text-indigo-300 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-2">Simulado Nível Inicial</span>
+                    <h2 class="text-xl sm:text-2xl font-bold flex items-center gap-2">
+                        <i data-lucide="file-text" class="w-6 h-6 text-indigo-400"></i>
+                        Teste 1: 1º Ano do Ensino Médio / Técnico
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-300">4 Questões Objetivas com correção instantânea e pontuação.</p>
+                </div>
+                <div class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-xl font-mono text-sm text-right">
+                    <span class="text-slate-400 text-xs block">Sua Pontuação</span>
+                    <span id="score-t1" class="font-bold text-lg text-emerald-400">0 / 4</span>
+                </div>
+            </div>
+
+            <!-- Form do Teste 1 -->
+            <form id="form-t1" class="space-y-6">
+                <!-- Q1 Matemática -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4" id="card-t1-q1">
+                    <div class="flex items-center justify-between border-b pb-2">
+                        <span class="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full uppercase">Matemática | RH</span>
+                        <span class="text-xs text-slate-400 font-mono">Questão 1</span>
+                    </div>
+                    <p class="font-medium text-slate-900 text-sm sm:text-base">
+                        Uma empresa com 100 colaboradores avaliou a satisfação dos funcionários em 3 setores: Administração (20 colaboradores, nota média 8,0), Atendimento (50 colaboradores, nota média 5,0) e TI (30 colaboradores, nota média 9,0). Qual é a nota média ponderada de satisfação da empresa inteira?
+                    </p>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q1" value="A" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
+                            <span>a) 6,5</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q1" value="B" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
+                            <span>b) 6,8</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q1" value="C" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
+                            <span>c) 7,3</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q1" value="D" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
+                            <span>d) 7,5</span>
+                        </label>
+                    </div>
+                    <div id="feedback-t1-q1" class="hidden p-4 rounded-xl text-xs sm:text-sm font-mono mt-3"></div>
+                </div>
+
+                <!-- Q2 Física -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4" id="card-t1-q2">
+                    <div class="flex items-center justify-between border-b pb-2">
+                        <span class="text-xs font-bold text-cyan-700 bg-cyan-100 px-2.5 py-1 rounded-full uppercase">Física | Informática</span>
+                        <span class="text-xs text-slate-400 font-mono">Questão 2</span>
+                    </div>
+                    <p class="font-medium text-slate-900 text-sm sm:text-base">
+                        Um computador do setor de RH opera ligado a uma tomada de 220 V absorvendo uma corrente elétrica de 1,5 A. Se este computador permanecer ligado por 10 horas durante a jornada de trabalho, qual o consumo de energia em kWh nesse dia?
+                    </p>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q2" value="A" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
+                            <span>a) 1,50 kWh</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q2" value="B" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
+                            <span>c) 3,30 kWh</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q2" value="C" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
+                            <span>c) 4,80 kWh</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q2" value="D" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
+                            <span>d) 33,0 kWh</span>
+                        </label>
+                    </div>
+                    <div id="feedback-t1-q2" class="hidden p-4 rounded-xl text-xs sm:text-sm font-mono mt-3"></div>
+                </div>
+
+                <!-- Q3 Química -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4" id="card-t1-q3">
+                    <div class="flex items-center justify-between border-b pb-2">
+                        <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full uppercase">Química | Biossegurança</span>
+                        <span class="text-xs text-slate-400 font-mono">Questão 3</span>
+                    </div>
+                    <p class="font-medium text-slate-900 text-sm sm:text-base">
+                        Para a higienização dos equipamentos de um escritório, dissolveu-se 20 gramas de hipoclorito de sódio em água até atingir o volume final de 500 mL. Qual é a concentração comum (C) dessa solução desinfetante em g/L?
+                    </p>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q3" value="A" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
+                            <span>a) 10 g/L</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q3" value="B" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
+                            <span>b) 20 g/L</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q3" value="C" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
+                            <span>c) 40 g/L</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q3" value="D" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
+                            <span>d) 100 g/L</span>
+                        </label>
+                    </div>
+                    <div id="feedback-t1-q3" class="hidden p-4 rounded-xl text-xs sm:text-sm font-mono mt-3"></div>
+                </div>
+
+                <!-- Q4 Biologia -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4" id="card-t1-q4">
+                    <div class="flex items-center justify-between border-b pb-2">
+                        <span class="text-xs font-bold text-rose-700 bg-rose-100 px-2.5 py-1 rounded-full uppercase">Biologia | Ergonomia</span>
+                        <span class="text-xs text-slate-400 font-mono">Questão 4</span>
+                    </div>
+                    <p class="font-medium text-slate-900 text-sm sm:text-base">
+                        Funcionários administrativos que passam horas seguidas mantendo a musculatura dos braços tensionada sem apoio adequado costumam reclamar de fadiga e dores. Fisiologicamente, essa dor muscular localizada deve-se ao acúmulo de qual substância?
+                    </p>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q4" value="A" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
+                            <span>a) Ácido Úrico decorrente do catabolismo protéico.</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q4" value="B" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
+                            <span>b) Ácido Láctico acumulado por fermentação no tecido muscular.</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q4" value="C" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
+                            <span>c) Glicose não metabolizada no fígado.</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t1_q4" value="D" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
+                            <span>d) Ureia em excesso na corrente sanguínea.</span>
+                        </label>
+                    </div>
+                    <div id="feedback-t1-q4" class="hidden p-4 rounded-xl text-xs sm:text-sm font-mono mt-3"></div>
+                </div>
+
+                <div class="flex justify-end no-print">
+                    <button type="button" onclick="calcularTeste1()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md flex items-center gap-2">
+                        <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+                        Corrigir Teste 1
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <hr class="border-slate-200 no-print">
+
+        <!-- SEÇÃO: TESTE 2 (2º ANO) -->
+        <section id="teste2" class="space-y-6 page-break">
+            <div class="bg-slate-900 text-white p-6 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <span class="inline-block bg-purple-500/30 text-purple-300 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-2">Simulado Nível Avançado</span>
+                    <h2 class="text-xl sm:text-2xl font-bold flex items-center gap-2">
+                        <i data-lucide="file-check" class="w-6 h-6 text-purple-400"></i>
+                        Teste 2: 2º Ano do Ensino Médio / Técnico
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-300">4 Questões Objetivas com cálculo aprofundado e resolução.</p>
+                </div>
+                <div class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-xl font-mono text-sm text-right">
+                    <span class="text-slate-400 text-xs block">Sua Pontuação</span>
+                    <span id="score-t2" class="font-bold text-lg text-emerald-400">0 / 4</span>
+                </div>
+            </div>
+
+            <!-- Form do Teste 2 -->
+            <form id="form-t2" class="space-y-6">
+                <!-- Q1 Matemática -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4" id="card-t2-q1">
+                    <div class="flex items-center justify-between border-b pb-2">
+                        <span class="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full uppercase">Matemática | Funções & RH</span>
+                        <span class="text-xs text-slate-400 font-mono">Questão 1</span>
+                    </div>
+                    <p class="font-medium text-slate-900 text-sm sm:text-base">
+                        Um relatório de desempenho de treinamento do RH determinou que a pontuação média N obtida por um colaborador em função do número de semanas t de treinamento segue a função linear: <code class="bg-slate-100 px-2 py-1 rounded">N(t) = 1,5t + 2,0</code>. Quantas semanas são necessárias para o funcionário atingir a nota máxima N = 9,5?
+                    </p>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q1" value="A" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
+                            <span>a) 4 semanas</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q1" value="B" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
+                            <span>b) 5 semanas</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q1" value="C" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
+                            <span>c) 6 semanas</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q1" value="D" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
+                            <span>d) 7 semanas</span>
+                        </label>
+                    </div>
+                    <div id="feedback-t2-q1" class="hidden p-4 rounded-xl text-xs sm:text-sm font-mono mt-3"></div>
+                </div>
+
+                <!-- Q2 Física -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4" id="card-t2-q2">
+                    <div class="flex items-center justify-between border-b pb-2">
+                        <span class="text-xs font-bold text-cyan-700 bg-cyan-100 px-2.5 py-1 rounded-full uppercase">Física | Termodinâmica</span>
+                        <span class="text-xs text-slate-400 font-mono">Questão 2</span>
+                    </div>
+                    <p class="font-medium text-slate-900 text-sm sm:text-base">
+                        Um ar-condicionado de precisão para sala de servidores retira 12.000 J de calor (Q_fria) do ambiente interno a cada segundo, consumindo 4.000 J de trabalho elétrico (W) do compressor. Qual é a quantidade de calor total (Q_quente) rejeitada para o meio externo a cada segundo?
+                    </p>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q2" value="A" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
+                            <span>a) 8.000 J</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q2" value="B" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
+                            <span>b) 12.000 J</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q2" value="C" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
+                            <span>c) 16.000 J</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q2" value="D" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
+                            <span>d) 24.000 J</span>
+                        </label>
+                    </div>
+                    <div id="feedback-t2-q2" class="hidden p-4 rounded-xl text-xs sm:text-sm font-mono mt-3"></div>
+                </div>
+
+                <!-- Q3 Química -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4" id="card-t2-q3">
+                    <div class="flex items-center justify-between border-b pb-2">
+                        <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full uppercase">Química | Estequiometria & TI</span>
+                        <span class="text-xs text-slate-400 font-mono">Questão 3</span>
+                    </div>
+                    <p class="font-medium text-slate-900 text-sm sm:text-base">
+                        No descarte seguro de eletrônicos, o vazamento de ácido sulfúrico (H₂SO₄) de baterias de no-breaks é neutralizado com hidróxido de sódio (NaOH) conforme a reação: <code class="bg-slate-100 px-1 py-0.5 rounded">H₂SO₄ + 2 NaOH → Na₂SO₄ + 2 H₂O</code>. Para neutralizar totalmente 2 mols de H₂SO₄, qual a massa necessária de NaOH (Massa Molar = 40 g/mol)?
+                    </p>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q3" value="A" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
+                            <span>a) 80 g</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q3" value="B" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
+                            <span>b) 120 g</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q3" value="C" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
+                            <span>c) 160 g</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q3" value="D" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
+                            <span>d) 200 g</span>
+                        </label>
+                    </div>
+                    <div id="feedback-t2-q3" class="hidden p-4 rounded-xl text-xs sm:text-sm font-mono mt-3"></div>
+                </div>
+
+                <!-- Q4 Biologia -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4" id="card-t2-q4">
+                    <div class="flex items-center justify-between border-b pb-2">
+                        <span class="text-xs font-bold text-rose-700 bg-rose-100 px-2.5 py-1 rounded-full uppercase">Biologia | ESG Corporativo</span>
+                        <span class="text-xs text-slate-400 font-mono">Questão 4</span>
+                    </div>
+                    <p class="font-medium text-slate-900 text-sm sm:text-base">
+                        Como parte do projeto sustentável (ESG) de uma empresa de logística, o comitê de gestão adquiriu créditos de carbono baseados em projetos de reflorestamento. Qual o processo biológico responsável pela captura e fixação direta do carbono atmosférico na biomassa vegetal?
+                    </p>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q4" value="A" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
+                            <span>a) Respiração Celular Mitocondrial</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q4" value="B" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
+                            <span>b) Fotossíntese</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q4" value="C" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
+                            <span>c) Transpiração Estomática</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="radio" name="t2_q4" value="D" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
+                            <span>d) Decomposição Aeróbica</span>
+                        </label>
+                    </div>
+                    <div id="feedback-t2-q4" class="hidden p-4 rounded-xl text-xs sm:text-sm font-mono mt-3"></div>
+                </div>
+
+                <div class="flex justify-end no-print">
+                    <button type="button" onclick="calcularTeste2()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md flex items-center gap-2">
+                        <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+                        Corrigir Teste 2
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 mt-16 no-print">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs sm:text-sm space-y-2">
+            <p class="font-semibold text-slate-300">Material Preparatório Integrado — Provão Paulista & FUVEST</p>
+            <p>Conectando Ciências Exatas e da Natureza às habilitações técnicas de Administração, Recursos Humanos e Informática.</p>
+        </div>
+    </footer>
+
+    <!-- Lógica em JavaScript -->
+    <script>
+        // Inicializar Lucide Icons
+        lucide.createIcons();
+
+        // Lógica de Troca de Abas da Aula
+        function switchTab(tabId) {
+            const tabs = ['matematica', 'fisica', 'quimica', 'biologia'];
+            
+            tabs.forEach(id => {
+                const content = document.getElementById(`tab-${id}`);
+                const btn = document.getElementById(`tab-btn-${id}`);
+                
+                if (id === tabId) {
+                    content.classList.remove('hidden');
+                    btn.classList.add('border-indigo-600', 'text-indigo-600', 'bg-white');
+                    btn.classList.remove('border-transparent', 'text-slate-600', 'bg-slate-100');
+                } else {
+                    content.classList.add('hidden');
+                    btn.classList.remove('border-indigo-600', 'text-indigo-600', 'bg-white');
+                    btn.classList.add('border-transparent', 'text-slate-600', 'bg-slate-100');
+                }
+            });
+        }
+
+        // Lógica de Correção do Teste 1 (1º Ano)
+        function calcularTeste1() {
+            const respostasGabarito = {
+                t1_q1: { ans: 'B', expl: 'Correto! M_p = [(20×8) + (50×5) + (30×9)] / 100 = (160 + 250 + 270) / 100 = 680 / 100 = 6,8.' },
+                t1_q2: { ans: 'B', expl: 'Correto! P = 220 V × 1,5 A = 330 W = 0,33 kW. Consumo = 0,33 kW × 10 h = 3,30 kWh.' },
+                t1_q3: { ans: 'C', expl: 'Correto! Volume = 500 mL = 0,5 L. C = 20 g / 0,5 L = 40 g/L.' },
+                t1_q4: { ans: 'B', expl: 'Correto! A contração contínua diminui a irrigação de O₂, forçando o músculo a realizar fermentação láctica.' }
+            };
+
+            let pontos = 0;
+
+            for (let q in respostasGabarito) {
+                const selected = document.querySelector(`input[name="${q}"]:checked`);
+                const feedbackEl = document.getElementById(`feedback-${q}`);
+                feedbackEl.classList.remove('hidden', 'bg-emerald-50', 'bg-rose-50', 'text-emerald-900', 'text-rose-900', 'border-emerald-200', 'border-rose-200');
+                feedbackEl.classList.add('border');
+
+                if (selected && selected.value === respostasGabarito[q].ans) {
+                    pontos++;
+                    feedbackEl.classList.add('bg-emerald-50', 'text-emerald-900', 'border-emerald-200');
+                    feedbackEl.innerHTML = `<strong>✓ Resposta Correta!</strong> ${respostasGabarito[q].expl}`;
+                } else {
+                    feedbackEl.classList.add('bg-rose-50', 'text-rose-900', 'border-rose-200');
+                    feedbackEl.innerHTML = `<strong>✗ Resposta Incorreta.</strong> A opção correta é a letra <strong>${respostasGabarito[q].ans}</strong>. ${respostasGabarito[q].expl}`;
+                }
+            }
+
+            document.getElementById('score-t1').innerText = `${pontos} / 4`;
+        }
+
+        // Lógica de Correção do Teste 2 (2º Ano)
+        function calcularTeste2() {
+            const respostasGabarito = {
+                t2_q1: { ans: 'B', expl: 'Correto! 1,5t + 2,0 = 9,5 ⇒ 1,5t = 7,5 ⇒ t = 5 semanas.' },
+                t2_q2: { ans: 'C', expl: 'Correto! Conservação de energia: Q_quente = Q_fria + W = 12.000 J + 4.000 J = 16.000 J.' },
+                t2_q3: { ans: 'C', expl: 'Correto! Pela estequiometria (1 mol H₂SO₄ : 2 mol NaOH), 2 mols de ácido requerem 4 mols de NaOH. Massa = 4 × 40 g/mol = 160 g.' },
+                t2_q4: { ans: 'B', expl: 'Correto! A fotossíntese absorve CO₂ da atmosfera e sintetiza glicose/biomassa vegetal.' }
+            };
+
+            let pontos = 0;
+
+            for (let q in respostasGabarito) {
+                const selected = document.querySelector(`input[name="${q}"]:checked`);
+                const feedbackEl = document.getElementById(`feedback-${q}`);
+                feedbackEl.classList.remove('hidden', 'bg-emerald-50', 'bg-rose-50', 'text-emerald-900', 'text-rose-900', 'border-emerald-200', 'border-rose-200');
+                feedbackEl.classList.add('border');
+
+                if (selected && selected.value === respostasGabarito[q].ans) {
+                    pontos++;
+                    feedbackEl.classList.add('bg-emerald-50', 'text-emerald-900', 'border-emerald-200');
+                    feedbackEl.innerHTML = `<strong>✓ Resposta Correta!</strong> ${respostasGabarito[q].expl}`;
+                } else {
+                    feedbackEl.classList.add('bg-rose-50', 'text-rose-900', 'border-rose-200');
+                    feedbackEl.innerHTML = `<strong>✗ Resposta Incorreta.</strong> A opção correta é a letra <strong>${respostasGabarito[q].ans}</strong>. ${respostasGabarito[q].expl}`;
+                }
+            }
+
+            document.getElementById('score-t2').innerText = `${pontos} / 4`;
+        }
+    </script>
+</body>
+</html>
