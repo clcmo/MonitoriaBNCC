@@ -48,6 +48,6 @@ export const AULAS_MOCK: Aula[] = [
         serie: ['1_EM','2_EM'],
         descricao: 'Revisão dedicado as questões de ciências exatas e das naturezas aplicadas ao Ensino Médio e Técnico',
         data: '2026-10-20',
-        materialUrl: './aulas/revisao_pp_fuvest'
+        materialUrl: './aulas/revisao'
   }
 ];
