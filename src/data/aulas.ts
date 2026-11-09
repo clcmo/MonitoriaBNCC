@@ -1,8 +1,11 @@
+export type Disciplina = 'Física' | 'Química' | 'Biologia' | 'Matemática' | 'Interdisciplinar';
+export type Serie = '1_EM' | '2_EM' | '3_EM';
+
 export interface Aula {
   id: string;
   titulo: string;
-  disciplina: 'Física' | 'Química' | 'Biologia' | 'Matemática';
-  serie: '1_EM' | '2_EM' | '3_EM';
+  disciplina: Disciplina;
+  serie: Serie | Serie[];
   descricao: string;
   data: string; // formato ISO, ex: '2026-09-08'
   materialUrl?: string;
