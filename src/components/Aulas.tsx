@@ -27,12 +27,17 @@ export default function Aulas() {
       <div className="cards">
         {aulas.map((aula) => (
           <div className="card theory-card" key={aula.id}>
-            <span className="card-tag">{aula.disciplina}</span>
+            <span className="card-tag">
+              {[aula.disciplina, ...(aula.disciplinasIntegradas ?? [])].join(' · ')}
+            </span>
             <h3>{aula.titulo}</h3>
             <p style={{ color: 'var(--muted)', fontSize: '0.82rem', margin: '4px 0 10px' }}>
               {new Date(aula.data).toLocaleDateString('pt-BR')}
             </p>
             <p>{aula.descricao}</p>
+            <p className="material-author">
+              Monitor(a): {aula.monitorDisponibilizador ?? 'não informado'}
+            </p>
             {aula.materialUrl && (
               <a
                 className="btn btn-primary"

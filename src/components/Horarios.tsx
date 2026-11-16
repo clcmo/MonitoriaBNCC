@@ -11,14 +11,26 @@ export default function Horarios() {
       <div className="cards">
         {MONITORES.map((m) => (
           <div className="card theory-card" key={m.id}>
-            <span className="card-tag">{m.areaBNCC}</span>
-            <h3>{m.materia}</h3>
-            <p>{m.nome}</p>
+            <span className="card-tag">
+              {Array.isArray(m.areaBNCC) ? m.areaBNCC.join(' · ') : m.areaBNCC}
+            </span>
+            <h3>{[m.materia, ...(m.disciplinasIntegradas ?? [])].join(' · ')}</h3>
+            <p className="monitor-name">
+              <span aria-hidden="true">🧑‍🏫</span> {m.nome}
+            </p>
             <p style={{ marginTop: 10, color: '#cbd5e1' }}>
               {m.horario} · {m.local}
             </p>
           </div>
         ))}
+        <div className="card theory-card monitoria-future-card">
+          <span className="card-tag">Novidade · 2027</span>
+          <h3>Novos monitores a caminho!</h3>
+          <p>
+            Em 2027, a equipe de monitoria vai crescer para apoiar ainda mais áreas
+            do conhecimento. Em breve, divulgaremos as novidades.
+          </p>
+        </div>
       </div>
     </section>
   );

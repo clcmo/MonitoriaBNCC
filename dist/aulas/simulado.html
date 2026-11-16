@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="lesson-title" content="Simulado Provão Paulista">
+    <meta name="lesson-discipline" content="Interdisciplinar — Matemática e Física">
+    <meta name="lesson-icon-disciplines" content="Matemática, Física">
+    <meta name="lesson-test-target" content="#exam-container">
+    <meta name="lesson-technical" content="Simulado interativo com 20 questões, cronômetro, acompanhamento de respostas e relatório de desempenho.">
+    <link rel="stylesheet" href="./lesson-shell.css">
+    <title>Simulado Provão Paulista | Monitoria BNCC | Interdisciplinar — Matemática e Física</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Configuração e Carregamento do MathJax (Suporte a LaTeX) -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0284c7',
+                            600: '#0265d2',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        /* Ajuste fino visual do MathJax */
+        .mjx-chtml {
+            font-size: 105% !important;
+            outline: none !important;
+        }
+        .custom-scroll::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="text-slate-800 flex flex-col min-h-screen tex2jax_process">
+
+    <!-- HEADER DA APLICAÇÃO -->
+    <header class="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-brand-600 text-white p-2.5 rounded-xl flex items-center justify-center shadow-lg">
+                    <i class="fa-solid fa-graduation-cap text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-bold tracking-tight">Provão Paulista <span class="text-brand-500 font-normal">| Simulado Interativo</span></h1>
+                    <p class="text-xs text-slate-400">Revisão Intensiva das Ciências Exatas: Matemática & Física</p>
+                </div>
+            </div>
+
+            <!-- CRONÔMETRO E STATUS -->
+            <div class="flex items-center space-x-4 bg-slate-800 border border-slate-700 px-4 py-2 rounded-xl">
+                <div class="flex items-center space-x-2 text-brand-500">
+                    <i class="fa-regular fa-clock text-lg"></i>
+                    <span id="timer-display" class="font-mono text-lg font-semibold text-white">00:00:00</span>
+                </div>
+                <div class="h-4 w-px bg-slate-700"></div>
+                <span id="header-answered-count" class="text-xs font-medium text-slate-300">0/20 respondidas</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- PAINEL DE NAVEGAÇÃO E BARRA DE PROGRESSO -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5 mb-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                <div>
+                    <h2 class="text-base font-semibold text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-layer-group text-brand-600"></i>
+                        Painel de Controle do Exame
+                    </h2>
+                    <p class="text-xs text-slate-500">Clique no número da questão para ir diretamente até ela</p>
+                </div>
+                <div class="w-full md:w-64">
+                    <div class="flex justify-between text-xs font-medium text-slate-600 mb-1">
+                        <span>Progresso Geral</span>
+                        <span id="progress-percent">0%</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden border border-slate-200">
+                        <div id="progress-bar" class="bg-brand-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GRID DE BOTÕES DAS QUESTÕES -->
+            <div id="question-nav-grid" class="grid grid-cols-5 sm:grid-cols-10 md:grid-cols-20 gap-2 pt-2">
+                <!-- Gerado via JavaScript -->
+            </div>
+        </section>
+
+        <!-- CONTAINER DAS QUESTÕES -->
+        <div id="exam-container" class="space-y-6">
+            <!-- As questões serão injetadas dinamicamente via JS -->
+        </div>
+
+        <!-- PAINEL DE AÇÃO E FINALIZAÇÃO -->
+        <div id="action-footer" class="mt-8 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="text-sm text-slate-600 flex items-center gap-2">
+                <i class="fa-solid fa-circle-info text-brand-600"></i>
+                <span>Você pode revisar e alterar qualquer resposta antes de finalizar.</span>
+            </div>
+            <button id="finish-btn" onclick="confirmFinishExam()" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-8 py-3.5 rounded-xl shadow-lg shadow-emerald-600/20 transition duration-200 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-check-double"></i>
+                Finalizar Simulado
+            </button>
+        </div>
+
+        <!-- TELA DE RESULTADO (OCULTA INICIALMENTE) -->
+        <div id="results-panel" class="hidden space-y-6">
+            <!-- Card de Resumo de Desempenho -->
+            <div class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm text-center md:text-left">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="space-y-2">
+                        <span class="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full uppercase tracking-wider">Simulado Concluído</span>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900">Relatório de Desempenho</h2>
+                        <p class="text-sm text-slate-500">Confira abaixo sua pontuação, divisão por matéria e resolução comentada com equações.</p>
+                    </div>
+                    
+                    <!-- Score Big Badge -->
+                    <div class="bg-slate-900 text-white px-8 py-6 rounded-2xl flex flex-col items-center justify-center min-w-[180px] shadow-lg">
+                        <span class="text-xs uppercase font-medium text-slate-400">Nota Final</span>
+                        <span id="final-score" class="text-4xl font-extrabold text-emerald-400 my-1">0.0</span>
+                        <span id="final-percentage" class="text-xs text-slate-300">0% de acertos</span>
+                    </div>
+                </div>
+
+                <hr class="my-6 border-slate-200">
+
+                <!-- Grid de Métricas -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                        <span class="text-xs font-semibold text-slate-500 uppercase">Tempo Total</span>
+                        <p id="result-time" class="text-xl font-bold text-slate-800 mt-1">00:00</p>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                        <span class="text-xs font-semibold text-slate-500 uppercase">Total de Acertos</span>
+                        <p id="result-correct-count" class="text-xl font-bold text-emerald-600 mt-1">0 / 20</p>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                        <span class="text-xs font-semibold text-slate-500 uppercase">Matemática</span>
+                        <p id="result-math-score" class="text-xl font-bold text-brand-600 mt-1">0/10 (0%)</p>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                        <span class="text-xs font-semibold text-slate-500 uppercase">Física</span>
+                        <p id="result-physics-score" class="text-xl font-bold text-indigo-600 mt-1">0/10 (0%)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Título da Seção de Gabarito -->
+            <div class="flex items-center justify-between pt-4">
+                <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-brand-600"></i>
+                    Gabarito e Resoluções Detalhadas
+                </h3>
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="text-sm font-medium text-brand-600 hover:text-brand-800">
+                    <i class="fa-solid fa-arrow-up mr-1"></i> Voltar ao topo
+                </button>
+            </div>
+
+            <!-- O gabarito comentado será injetado aqui dinamicamente -->
+            <div id="detailed-feedback-container" class="space-y-6"></div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-6 mt-12 text-slate-400 text-xs text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>© 2026 Apprendendo. Todos os direitos reservados.</p>
+            <p>Simulado Preparatório para o Provão Paulista Seriado • Conteúdo com renderização Matemática via MathJax $\text{\LaTeX}$</p>
+        </div>
+    </footer>
+
+    <!-- MODAL DE MENSAGEM / CONFIRMAÇÃO -->
+    <div id="modal-backdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <h3 id="modal-title" class="text-lg font-bold text-slate-900">Atenção</h3>
+            <p id="modal-body" class="text-sm text-slate-600">Tem certeza de que deseja finalizar o simulado?</p>
+            <div class="flex justify-end space-x-3 pt-2">
+                <button id="modal-cancel" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 text-sm font-medium">Continuar Prova</button>
+                <button id="modal-confirm" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium">Sim, Finalizar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT DA APLICAÇÃO -->
+    <script>
+        // BASE DE DADOS DAS QUESTÕES DO PROVÃO PAULISTA COM EQUAÇÕES LATEX
+        const questionsData = [
+            // --- MATEMÁTICA (1 a 10) ---
+            {
+                id: 1,
+                subject: 'Matemática',
+                topic: 'Razão e Proporção',
+                question: 'Uma fábrica de embalagens produz $1.200$ caixas de papelão em $6\\text{ h}$ de funcionamento contínuo de suas $4$ máquinas idênticas. Devido a um aumento de demanda, a gerência colocou $6$ máquinas operando por $8\\text{ h}$ diárias. Quantas caixas serão produzidas por dia nessa nova condição?',
+                options: [
+                    'A) $1.800\\text{ caixas}$',
+                    'B) $2.400\\text{ caixas}$',
+                    'C) $3.200\\text{ caixas}$',
+                    'D) $2.100\\text{ caixas}$'
+                ],
+                correct: 1, // B
+                explanation: '<b>Regra de Três Composta:</b><br>Taxa de produção por máquina por hora ($p$):<br>$$p = \\frac{1.200}{4 \\times 6} = \\frac{1.200}{24} = 50\\text{ caixas/(máquina}\\cdot\\text{hora)}$$<br>Nova produção total ($P$):<br>$$P = 6 \\text{ máquinas} \\times 8 \\text{ horas} \\times 50\\text{ caixas} = 2.400\\text{ caixas}$$'
+            },
+            {
+                id: 2,
+                subject: 'Matemática',
+                topic: 'Porcentagem e Descontos',
+                question: 'Um livro preparatório para o vestibular custava $\\text{R\\$ } 120{,}00$. Em uma promoção, ele sofreu um desconto de $10\\%$ e, em seguida, um desconto adicional de $15\\%$ sobre o valor já reduzido para pagamento via Pix. Qual o valor final pago?',
+                options: [
+                    'A) $\\text{R\\$ } 90{,}00$',
+                    'B) $\\text{R\\$ } 91{,}80$',
+                    'C) $\\text{R\\$ } 92{,}50$',
+                    'D) $\\text{R\\$ } 93{,}00$'
+                ],
+                correct: 1, // B
+                explanation: '<b>Fator de Multiplicação Acumulado:</b><br>$$V_{\\text{final}} = V_{\\text{inicial}} \\times (1 - d_1) \\times (1 - d_2)$$<br>$$V_{\\text{final}} = 120 \\times (1 - 0{,}10) \\times (1 - 0{,}15) = 120 \\times 0{,}90 \\times 0{,}85 = \\text{R\\$ } 91{,}80$$'
+            },
+            {
+                id: 3,
+                subject: 'Matemática',
+                topic: 'Função do 1º Grau',
+                question: 'Um motorista de aplicativo cobra uma taxa fixa de bandeirada $b = \\text{R\\$ } 4{,}50$ mais $a = \\text{R\\$ } 2{,}10$ por quilômetro rodado $x$. Se um estudante pagou $\\text{R\\$ } 36{,}00$ pela corrida até o Provão Paulista, qual foi a distância $x$ percorrida?',
+                options: [
+                    'A) $12\\text{ km}$',
+                    'B) $14\\text{ km}$',
+                    'C) $15\\text{ km}$',
+                    'D) $16\\text{ km}$'
+                ],
+                correct: 2, // C
+                explanation: '<b>Modelagem por Função Afim:</b><br>$$f(x) = ax + b \\implies 36{,}00 = 2{,}10x + 4{,}50$$<br>$$2{,}10x = 36{,}00 - 4{,}50 = 31{,}50$$<br>$$x = \\frac{31{,}50}{2{,}10} = 15\\text{ km}$$'
+            },
+            {
+                id: 4,
+                subject: 'Matemática',
+                topic: 'Função do 2º Grau',
+                question: 'A trajetória de um projétil é descrita pela função $h(t) = -5t^2 + 20t$, onde $h$ é a altura em metros e $t$ o tempo em segundos. Qual é a altura máxima $h_{\\max}$ atingida e em qual tempo $t_v$ ela ocorre?',
+                options: [
+                    'A) $h_{\\max} = 20\\text{ m}$ em $t = 2\\text{ s}$',
+                    'B) $h_{\\max} = 25\\text{ m}$ em $t = 2\\text{ s}$',
+                    'C) $h_{\\max} = 20\\text{ m}$ em $t = 4\\text{ s}$',
+                    'D) $h_{\\max} = 40\\text{ m}$ em $t = 2\\text{ s}$'
+                ],
+                correct: 0, // A
+                explanation: '<b>Vértice da Parábola:</b><br>Tempo no vértice ($t_v$):<br>$$t_v = -\\frac{b}{2a} = -\\frac{20}{2(-5)} = 2\\text{ s}$$<br>Altura máxima ($h_v$):<br>$$h(2) = -5(2)^2 + 20(2) = -20 + 40 = 20\\text{ m}$$'
+            },
+            {
+                id: 5,
+                subject: 'Matemática',
+                topic: 'Geometria Plana',
+                question: 'Um canteiro de flores tem o formato de um triângulo equilátero inscrito em uma praça circular de raio $R = 10\\text{ m}$. Sabendo que a área do triângulo equilátero inscrito é dada por $A = \\frac{3\\sqrt{3}}{4} R^2$, calcule a área $A$ (considere $\\sqrt{3} \\approx 1{,}73$).',
+                options: [
+                    'A) $129{,}75\\text{ m}^2$',
+                    'B) $150{,}00\\text{ m}^2$',
+                    'C) $86{,}50\\text{ m}^2$',
+                    'D) $200{,}00\\text{ m}^2$'
+                ],
+                correct: 0, // A
+                explanation: '<b>Cálculo de Área com $\\text{\\LaTeX}$:</b><br>$$A = \\frac{3\\sqrt{3}}{4} R^2 = \\frac{3 \\times 1{,}73}{4} \\times 10^2 = \\frac{5{,}19}{4} \\times 100 = 1{,}2975 \\times 100 = 129{,}75\\text{ m}^2$$'
+            },
+            {
+                id: 6,
+                subject: 'Matemática',
+                topic: 'Geometria Espacial',
+                question: 'Um reservatório no formato de paralelepípedo reto-retângulo possui dimensões $a = 2\\text{ m}$, $b = 1{,}5\\text{ m}$ e $c = 1{,}2\\text{ m}$. Se ele está preenchido até $\\frac{2}{3}$ de sua capacidade, quantos litros de água contém?',
+                options: [
+                    'A) $2.400\\text{ litros}$',
+                    'B) $3.600\\text{ litros}$',
+                    'C) $1.800\\text{ litros}$',
+                    'D) $2.800\\text{ litros}$'
+                ],
+                correct: 0, // A
+                explanation: '<b>Volume e Conversão:</b><br>$$V_{\\text{total}} = a \\cdot b \\cdot c = 2 \\times 1{,}5 \\times 1{,}2 = 3{,}6\\text{ m}^3$$<br>$$V_{\\text{água}} = \\frac{2}{3} \\cdot 3{,}6 = 2{,}4\\text{ m}^3$$<br>Como $1\\text{ m}^3 = 1.000\\text{ L}$, temos $V = 2{,}4 \\times 1.000 = 2.400\\text{ litros}$.'
+            },
+            {
+                id: 7,
+                subject: 'Matemática',
+                topic: 'Análise Combinatória',
+                question: 'Para compor uma comissão de $5$ pessoas, devem ser escolhidos $3$ alunos entre $6$ disponíveis e $2$ professores entre $4$ disponíveis. De quantas maneiras distintas essa comissão pode ser formada?',
+                options: [
+                    'A) $120\\text{ maneiras}$',
+                    'B) $144\\text{ maneiras}$',
+                    'C) $72\\text{ maneiras}$',
+                    'D) $240\\text{ maneiras}$'
+                ],
+                correct: 0, // A
+                explanation: '<b>Combinação Simples:</b><br>$$C_{n,k} = \\binom{n}{k} = \\frac{n!}{k!(n-k)!}$$<br>• Alunos: $C_{6,3} = \\frac{6 \\times 5 \\times 4}{3 \\times 2 \\times 1} = 20$<br>• Professores: $C_{4,2} = \\frac{4 \\times 3}{2 \\times 1} = 6$<br>$$N = C_{6,3} \\times C_{4,2} = 20 \\times 6 = 120\\text{ maneiras}$$'
+            },
+            {
+                id: 8,
+                subject: 'Matemática',
+                topic: 'Probabilidade',
+                question: 'Em uma urna com $20$ bolas numeradas de $1$ a $20$, retira-se uma bola ao acaso. Qual é a probabilidade de o número sorteado ser um **número primo** OU um **múltiplo de $5$**?',
+                options: [
+                    'A) $50\\%$',
+                    'B) $55\\%$',
+                    'C) $60\\%$',
+                    'D) $45\\%$'
+                ],
+                correct: 1, // B
+                explanation: '<b>Probabilidade da União $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$:</b><br>• Primos ($A$): $\\{2, 3, 5, 7, 11, 13, 17, 19\\} \\implies n(A) = 8$<br>• Múltiplos de $5$ ($B$): $\\{5, 10, 15, 20\\} \\implies n(B) = 4$<br>• Interseção ($A \\cap B$): $\\{5\\} \\implies n(A \\cap B) = 1$<br>$$P(A \\cup B) = \\frac{8 + 4 - 1}{20} = \\frac{11}{20} = 0{,}55 = 55\\%$$'
+            },
+            {
+                id: 9,
+                subject: 'Matemática',
+                topic: 'Estatística - Média e Mediana',
+                question: 'Os tempos (em minutos) para resolução de $5$ simulados foram: $45, 50, 40, 60$ e $55$. Determine a média $\\bar{x}$ e a mediana $M_e$ desse conjunto de dados.',
+                options: [
+                    'A) $\\bar{x} = 50\\text{ min}$ e $M_e = 50\\text{ min}$',
+                    'B) $\\bar{x} = 50\\text{ min}$ e $M_e = 45\\text{ min}$',
+                    'C) $\\bar{x} = 52\\text{ min}$ e $M_e = 50\\text{ min}$',
+                    'D) $\\bar{x} = 48\\text{ min}$ e $M_e = 55\\text{ min}$'
+                ],
+                correct: 0, // A
+                explanation: '<b>Média e Mediana:</b><br>Média:<br>$$\\bar{x} = \\frac{\\sum x_i}{n} = \\frac{40 + 45 + 50 + 55 + 60}{5} = \\frac{250}{5} = 50\\text{ min}$$<br>Rol organizado: $(40, 45, \\mathbf{50}, 55, 60)$. O valor central é $M_e = 50\\text{ min}$.'
+            },
+            {
+                id: 10,
+                subject: 'Matemática',
+                topic: 'Geometria Analítica',
+                question: 'No plano cartesiano, a entrada de um campus fica no ponto $A(1, 2)$ e a biblioteca no ponto $B(7, 10)$. Se a escala do plano é em dezenas de metros, qual é a distância real $d_{AB}$ em linha reta?',
+                options: [
+                    'A) $100\\text{ metros}$',
+                    'B) $10\\text{ metros}$',
+                    'C) $140\\text{ metros}$',
+                    'D) $120\\text{ metros}$'
+                ],
+                correct: 0, // A
+                explanation: '<b>Distância Entre Dois Pontos:</b><br>$$d_{AB} = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2}$$<br>$$d_{AB} = \\sqrt{(7 - 1)^2 + (10 - 2)^2} = \\sqrt{6^2 + 8^2} = \\sqrt{36 + 64} = \\sqrt{100} = 10\\text{ unidades}$$<br>Na escala de dezenas de metros: $10 \\times 10\\text{ m} = 100\\text{ m}$.'
+            },
+
+            // --- FÍSICA (11 a 20) ---
+            {
+                id: 11,
+                subject: 'Física',
+                topic: 'Cinemática - MRUV',
+                question: 'Um trem parte do repouso ($v_0 = 0$) e acelera a uma taxa constante de $a = 1{,}5\\text{ m/s}^2$ durante $t = 10\\text{ s}$. Determine a velocidade final $v$ e o deslocamento $\\Delta s$.',
+                options: [
+                    'A) $v = 15\\text{ m/s}$ e $\\Delta s = 75\\text{ m}$',
+                    'B) $v = 15\\text{ m/s}$ e $\\Delta s = 150\\text{ m}$',
+                    'C) $v = 20\\text{ m/s}$ e $\\Delta s = 100\\text{ m}$',
+                    'D) $v = 10\\text{ m/s}$ e $\\Delta s = 50\\text{ m}$'
+                ],
+                correct: 0, // A
+                explanation: '<b>Equações do MRUV:</b><br>Velocidade:<br>$$v = v_0 + a \\cdot t \\implies v = 0 + 1{,}5 \\times 10 = 15\\text{ m/s}$$<br>Deslocamento:<br>$$\\Delta s = v_0 t + \\frac{1}{2}a t^2 = 0 + \\frac{1}{2}(1{,}5)(10)^2 = 0{,}75 \\times 100 = 75\\text{ m}$$'
+            },
+            {
+                id: 12,
+                subject: 'Física',
+                topic: 'Leis de Newton',
+                question: 'Um bloco de massa $m = 5\\text{ kg}$ é puxado sobre uma superfície horizontal por uma força $F = 30\\text{ N}$. Sabendo que a força de atrito dinâmico é $f_{at} = 10\\text{ N}$, qual é a aceleração $a$ adquirida?',
+                options: [
+                    'A) $a = 2\\text{ m/s}^2$',
+                    'B) $a = 4\\text{ m/s}^2$',
+                    'C) $a = 6\\text{ m/s}^2$',
+                    'D) $a = 8\\text{ m/s}^2$'
+                ],
+                correct: 1, // B
+                explanation: '<b>2ª Lei de Newton ($F_{\\text{res}} = m \\cdot a$):</b><br>$$F_{\\text{res}} = F - f_{at} = 30 - 10 = 20\\text{ N}$$<br>$$20 = 5 \\cdot a \\implies a = \\frac{20}{5} = 4\\text{ m/s}^2$$'
+            },
+            {
+                id: 13,
+                subject: 'Física',
+                topic: 'Trabalho e Energia',
+                question: 'Um carrinho de montanha-russa de massa $m = 200\\text{ kg}$ parte do repouso do topo a uma altura $h = 20\\text{ m}$. Desprezando os atritos e adotando $g = 10\\text{ m/s}^2$, qual a velocidade $v$ na base?',
+                options: [
+                    'A) $v = 15\\text{ m/s}$',
+                    'B) $v = 20\\text{ m/s}$',
+                    'C) $v = 25\\text{ m/s}$',
+                    'D) $v = 30\\text{ m/s}$'
+                ],
+                correct: 1, // B
+                explanation: '<b>Conservação da Energia Mecânica ($E_p = E_k$):</b><br>$$m \\cdot g \\cdot h = \\frac{1}{2} m \\cdot v^2 \\implies g \\cdot h = \\frac{1}{2} v^2$$<br>$$10 \\times 20 = \\frac{1}{2} v^2 \\implies v^2 = 400 \\implies v = 20\\text{ m/s}$$'
+            },
+            {
+                id: 14,
+                subject: 'Física',
+                topic: 'Circuitos Elétricos',
+                question: 'Três resistores de $R_1 = 6\\ \\Omega$, $R_2 = 3\\ \\Omega$ e $R_3 = 2\\ \\Omega$ estão em paralelo sob tensão $U = 12\\text{ V}$. Qual é a corrente elétrica total $I$ fornecida ao circuito?',
+                options: [
+                    'A) $I = 2\\text{ A}$',
+                    'B) $I = 6\\text{ A}$',
+                    'C) $I = 12\\text{ A}$',
+                    'D) $I = 18\\text{ A}$'
+                ],
+                correct: 2, // C
+                explanation: '<b>Resistência Equivalente em Paralelo e Lei de Ohm:</b><br>$$\\frac{1}{R_{eq}} = \\frac{1}{R_1} + \\frac{1}{R_2} + \\frac{1}{R_3} = \\frac{1}{6} + \\frac{1}{3} + \\frac{1}{2} = \\frac{1 + 2 + 3}{6} = 1\\ \\Omega$$<br>Pela Primeira Lei de Ohm ($U = R_{eq} \\cdot I$):<br>$$12 = 1 \\cdot I \\implies I = 12\\text{ A}$$'
+            },
+            {
+                id: 15,
+                subject: 'Física',
+                topic: 'Calorimetria',
+                question: 'Uma quantidade de $m = 200\\text{ g}$ de água ($c = 1{,}0\\text{ cal/g}^\\circ\\text{C}$) é aquecida de $T_i = 20^\\circ\\text{C}$ até $T_f = 80^\\circ\\text{C}$. Quantas calorias de calor sensível $Q$ foram fornecidas?',
+                options: [
+                    'A) $Q = 12.000\\text{ cal}$',
+                    'B) $Q = 16.000\\text{ cal}$',
+                    'C) $Q = 4.000\\text{ cal}$',
+                    'D) $Q = 8.000\\text{ cal}$'
+                ],
+                correct: 0, // A
+                explanation: '<b>Equação Fundamental da Calorimetria:</b><br>$$Q = m \\cdot c \\cdot \\Delta T$$<br>Com $\\Delta T = 80 - 20 = 60^\\circ\\text{C}$:<br>$$Q = 200 \\times 1{,}0 \\times 60 = 12.000\\text{ cal}$$'
+            },
+            {
+                id: 16,
+                subject: 'Física',
+                topic: 'Ondulatória',
+                question: 'Uma emissora opera na frequência $f = 100\\text{ MHz} = 100 \\times 10^6\\text{ Hz}$. Se a velocidade de propagação é $v = 3{,}0 \\times 10^8\\text{ m/s}$, qual é o comprimento de onda $\\lambda$?',
+                options: [
+                    'A) $\\lambda = 0{,}3\\text{ m}$',
+                    'B) $\\lambda = 3{,}0\\text{ m}$',
+                    'C) $\\lambda = 30\\text{ m}$',
+                    'D) $\\lambda = 300\\text{ m}$'
+                ],
+                correct: 1, // B
+                explanation: '<b>Equação Fundamental da Ondulatória:</b><br>$$v = \\lambda \\cdot f \\implies \\lambda = \\frac{v}{f}$$<br>$$\\lambda = \\frac{3{,}0 \\times 10^8\\text{ m/s}}{1{,}0 \\times 10^8\\text{ Hz}} = 3{,}0\\text{ m}$$'
+            },
+            {
+                id: 17,
+                subject: 'Física',
+                topic: 'Hidrostática',
+                question: 'Um mergulhador atinge a profundidade $h = 15\\text{ m}$ em água com densidade $\\rho = 1.000\\text{ kg/m}^3$. Adotando $g = 10\\text{ m/s}^2$ e $P_{\\text{atm}} = 1{,}0 \\times 10^5\\text{ Pa}$, qual é a pressão absoluta $P$ suportada?',
+                options: [
+                    'A) $P = 1{,}5 \\times 10^5\\text{ Pa}$',
+                    'B) $P = 2{,}5 \\times 10^5\\text{ Pa}$',
+                    'C) $P = 3{,}0 \\times 10^5\\text{ Pa}$',
+                    'D) $P = 2{,}0 \\times 10^5\\text{ Pa}$'
+                ],
+                correct: 1, // B
+                explanation: '<b>Teorema de Stevin ($P = P_{\\text{atm}} + \\rho g h$):</b><br>$$P_{\\text{hidro}} = 1.000 \\times 10 \\times 15 = 1.5 \\times 10^5\\text{ Pa}$$<br>$$P = 1{,}0 \\times 10^5 + 1{,}5 \\times 10^5 = 2{,}5 \\times 10^5\\text{ Pa}$$'
+            },
+            {
+                id: 18,
+                subject: 'Física',
+                topic: 'Termodinâmica',
+                question: 'Em uma transformação isobárica (pressão constante), um gás ideal possui volume inicial $V_1 = 4\\text{ L}$ a $T_1 = 300\\text{ K}$. Qual será o novo volume $V_2$ quando a temperatura subir para $T_2 = 450\\text{ K}$?',
+                options: [
+                    'A) $V_2 = 5\\text{ L}$',
+                    'B) $V_2 = 6\\text{ L}$',
+                    'C) $V_2 = 7{,}5\\text{ L}$',
+                    'D) $V_2 = 8\\text{ L}$'
+                ],
+                correct: 1, // B
+                explanation: '<b>Lei de Charles (Isobárica):</b><br>$$\\frac{V_1}{T_1} = \\frac{V_2}{T_2} \\implies \\frac{4}{300} = \\frac{V_2}{450}$$<br>$$V_2 = \\frac{4 \\times 450}{300} = \\frac{1.800}{300} = 6\\text{ litros}$$'
+            },
+            {
+                id: 19,
+                subject: 'Física',
+                topic: 'Óptica Geométrica',
+                question: 'Um objeto linear de altura $o = 10\\text{ cm}$ é colocado a uma distância $p = 40\\text{ cm}$ de um espelho plano. Qual a distância da imagem $p\'$ ao espelho e qual a sua altura $i$?',
+                options: [
+                    'A) $p\' = 20\\text{ cm}$ e $i = 5\\text{ cm}$',
+                    'B) $p\' = 40\\text{ cm}$ e $i = 10\\text{ cm}$',
+                    'C) $p\' = 40\\text{ cm}$ e $i = 20\\text{ cm}$',
+                    'D) $p\' = 80\\text{ cm}$ e $i = 10\\text{ cm}$'
+                ],
+                correct: 1, // B
+                explanation: '<b>Propriedades do Espelho Plano:</b><br>1. Imagem virtual e simétrica: $|p\'| = p = 40\\text{ cm}$.<br>2. Imagem direita e de mesmo tamanho: $i = o = 10\\text{ cm}$.'
+            },
+            {
+                id: 20,
+                subject: 'Física',
+                topic: 'Eletrostática - Lei de Coulomb',
+                question: 'Duas cargas puntiformes idênticas $q_1 = q_2 = 2{,}0 \\times 10^{-6}\\text{ C}$ estão separadas no vácuo por $d = 0{,}3\\text{ m}$. Com $K_0 = 9{,}0 \\times 10^9\\text{ N}\\cdot\\text{m}^2/\\text{C}^2$, qual a intensidade da força de repulsão $F$?',
+                options: [
+                    'A) $F = 0{,}4\\text{ N}$',
+                    'B) $F = 0{,}8\\text{ N}$',
+                    'C) $F = 1{,}2\\text{ N}$',
+                    'D) $F = 3{,}6\\text{ N}$'
+                ],
+                correct: 0, // A
+                explanation: '<b>Lei de Coulomb:</b><br>$$F = K_0 \\frac{|q_1 \\cdot q_2|}{d^2}$$<br>$$F = (9{,}0 \\times 10^9) \\times \\frac{(2{,}0 \\times 10^{-6})^2}{(0{,}3)^2} = (9{,}0 \\times 10^9) \\times \\frac{4{,}0 \\times 10^{-12}}{0{,}09}$$<br>$$F = \\frac{36{,}0 \\times 10^{-3}}{0{,}09} = 0{,}4\\text{ N}$$'
+            }
+        ];
+
+        // ESTADO DA APLICAÇÃO
+        let userAnswers = new Array(questionsData.length).fill(null);
+        let secondsElapsed = 0;
+        let timerInterval = null;
+        let isExamFinished = false;
+
+        // INICIALIZAÇÃO
+        window.onload = function() {
+            startTimer();
+            renderQuestionNavGrid();
+            renderQuestions();
+            updateProgress();
+            triggerMathJaxRender();
+        };
+
+        // RE-RENDERIZADOR MATHJAX
+        function triggerMathJaxRender() {
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise().catch((err) => console.log('MathJax error:', err));
+            }
+        }
+
+        // CRONÔMETRO
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                secondsElapsed++;
+                const hrs = String(Math.floor(secondsElapsed / 3600)).padStart(2, '0');
+                const mins = String(Math.floor((secondsElapsed % 3600) / 60)).padStart(2, '0');
+                const secs = String(secondsElapsed % 60).padStart(2, '0');
+                document.getElementById('timer-display').innerText = `${hrs}:${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        // RENDERIZAÇÃO DA GRADE DE NAVEGAÇÃO
+        function renderQuestionNavGrid() {
+            const gridContainer = document.getElementById('question-nav-grid');
+            gridContainer.innerHTML = '';
+
+            questionsData.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.id = `nav-btn-${idx}`;
+                btn.onclick = () => scrollToQuestion(idx);
+                btn.className = `h-9 w-full rounded-lg font-bold text-xs flex items-center justify-center transition border ${getNavBtnStyle(idx)}`;
+                btn.innerText = idx + 1;
+                gridContainer.appendChild(btn);
+            });
+        }
+
+        function getNavBtnStyle(index) {
+            if (userAnswers[index] !== null) {
+                return 'bg-brand-600 text-white border-brand-700 shadow-sm';
+            }
+            return 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200';
+        }
+
+        // RENDERIZAÇÃO DAS QUESTÕES
+        function renderQuestions() {
+            const container = document.getElementById('exam-container');
+            container.innerHTML = '';
+
+            questionsData.forEach((q, qIndex) => {
+                const card = document.createElement('div');
+                card.id = `question-card-${qIndex}`;
+                card.className = "bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 md:p-8 scroll-mt-24 transition duration-200";
+
+                const isMath = q.subject === 'Matemática';
+                const tagColor = isMath ? 'bg-sky-100 text-sky-800 border-sky-200' : 'bg-indigo-100 text-indigo-800 border-indigo-200';
+
+                let optionsHTML = '';
+                q.options.forEach((opt, optIdx) => {
+                    const isSelected = userAnswers[qIndex] === optIdx;
+                    const selectedStyle = isSelected ? 'border-brand-600 bg-brand-50/50 text-brand-900 font-medium ring-2 ring-brand-500/20' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700';
+
+                    optionsHTML += `
+                        <label onclick="selectOption(${qIndex}, ${optIdx})" class="flex items-start p-4 rounded-xl border cursor-pointer transition-all ${selectedStyle} group">
+                            <div class="flex items-center h-5 mt-0.5">
+                                <input type="radio" name="question-${qIndex}" ${isSelected ? 'checked' : ''} class="h-4 w-4 text-brand-600 focus:ring-brand-500 border-slate-300">
+                            </div>
+                            <span class="ml-3 text-sm sm:text-base leading-snug">${opt}</span>
+                        </label>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="bg-slate-900 text-white text-xs font-bold px-3 py-1 rounded-lg">Questão ${q.id}</span>
+                            <span class="text-xs font-semibold px-2.5 py-1 rounded-lg border ${tagColor}">${q.subject}</span>
+                        </div>
+                        <span class="text-xs text-slate-500 font-medium bg-slate-100 px-2.5 py-1 rounded-lg">${q.topic}</span>
+                    </div>
+
+                    <p class="text-slate-800 text-base sm:text-lg font-normal mb-6 leading-relaxed">${q.question}</p>
+
+                    <div class="space-y-3">
+                        ${optionsHTML}
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // SELEÇÃO DE RESPOSTA
+        function selectOption(questionIndex, optionIndex) {
+            if (isExamFinished) return;
+            userAnswers[questionIndex] = optionIndex;
+            
+            renderQuestions();
+            updateNavGrid();
+            updateProgress();
+            triggerMathJaxRender();
+        }
+
+        function updateNavGrid() {
+            questionsData.forEach((_, idx) => {
+                const btn = document.getElementById(`nav-btn-${idx}`);
+                if (btn) {
+                    btn.className = `h-9 w-full rounded-lg font-bold text-xs flex items-center justify-center transition border ${getNavBtnStyle(idx)}`;
+                }
+            });
+        }
+
+        function updateProgress() {
+            const answeredCount = userAnswers.filter(a => a !== null).length;
+            const total = questionsData.length;
+            const percentage = Math.round((answeredCount / total) * 100);
+
+            document.getElementById('header-answered-count').innerText = `${answeredCount}/${total} respondidas`;
+            document.getElementById('progress-percent').innerText = `${percentage}%`;
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+        }
+
+        function scrollToQuestion(index) {
+            const el = document.getElementById(`question-card-${index}`);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // CONFIRMAÇÃO DE FINALIZAÇÃO
+        function confirmFinishExam() {
+            const answeredCount = userAnswers.filter(a => a !== null).length;
+            const total = questionsData.length;
+
+            const modal = document.getElementById('modal-backdrop');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            const modalCancel = document.getElementById('modal-cancel');
+            const modalConfirm = document.getElementById('modal-confirm');
+
+            if (answeredCount < total) {
+                modalTitle.innerText = "Atenção: Questões Pendentes";
+                modalBody.innerText = `Você respondeu apenas ${answeredCount} de ${total} questões. Deseja realmente finalizar e entregar a prova assim mesmo?`;
+            } else {
+                modalTitle.innerText = "Finalizar Simulado";
+                modalBody.innerText = "Você respondeu a todas as questões! Deseja gerar o relatório final com o gabarito comentado?";
+            }
+
+            modal.classList.remove('hidden');
+
+            modalCancel.onclick = () => modal.classList.add('hidden');
+            modalConfirm.onclick = () => {
+                modal.classList.add('hidden');
+                calculateAndShowResults();
+            };
+        }
+
+        // RESULTADOS E RESOLUÇÃO EM LATEX
+        function calculateAndShowResults() {
+            isExamFinished = true;
+            stopTimer();
+
+            document.getElementById('exam-container').classList.add('hidden');
+            document.getElementById('action-footer').classList.add('hidden');
+
+            const resultsPanel = document.getElementById('results-panel');
+            resultsPanel.classList.remove('hidden');
+
+            let totalCorrect = 0;
+            let mathCorrect = 0;
+            let physicsCorrect = 0;
+
+            questionsData.forEach((q, idx) => {
+                if (userAnswers[idx] === q.correct) {
+                    totalCorrect++;
+                    if (q.subject === 'Matemática') mathCorrect++;
+                    if (q.subject === 'Física') physicsCorrect++;
+                }
+            });
+
+            const score = ((totalCorrect / questionsData.length) * 10).toFixed(1);
+            const percentage = Math.round((totalCorrect / questionsData.length) * 100);
+
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('final-percentage').innerText = `${percentage}% de aproveitamento`;
+
+            const hrs = Math.floor(secondsElapsed / 3600);
+            const mins = Math.floor((secondsElapsed % 3600) / 60);
+            const secs = secondsElapsed % 60;
+            document.getElementById('result-time').innerText = hrs > 0 ? `${hrs}h ${mins}m ${secs}s` : `${mins}m ${secs}s`;
+
+            document.getElementById('result-correct-count').innerText = `${totalCorrect} / ${questionsData.length}`;
+            document.getElementById('result-math-score').innerText = `${mathCorrect}/10 (${mathCorrect * 10}%)`;
+            document.getElementById('result-physics-score').innerText = `${physicsCorrect}/10 (${physicsCorrect * 10}%)`;
+
+            // RENDERIZAÇÃO DO GABARITO DETALHADO
+            const feedbackContainer = document.getElementById('detailed-feedback-container');
+            feedbackContainer.innerHTML = '';
+
+            questionsData.forEach((q, idx) => {
+                const isCorrect = userAnswers[idx] === q.correct;
+
+                const statusBadge = isCorrect 
+                    ? '<span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-lg border border-emerald-200"><i class="fa-solid fa-check mr-1"></i> Você acertou</span>'
+                    : '<span class="bg-rose-100 text-rose-800 text-xs font-bold px-3 py-1 rounded-lg border border-rose-200"><i class="fa-solid fa-xmark mr-1"></i> Você errou/ausente</span>';
+
+                let optionsFeedbackHTML = '';
+                q.options.forEach((opt, optIdx) => {
+                    let borderClass = 'border-slate-200 bg-white';
+                    let iconHTML = '';
+
+                    if (optIdx === q.correct) {
+                        borderClass = 'border-emerald-500 bg-emerald-50/60 font-semibold text-emerald-950';
+                        iconHTML = '<i class="fa-solid fa-circle-check text-emerald-600 ml-auto text-lg"></i>';
+                    } else if (optIdx === userAnswers[idx] && !isCorrect) {
+                        borderClass = 'border-rose-400 bg-rose-50/60 font-medium text-rose-950';
+                        iconHTML = '<i class="fa-solid fa-circle-xmark text-rose-500 ml-auto text-lg"></i>';
+                    }
+
+                    optionsFeedbackHTML += `
+                        <div class="flex items-center justify-between p-3.5 rounded-xl border ${borderClass} text-sm">
+                            <span>${opt}</span>
+                            ${iconHTML}
+                        </div>
+                    `;
+                });
+
+                const feedbackCard = document.createElement('div');
+                feedbackCard.className = "bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 md:p-8 space-y-4";
+                feedbackCard.innerHTML = `
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="bg-slate-900 text-white text-xs font-bold px-3 py-1 rounded-lg">Questão ${q.id}</span>
+                            <span class="text-xs font-semibold px-2.5 py-1 rounded-lg border bg-slate-100 border-slate-200 text-slate-700">${q.subject}</span>
+                            <span class="text-xs text-slate-500 font-medium">${q.topic}</span>
+                        </div>
+                        ${statusBadge}
+                    </div>
+
+                    <p class="text-slate-800 text-base font-medium">${q.question}</p>
+
+                    <div class="space-y-2 pt-2">
+                        ${optionsFeedbackHTML}
+                    </div>
+
+                    <!-- RESOLUÇÃO COMENTADA EM LATEX -->
+                    <div class="mt-4 bg-slate-50 border border-slate-200/80 rounded-xl p-4 sm:p-5 text-sm space-y-2">
+                        <div class="flex items-center gap-2 text-brand-700 font-bold">
+                            <i class="fa-solid fa-lightbulb"></i>
+                            <span>Resolução Passo a Passo:</span>
+                        </div>
+                        <div class="text-slate-700 leading-relaxed pt-1 overflow-x-auto custom-scroll">
+                            ${q.explanation}
+                        </div>
+                    </div>
+                `;
+
+                feedbackContainer.appendChild(feedbackCard);
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            triggerMathJaxRender();
+        }
+    </script>
+    <script src="./lesson-shell.js"></script>
+</body>
+</html>

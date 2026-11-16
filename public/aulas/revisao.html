@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super Aula Preparatória - Provão Paulista & FUVEST</title>
+    <meta name="lesson-title" content="Revisão para Provão Paulista">
+    <meta name="lesson-discipline" content="Interdisciplinar | Exatas e Ciências da Natureza">
+    <meta name="lesson-icon-disciplines" content="Matemática, Física, Química, Biologia">
+    <meta name="lesson-test-target" content="#teste1">
+    <meta name="lesson-equation-engine" content="KaTeX">
+    <meta name="lesson-technical" content="Revisão interdisciplinar com abas de conteúdos, avaliações interativas e exercícios comentados de Matemática, Física, Química e Biologia.">
+    <link rel="stylesheet" href="./lesson-shell.css">
+    <title>Revisão para Provão Paulista | Monitoria BNCC | Interdisciplinar | Exatas e Ciências da Natureza</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -21,6 +28,15 @@
         }
         code, pre {
             font-family: 'Fira Code', monospace;
+        }
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .quick-discipline-button {
+                justify-content: center;
+                text-align: center;
+            }
+            .quick-discipline-label {
+                display: none;
+            }
         }
 
         /* Estilização otimizada para Exportação/Impressão em PDF */
@@ -105,17 +121,17 @@
                     Acesso Rápido às Disciplinas
                 </div>
                 <div class="grid grid-cols-2 gap-2 text-xs font-medium">
-                    <button onclick="switchTab('matematica'); scrollToSection('aula')" class="p-2.5 bg-slate-700/60 hover:bg-indigo-600/80 rounded-lg flex items-center gap-2 transition text-left">
-                        <i data-lucide="calculator" class="w-4 h-4 text-amber-400"></i> Matemática
+                    <button aria-label="Matemática" title="Matemática" onclick="switchTab('matematica'); scrollToSection('aula')" class="quick-discipline-button p-2.5 bg-slate-700/60 hover:bg-indigo-600/80 rounded-lg flex items-center gap-2 transition text-left">
+                        <i data-lucide="calculator" class="w-4 h-4 text-amber-400" aria-hidden="true"></i><span class="quick-discipline-label">Matemática</span>
                     </button>
-                    <button onclick="switchTab('fisica'); scrollToSection('aula')" class="p-2.5 bg-slate-700/60 hover:bg-indigo-600/80 rounded-lg flex items-center gap-2 transition text-left">
-                        <i data-lucide="zap" class="w-4 h-4 text-cyan-400"></i> Física
+                    <button aria-label="Física" title="Física" onclick="switchTab('fisica'); scrollToSection('aula')" class="quick-discipline-button p-2.5 bg-slate-700/60 hover:bg-indigo-600/80 rounded-lg flex items-center gap-2 transition text-left">
+                        <i data-lucide="zap" class="w-4 h-4 text-cyan-400" aria-hidden="true"></i><span class="quick-discipline-label">Física</span>
                     </button>
-                    <button onclick="switchTab('quimica'); scrollToSection('aula')" class="p-2.5 bg-slate-700/60 hover:bg-indigo-600/80 rounded-lg flex items-center gap-2 transition text-left">
-                        <i data-lucide="flask-conical" class="w-4 h-4 text-emerald-400"></i> Química
+                    <button aria-label="Química" title="Química" onclick="switchTab('quimica'); scrollToSection('aula')" class="quick-discipline-button p-2.5 bg-slate-700/60 hover:bg-indigo-600/80 rounded-lg flex items-center gap-2 transition text-left">
+                        <i data-lucide="flask-conical" class="w-4 h-4 text-emerald-400" aria-hidden="true"></i><span class="quick-discipline-label">Química</span>
                     </button>
-                    <button onclick="switchTab('biologia'); scrollToSection('aula')" class="p-2.5 bg-slate-700/60 hover:bg-indigo-600/80 rounded-lg flex items-center gap-2 transition text-left">
-                        <i data-lucide="dna" class="w-4 h-4 text-rose-400"></i> Biologia
+                    <button aria-label="Biologia" title="Biologia" onclick="switchTab('biologia'); scrollToSection('aula')" class="quick-discipline-button p-2.5 bg-slate-700/60 hover:bg-indigo-600/80 rounded-lg flex items-center gap-2 transition text-left">
+                        <i data-lucide="dna" class="w-4 h-4 text-rose-400" aria-hidden="true"></i><span class="quick-discipline-label">Biologia</span>
                     </button>
                     <a href="#teste1" class="col-span-2 p-2.5 bg-indigo-600 hover:bg-indigo-500 rounded-lg flex items-center justify-center gap-2 text-white font-semibold transition mt-1">
                         <i data-lucide="file-check-2" class="w-4 h-4"></i> Avaliações (1º e 2º Ano)
@@ -1117,5 +1133,6 @@
             document.getElementById('score-t2').innerText = `${pontos} / 6`;
         }
     </script>
+    <script src="./lesson-shell.js"></script>
 </body>
 </html>

@@ -8,12 +8,12 @@ export default function Header({ onMenu }) {
           <Menu size={19} />
         </button>
 
-        <a className="brand" href="#">
+        <a className="brand" href="../">
           <span className="brand-icon">
             <Atom size={20} />
           </span>
           <span>
-            Física Lab <small>| Aula</small>
+            Monitoria BNCC <small>| Física</small>
           </span>
         </a>
       </div>

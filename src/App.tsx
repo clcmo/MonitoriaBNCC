@@ -4,11 +4,11 @@ import Sidebar from './components/Sidebar';
 import Sobre from './components/Sobre';
 import Horarios from './components/Horarios';
 import Aulas from './components/Aulas';
-import Duvidas from './components/Duvidas';
+import Materiais from './components/Materiais';
 import Contato from './components/Contato';
 import Footer from './components/Footer';
 
-export type Secao = 'sobre' | 'horarios' | 'aulas' | 'duvidas' | 'contato';
+export type Secao = 'sobre' | 'horarios' | 'aulas' | 'materiais' | 'contato';
 
 export default function App() {
   const [secaoAtiva, setSecaoAtiva] = useState<Secao>('sobre');
@@ -28,7 +28,7 @@ export default function App() {
           {secaoAtiva === 'sobre' && <Sobre />}
           {secaoAtiva === 'horarios' && <Horarios />}
           {secaoAtiva === 'aulas' && <Aulas />}
-          {secaoAtiva === 'duvidas' && <Duvidas />}
+          {secaoAtiva === 'materiais' && <Materiais />}
           {secaoAtiva === 'contato' && <Contato />}
         </main>
       </div>

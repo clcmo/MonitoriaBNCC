@@ -2,25 +2,34 @@ export default function Sobre() {
   return (
     <div>
       <section className="hero">
-        <span className="eyebrow">Projeto de Monitoria</span>
-        <h1>Suporte contínuo em Ciências Exatas, alinhado à BNCC</h1>
+        <span className="eyebrow">Projeto de Monitoria BNCC</span>
+        <h1>Aprendizagem e apoio em todas as áreas da BNCC</h1>
         <p>
-          Atendimento síncrono (presencial e online) e plantão de dúvidas para o Ensino
-          Médio, com foco no desenvolvimento da autonomia dos estudantes, do raciocínio
-          crítico-científico e da resolução de problemas práticos do cotidiano.
+          Nosso compromisso é com a formação integral dos estudantes do Ensino Médio.
+          Oferecemos apoio para desenvolver autonomia, pensamento crítico e conhecimentos
+          conectados aos desafios do cotidiano.
         </p>
         <div className="hero-meta">
-          <span className="pill">Física</span>
-          <span className="pill">Química</span>
-          <span className="pill">Biologia</span>
-          <span className="pill">Matemática</span>
+          <span className="pill">Linguagens e suas Tecnologias</span>
+          <span className="pill">Matemática e suas Tecnologias</span>
+          <span className="pill">Ciências da Natureza e suas Tecnologias</span>
+          <span className="pill">Ciências Humanas e Sociais Aplicadas</span>
         </div>
+      </section>
+
+      <section className="card theory-card home-announcement" aria-labelledby="humanas-2027">
+        <span className="card-tag">Novidade · 2027</span>
+        <h2 id="humanas-2027">Ciências Humanas estreia em 2027</h2>
+        <p>
+          Estamos ampliando a monitoria para incluir Ciências Humanas e Sociais Aplicadas.
+          Em 2027, os estudantes também poderão contar com apoio nessa área.
+        </p>
       </section>
 
       <section className="section">
         <div className="section-heading">
           <h2>Como atuamos</h2>
-          <p>Três pilares orientam o trabalho da monitoria ao longo do ano letivo.</p>
+          <p>Três pilares orientam nosso compromisso com as áreas de conhecimento da BNCC.</p>
         </div>
         <div className="objectives">
           <div className="objective">
@@ -29,11 +38,11 @@ export default function Sobre() {
           </div>
           <div className="objective">
             <strong>Integração BNCC</strong>
-            <span>Foco nas competências de investigação científica e modelagem matemática.</span>
+            <span>Conexões entre áreas, competências e situações reais de aprendizagem.</span>
           </div>
           <div className="objective">
             <strong>Autonomia</strong>
-            <span>Incentivo ao raciocínio crítico-científico e à resolução prática de problemas.</span>
+            <span>Incentivo ao pensamento crítico e à resolução de problemas em diferentes contextos.</span>
           </div>
         </div>
       </section>

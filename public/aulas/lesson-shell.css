@@ -1,0 +1,235 @@
+.bncc-lesson-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 50 !important;
+  border-bottom: 1px solid #26354d !important;
+  background: rgba(2, 6, 23, 0.96) !important;
+  color: #e2e8f0 !important;
+  backdrop-filter: blur(16px);
+}
+
+.bncc-lesson-header > div {
+  position: relative;
+  display: flex !important;
+  width: min(1280px, 100%) !important;
+  min-height: 68px;
+  height: auto !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 22px;
+  margin: 0 auto !important;
+  padding: 10px clamp(16px, 4vw, 36px) !important;
+}
+
+.bncc-lesson-identity {
+  display: grid;
+  flex: 0 1 auto;
+  gap: 3px;
+}
+
+.bncc-lesson-brand {
+  width: fit-content;
+  color: #e2e8f0 !important;
+  font: 800 1rem/1.2 Inter, system-ui, sans-serif !important;
+  letter-spacing: -0.02em;
+  text-decoration: none !important;
+}
+
+.bncc-lesson-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 5px;
+  color: #94a3b8;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.bncc-lesson-meta-title::after {
+  content: "|";
+  margin-left: 5px;
+  color: #64748b;
+}
+
+.bncc-lesson-discipline-icons {
+  display: none;
+  align-items: center;
+  gap: 9px;
+  color: #67e8f9;
+}
+
+.bncc-lesson-discipline-icons i {
+  font-size: 0.9rem;
+}
+
+.bncc-lesson-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #cbd5e1;
+}
+
+.bncc-lesson-menu-button {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  align-content: center;
+  justify-items: center;
+  gap: 5px;
+  border: 1px solid #334155 !important;
+  border-radius: 11px !important;
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+.bncc-lesson-menu-button:hover,
+.bncc-lesson-menu-button:focus-visible {
+  border-color: #67e8f9 !important;
+  outline: 2px solid #67e8f944;
+  outline-offset: 2px;
+}
+
+.bncc-lesson-menu-button span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.bncc-lesson-menu {
+  position: absolute;
+  top: calc(100% - 2px);
+  right: clamp(16px, 4vw, 36px);
+  z-index: 60;
+  display: grid;
+  width: min(340px, calc(100vw - 32px));
+  gap: 18px;
+  padding: 18px;
+  border: 1px solid #334155;
+  border-radius: 0 0 16px 16px;
+  background: #0b1524;
+  box-shadow: 0 18px 35px #0008;
+}
+
+.bncc-lesson-menu[hidden] {
+  display: none !important;
+}
+
+.bncc-lesson-menu nav {
+  display: grid !important;
+  gap: 4px;
+  margin: 0;
+}
+
+.bncc-lesson-menu nav a {
+  padding: 9px 10px;
+  border-radius: 8px;
+  color: #cbd5e1 !important;
+  font-size: 0.88rem;
+  text-decoration: none;
+}
+
+.bncc-lesson-menu nav a:hover,
+.bncc-lesson-menu nav a:focus-visible {
+  background: #17283d;
+  color: #67e8f9 !important;
+}
+
+.bncc-lesson-menu-actions {
+  display: grid;
+  gap: 9px;
+  padding-top: 14px;
+  border-top: 1px solid #26354d;
+}
+
+.bncc-lesson-action {
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 13px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font: 700 0.88rem Inter, system-ui, sans-serif;
+  text-decoration: none !important;
+}
+
+.bncc-lesson-print {
+  border-color: #475569 !important;
+  background: #172338 !important;
+  color: #e2e8f0 !important;
+}
+
+.bncc-lesson-test {
+  background: #0ea5e9 !important;
+  color: #031421 !important;
+}
+
+.bncc-lesson-action:hover {
+  filter: brightness(1.12);
+}
+
+.bncc-lesson-return {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  margin: 12px auto 0;
+  color: #67e8f9 !important;
+  font-size: 0.82rem;
+  text-decoration: none;
+}
+
+footer.bncc-lesson-footer {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 28px 20px !important;
+  border-top: 1px solid #26354d !important;
+  background: #020617 !important;
+  color: #94a3b8 !important;
+  text-align: center;
+}
+
+.bncc-lesson-footer p {
+  max-width: 900px;
+  margin: 0;
+  color: inherit !important;
+  font-size: 0.8rem;
+  line-height: 1.65;
+}
+
+.bncc-lesson-footer .bncc-lesson-copyright {
+  color: #cbd5e1 !important;
+  font-weight: 700;
+}
+
+@media (max-width: 540px) {
+  .bncc-lesson-header > div {
+    gap: 8px;
+  }
+
+  .bncc-lesson-meta-discipline {
+    display: none;
+  }
+
+  .bncc-lesson-discipline-icons {
+    display: inline-flex;
+  }
+
+  .bncc-lesson-status {
+    order: 3;
+    width: 100%;
+  }
+
+  .bncc-lesson-menu {
+    right: 12px;
+  }
+}
+
+@media print {
+  .bncc-lesson-header,
+  footer.bncc-lesson-footer {
+    display: none !important;
+  }
+}
