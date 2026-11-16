@@ -15,7 +15,7 @@ export default function Header({ menuAberto, setMenuAberto }: HeaderProps) {
           ☰
         </button>
         <div className="brand">
-          <span className="brand-icon">Σ</span>
+          <span className="brand-icon">📖</span>
           <span>
             Monitoria BNCC
             <small>BNCC · Ensino Médio</small>
