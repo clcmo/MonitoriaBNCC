@@ -10,8 +10,8 @@ const ABAS: { id: Secao; label: string }[] = [
   { id: 'sobre', label: 'Sobre' },
   { id: 'horarios', label: 'Horários' },
   { id: 'aulas', label: 'Aulas' },
-  { id: 'duvidas', label: 'Tirar Dúvidas' },
-  { id: 'contato', label: 'Contato' },
+  { id: 'materiais', label: 'Materiais de consulta' },
+  { id: 'contato', label: 'Contato e dúvidas' },
 ];
 
 export default function Sidebar({ secaoAtiva, onSelect, aberto }: SidebarProps) {

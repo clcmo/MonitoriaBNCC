@@ -71,7 +71,7 @@ export default function Aula({ data }) {
             </div>
           </Section>
 
-          <Footer />
+          <Footer data={data} />
         </main>
       </div>
     </div>

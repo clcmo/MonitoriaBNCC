@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07111f" />
+    <meta
+      name="description"
+      content="Aula interativa de óptica geométrica: reflexão, refração, espelhos e lentes."
+    />
+    <meta name="lesson-title" content="Óptica Geométrica">
+    <meta name="lesson-discipline" content="Física">
+    <meta name="lesson-test-target" content="#exercicios">
+    <meta name="lesson-technical" content="Aula de óptica geométrica com simuladores visuais de reflexão e lentes convergentes, exemplos resolvidos e exercícios de fixação.">
+    <link rel="stylesheet" href="./lesson-shell.css">
+    <title>Óptica Geométrica | Monitoria BNCC | Física</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']],
+          processEscapes: true
+        },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: "DM Sans", sans-serif;
+        color: #e2e8f0;
+        background: #07111f;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+        --bg: #07111f;
+        --surface: #0e1b2c;
+        --surface-raised: #13243a;
+        --border: #263a52;
+        --muted: #9aacc1;
+        --cyan: #67e8f9;
+        --violet: #c4b5fd;
+        --green: #6ee7b7;
+        --amber: #fcd34d;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; scroll-padding-top: 85px; }
+      body {
+        min-width: 320px;
+        margin: 0;
+        background:
+          radial-gradient(ellipse at 75% 0%, #142d48 0, transparent 38rem),
+          var(--bg);
+      }
+      a { color: inherit; }
+      button, input { font: inherit; }
+      button { cursor: pointer; }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        min-height: 64px;
+        padding: 12px max(24px, calc((100vw - 1120px) / 2));
+        border-bottom: 1px solid #263a5280;
+        background: #07111fe8;
+        backdrop-filter: blur(14px);
+      }
+      .brand { font: 700 1rem "Space Grotesk", sans-serif; text-decoration: none; }
+      .brand span { color: var(--cyan); }
+      .topbar nav { display: flex; flex-wrap: wrap; gap: 18px; }
+      .topbar nav a { color: var(--muted); font-size: .84rem; text-decoration: none; }
+      .topbar nav a:hover, a:focus-visible { color: var(--cyan); }
+      main { width: min(1120px, calc(100% - 40px)); margin: auto; }
+      .hero { padding: clamp(56px, 10vw, 112px) 0 64px; }
+      .eyebrow {
+        display: inline-flex;
+        padding: 7px 11px;
+        border: 1px solid #67e8f940;
+        border-radius: 999px;
+        color: var(--cyan);
+        background: #67e8f90d;
+        font-size: .78rem;
+        font-weight: 700;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+      }
+      h1, h2, h3 { font-family: "Space Grotesk", sans-serif; }
+      h1 {
+        max-width: 850px;
+        margin: 20px 0 14px;
+        font-size: clamp(2.7rem, 8vw, 5.7rem);
+        line-height: .99;
+        letter-spacing: -.065em;
+      }
+      h1 span { color: var(--cyan); }
+      .hero > p { max-width: 730px; color: #b6c5d6; font-size: 1.12rem; line-height: 1.75; }
+      .hero-pills { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 26px; }
+      .pill { padding: 7px 11px; border-radius: 999px; background: #ffffff0b; color: #c6d3e2; font-size: .8rem; }
+      .section { margin: 38px 0 62px; scroll-margin-top: 88px; }
+      .section-head { max-width: 760px; margin-bottom: 22px; }
+      .section-kicker { color: var(--cyan); font-size: .76rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+      h2 { margin: 8px 0; font-size: clamp(1.7rem, 4vw, 2.5rem); letter-spacing: -.04em; }
+      .section-head > p, .card p, .callout p { color: var(--muted); line-height: 1.7; }
+      .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+      .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .card {
+        padding: 22px;
+        border: 1px solid var(--border);
+        border-radius: 17px;
+        background: linear-gradient(145deg, #13243a, #0d1929);
+      }
+      .card h3 { margin: 0 0 9px; font-size: 1.12rem; }
+      .card p { margin: 0; font-size: .94rem; }
+      .formula {
+        overflow-x: auto;
+        margin: 17px 0;
+        padding: 15px;
+        border: 1px solid #67e8f91f;
+        border-radius: 11px;
+        background: #06101d;
+        color: var(--cyan);
+        text-align: center;
+      }
+      .formula-note { color: #8195ac; font-size: .81rem; line-height: 1.6; }
+      .callout {
+        margin-top: 16px;
+        padding: 17px 19px;
+        border-left: 3px solid var(--violet);
+        border-radius: 0 12px 12px 0;
+        background: #c4b5fd0d;
+      }
+      .callout strong { color: var(--violet); }
+      .callout p { margin: 5px 0 0; }
+      .lab { overflow: hidden; padding: 0; }
+      .lab-intro { padding: 22px 22px 0; }
+      .lab-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(230px, .7fr); gap: 18px; padding: 18px 22px 22px; }
+      canvas {
+        display: block;
+        width: 100%;
+        height: 300px;
+        border: 1px solid #263a52;
+        border-radius: 12px;
+        background: #081321;
+      }
+      .controls { display: grid; align-content: start; gap: 18px; }
+      .control label { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 8px; color: #c4d1df; font-size: .88rem; }
+      .control output { color: var(--cyan); font-weight: 700; }
+      input[type="range"] { width: 100%; accent-color: #67e8f9; }
+      .readout {
+        display: grid;
+        gap: 8px;
+        padding: 14px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #081321;
+        color: var(--muted);
+        font-size: .85rem;
+      }
+      .readout strong { color: var(--green); font-size: 1rem; }
+      .worked { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: 12px; }
+      .step { padding: 16px; border: 1px solid var(--border); border-radius: 12px; background: #081321; }
+      .step small { display: block; margin-bottom: 6px; color: var(--muted); }
+      .step strong { color: var(--cyan); }
+      .arrow { color: var(--violet); font-size: 1.3rem; }
+      .exercise { padding: 20px; }
+      .exercise + .exercise { margin-top: 13px; }
+      .exercise p { margin: 7px 0; color: #c7d4e2; line-height: 1.7; }
+      details { margin-top: 12px; }
+      summary { width: fit-content; color: var(--cyan); font-size: .88rem; font-weight: 700; cursor: pointer; }
+      details p { padding: 10px 12px; border-left: 2px solid var(--green); background: #6ee7b70a; }
+      .footer { margin: 65px 0 30px; padding: 22px 0; border-top: 1px solid var(--border); color: #8195ac; font-size: .82rem; text-align: center; }
+      .footer a { color: var(--cyan); }
+      @media (max-width: 760px) {
+        .topbar { align-items: flex-start; flex-direction: column; padding: 12px 20px; }
+        .topbar nav { gap: 13px; }
+        .grid, .grid.three, .lab-grid { grid-template-columns: 1fr; }
+        .worked { grid-template-columns: 1fr; }
+        .arrow { transform: rotate(90deg); text-align: center; }
+        canvas { height: 250px; }
+      }
+      @media print {
+        :root { color-scheme: light; color: #111827; background: white; }
+        body { background: white; }
+        .topbar, .controls, .footer a { display: none; }
+        main { width: 100%; }
+        .hero { padding: 20px 0; }
+        .card, .step { break-inside: avoid; border-color: #cbd5e1; background: white; }
+        .section-head > p, .card p, .callout p, .formula-note { color: #334155; }
+        .formula { color: #0369a1; background: #f8fafc; }
+        canvas { max-height: 230px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="../index.html">Monitoria <span>Exatas</span></a>
+      <nav aria-label="Navegação da aula">
+        <a href="#fundamentos">Fundamentos</a>
+        <a href="#reflexao">Reflexão</a>
+        <a href="#refracao">Refração</a>
+        <a href="#lentes">Lentes</a>
+        <a href="#exercicios">Exercícios</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <span class="eyebrow">Física · Matemática · Tecnologia</span>
+        <h1>A luz também <span>faz contas.</span></h1>
+        <p>
+          Explore a óptica geométrica: use ângulos, proporções e equações para prever
+          como a luz se reflete, muda de meio e forma imagens em espelhos e lentes.
+        </p>
+        <div class="hero-pills">
+          <span class="pill">Ensino Médio</span>
+          <span class="pill">2 simuladores interativos</span>
+          <span class="pill">Exemplos resolvidos</span>
+        </div>
+      </section>
+
+      <section class="section" id="fundamentos">
+        <div class="section-head">
+          <span class="section-kicker">01 · Modelo físico</span>
+          <h2>Como descrevemos a luz?</h2>
+          <p>
+            A luz é uma onda eletromagnética. Quando as dimensões dos objetos são
+            muito maiores que seu comprimento de onda, podemos aproximar sua
+            propagação por raios: linhas que indicam a direção e o sentido do fluxo
+            de energia luminosa.
+          </p>
+        </div>
+        <div class="grid three">
+          <article class="card">
+            <h3>Propagação retilínea</h3>
+            <p>Em um meio homogêneo e transparente, a luz se propaga em linha reta. Esse modelo explica sombras e eclipses.</p>
+          </article>
+          <article class="card">
+            <h3>Independência dos raios</h3>
+            <p>Raios luminosos podem se cruzar sem alterar suas trajetórias. É o que acontece com feixes de lanternas que se encontram.</p>
+          </article>
+          <article class="card">
+            <h3>Reversibilidade</h3>
+            <p>O caminho percorrido pela luz pode ser feito no sentido inverso. Por isso, se vemos alguém pelo espelho, essa pessoa também pode nos ver.</p>
+          </article>
+        </div>
+        <div class="callout">
+          <strong>Conexão com a matemática</strong>
+          <p>Raios formam triângulos. Semelhança de triângulos, trigonometria e proporcionalidade permitem calcular alturas e distâncias sem medi-las diretamente.</p>
+        </div>
+      </section>
+
+      <section class="section" id="reflexao">
+        <div class="section-head">
+          <span class="section-kicker">02 · Reflexão</span>
+          <h2>O ângulo de entrada é o de saída</h2>
+          <p>
+            Na reflexão especular, um feixe incide sobre uma superfície lisa e retorna
+            organizado. Os ângulos são medidos em relação à normal: a reta perpendicular
+            à superfície no ponto de incidência.
+          </p>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <h3>Lei da reflexão</h3>
+            <div class="formula">$$\theta_i = \theta_r$$</div>
+            <p>
+              O raio incidente, a normal e o raio refletido pertencem ao mesmo plano.
+              Se a incidência ocorre a $35^\circ$ da normal, a reflexão também ocorre
+              a $35^\circ$ da normal.
+            </p>
+            <p class="formula-note">Atenção: o ângulo é medido a partir da normal, não da superfície do espelho.</p>
+          </article>
+          <article class="card">
+            <h3>Espelho plano</h3>
+            <div class="formula">$$d_i = d_o \qquad h_i = h_o$$</div>
+            <p>
+              A imagem virtual aparece atrás do espelho, à mesma distância que o objeto
+              está à frente. Ela tem o mesmo tamanho e é direita; a inversão é lateral.
+            </p>
+            <p class="formula-note">$d_o$: distância do objeto · $d_i$: distância da imagem · $h$: altura</p>
+          </article>
+        </div>
+        <article class="card lab" style="margin-top:16px">
+          <div class="lab-intro">
+            <h3>Laboratório: reflexão em espelho plano</h3>
+            <p class="formula-note">Mude o ângulo de incidência. Os dois ângulos são medidos em relação à normal.</p>
+          </div>
+          <div class="lab-grid">
+            <canvas id="reflectionCanvas" role="img" aria-label="Diagrama interativo de reflexão da luz em um espelho"></canvas>
+            <div class="controls">
+              <div class="control">
+                <label for="incidenceRange">Ângulo de incidência <output id="incidenceValue">35°</output></label>
+                <input id="incidenceRange" type="range" min="10" max="80" value="35" aria-label="Ângulo de incidência em graus" />
+              </div>
+              <div class="readout">
+                <span>Lei da reflexão</span>
+                <strong id="reflectionResult">θᵢ = 35° · θᵣ = 35°</strong>
+                <span>Normal perpendicular ao espelho</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="section" id="refracao">
+        <div class="section-head">
+          <span class="section-kicker">03 · Refração</span>
+          <h2>A luz muda de velocidade</h2>
+          <p>
+            Ao atravessar a fronteira entre meios transparentes, a luz pode mudar de
+            velocidade e direção. A frequência permanece constante; o comprimento de
+            onda muda.
+          </p>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <h3>Índice de refração</h3>
+            <div class="formula">$$n = \frac{c}{v}$$</div>
+            <p>
+              $c$ é a velocidade da luz no vácuo e $v$ é a velocidade no meio.
+              Quanto maior o índice $n$, menor a velocidade da luz naquele material.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Lei de Snell-Descartes</h3>
+            <div class="formula">$$n_1 \sin\theta_1 = n_2 \sin\theta_2$$</div>
+            <p>
+              Ao entrar em um meio de maior índice, o raio se aproxima da normal.
+              Ao passar para um meio de menor índice, afasta-se dela.
+            </p>
+          </article>
+        </div>
+        <div class="callout">
+          <strong>Exemplo rápido</strong>
+          <p>
+            Um raio passa do ar ($n_1 \approx 1{,}00$) para o vidro ($n_2 \approx 1{,}50$)
+            com incidência de $30^\circ$. Então $\sin\theta_2 = (1/1{,}5)\sin30^\circ
+            = 1/3$, logo $\theta_2 \approx 19{,}5^\circ$: o raio se aproxima da normal.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="lentes">
+        <div class="section-head">
+          <span class="section-kicker">04 · Lentes delgadas</span>
+          <h2>Uma equação para localizar imagens</h2>
+          <p>
+            Lentes convergentes podem formar imagens reais ou virtuais. A posição
+            depende da distância focal e da posição do objeto; a ampliação é calculada
+            por semelhança de triângulos.
+          </p>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <h3>Equação de Gauss</h3>
+            <div class="formula">$$\frac{1}{f} = \frac{1}{p} + \frac{1}{p'}$$</div>
+            <p>
+              Para lente convergente, adotamos $f &gt; 0$. Se $p' &gt; 0$, a imagem é
+              real e se forma no lado oposto ao objeto; se $p' &lt; 0$, é virtual.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Aumento linear transversal</h3>
+            <div class="formula">$$A = \frac{h'}{h} = -\frac{p'}{p}$$</div>
+            <p>
+              $|A| &gt; 1$ indica imagem ampliada; $|A| &lt; 1$, reduzida. O sinal
+              negativo indica imagem invertida em relação ao objeto.
+            </p>
+          </article>
+        </div>
+        <article class="card lab" style="margin-top:16px">
+          <div class="lab-intro">
+            <h3>Laboratório: lente convergente</h3>
+            <p class="formula-note">Ajuste a distância do objeto e a distância focal. O desenho mostra a orientação da imagem.</p>
+          </div>
+          <div class="lab-grid">
+            <canvas id="lensCanvas" role="img" aria-label="Diagrama interativo de formação de imagem por lente convergente"></canvas>
+            <div class="controls">
+              <div class="control">
+                <label for="objectRange">Distância do objeto ($p$) <output id="objectValue">60 cm</output></label>
+                <input id="objectRange" type="range" min="25" max="120" value="60" aria-label="Distância do objeto em centímetros" />
+              </div>
+              <div class="control">
+                <label for="focalRange">Distância focal ($f$) <output id="focalValue">30 cm</output></label>
+                <input id="focalRange" type="range" min="20" max="50" value="30" aria-label="Distância focal em centímetros" />
+              </div>
+              <div class="readout" aria-live="polite">
+                <span>Equação de Gauss</span>
+                <strong id="lensPosition">Imagem: 60 cm</strong>
+                <span id="lensNature">Real e invertida</span>
+                <span id="lensMagnification">Aumento: −1,00×</span>
+              </div>
+            </div>
+          </div>
+        </article>
+        <div class="section-head" style="margin-top:30px">
+          <h3>Exemplo resolvido</h3>
+          <p>
+            Uma lente convergente de $f=20\,\text{cm}$ recebe um objeto a
+            $p=60\,\text{cm}$. Qual é a posição da imagem e o aumento?
+          </p>
+        </div>
+        <div class="worked">
+          <div class="step"><small>1 · Equação de Gauss</small><strong>$1/p' = 1/f - 1/p$</strong></div>
+          <span class="arrow" aria-hidden="true">→</span>
+          <div class="step"><small>2 · Substituição</small><strong>$1/p' = 1/20 - 1/60$</strong></div>
+          <span class="arrow" aria-hidden="true">→</span>
+          <div class="step"><small>3 · Resultado</small><strong>$p'=30\,\text{cm}$ e $A=-0{,}5$</strong></div>
+        </div>
+      </section>
+
+      <section class="section" id="exatas">
+        <div class="section-head">
+          <span class="section-kicker">05 · Física aplicada</span>
+          <h2>Da óptica para as outras exatas</h2>
+          <p>As mesmas ideias aparecem em diferentes áreas e ajudam a interpretar tecnologias do cotidiano.</p>
+        </div>
+        <div class="grid three">
+          <article class="card">
+            <h3>Matemática</h3>
+            <p>Funções inversas e gráficos descrevem como a posição da imagem varia com a posição do objeto: $1/p' = 1/f - 1/p$.</p>
+          </article>
+          <article class="card">
+            <h3>Biologia e saúde</h3>
+            <p>O olho funciona como um sistema óptico. Miopia e hipermetropia podem ser corrigidas com lentes de diferentes vergências.</p>
+          </article>
+          <article class="card">
+            <h3>Computação e engenharia</h3>
+            <p>Câmeras, microscópios, telescópios e sensores usam lentes, geometria e processamento de sinais para formar e analisar imagens.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="exercicios">
+        <div class="section-head">
+          <span class="section-kicker">06 · Pratique</span>
+          <h2>Exercícios de fixação</h2>
+          <p>Resolva primeiro no papel. Abra a resposta depois para conferir seu raciocínio.</p>
+        </div>
+        <article class="card exercise">
+          <h3>1. Reflexão em espelho plano</h3>
+          <p>Um raio forma $28^\circ$ com a normal. Qual é o ângulo entre o raio incidente e o refletido?</p>
+          <details>
+            <summary>Ver resolução</summary>
+            <p>Pela lei da reflexão, $\theta_r=28^\circ$. O ângulo entre os raios é $28^\circ+28^\circ=56^\circ$.</p>
+          </details>
+        </article>
+        <article class="card exercise">
+          <h3>2. Refração</h3>
+          <p>Um raio passa do ar ($n_1=1{,}0$) para um material ($n_2=1{,}5$) com incidência de $30^\circ$. Estime o ângulo refratado.</p>
+          <details>
+            <summary>Ver resolução</summary>
+            <p>$1{,}0\sin30^\circ=1{,}5\sin\theta_2$, então $\sin\theta_2=1/3$ e $\theta_2\approx19{,}5^\circ$. Ele se aproxima da normal.</p>
+          </details>
+        </article>
+        <article class="card exercise">
+          <h3>3. Lente convergente</h3>
+          <p>Uma lente de distância focal $f=15\,\text{cm}$ recebe um objeto a $p=30\,\text{cm}$. Determine $p'$ e descreva a imagem.</p>
+          <details>
+            <summary>Ver resolução</summary>
+            <p>$1/p'=1/15-1/30=1/30$, logo $p'=30\,\text{cm}$. A imagem é real, invertida e tem o mesmo tamanho ($A=-1$).</p>
+          </details>
+        </article>
+      </section>
+
+      <footer class="footer">
+        <p>Aula de Óptica · Monitoria Exatas · <a href="../index.html">Voltar à monitoria</a></p>
+        <p>As distâncias e os desenhos dos simuladores são esquemáticos e não estão em escala.</p>
+      </footer>
+    </main>
+
+    <script>
+      const $ = (id) => document.getElementById(id);
+
+      function prepararCanvas(canvas) {
+        const ratio = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        const width = Math.max(1, rect.width);
+        const height = Math.max(1, rect.height);
+        canvas.width = Math.round(width * ratio);
+        canvas.height = Math.round(height * ratio);
+        const ctx = canvas.getContext("2d");
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        return { ctx, width, height };
+      }
+
+      function linha(ctx, x1, y1, x2, y2, color, width = 2, dash = []) {
+        ctx.beginPath();
+        ctx.setLineDash(dash);
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.strokeStyle = color;
+        ctx.lineWidth = width;
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      function seta(ctx, x1, y1, x2, y2, color) {
+        linha(ctx, x1, y1, x2, y2, color, 3);
+        const angle = Math.atan2(y2 - y1, x2 - x1);
+        ctx.beginPath();
+        ctx.moveTo(x2, y2);
+        ctx.lineTo(x2 - 11 * Math.cos(angle - Math.PI / 6), y2 - 11 * Math.sin(angle - Math.PI / 6));
+        ctx.lineTo(x2 - 11 * Math.cos(angle + Math.PI / 6), y2 - 11 * Math.sin(angle + Math.PI / 6));
+        ctx.closePath();
+        ctx.fillStyle = color;
+        ctx.fill();
+      }
+
+      function desenharReflexao() {
+        const canvas = $("reflectionCanvas");
+        const { ctx, width, height } = prepararCanvas(canvas);
+        const cx = width / 2;
+        const cy = height / 2 + 22;
+        const theta = Number($("incidenceRange").value) * Math.PI / 180;
+        ctx.clearRect(0, 0, width, height);
+        linha(ctx, 22, cy, width - 22, cy, "#67e8f9", 5);
+        linha(ctx, cx, 22, cx, height - 20, "#94a3b8", 1.5, [6, 6]);
+        const length = Math.min(width * .36, 155);
+        seta(ctx, cx - length * Math.sin(theta), cy - length * Math.cos(theta), cx, cy, "#c4b5fd");
+        seta(ctx, cx, cy, cx + length * Math.sin(theta), cy - length * Math.cos(theta), "#6ee7b7");
+        ctx.fillStyle = "#dbeafe";
+        ctx.font = "13px DM Sans, sans-serif";
+        ctx.fillText("raio incidente", 18, 30);
+        ctx.fillStyle = "#c4b5fd";
+        ctx.fillText("θᵢ", cx - 42, cy - 34);
+        ctx.fillStyle = "#6ee7b7";
+        ctx.fillText("θᵣ", cx + 23, cy - 34);
+        ctx.fillStyle = "#9aacc1";
+        ctx.fillText("normal", cx + 8, 24);
+        ctx.fillStyle = "#67e8f9";
+        ctx.fillText("espelho", width - 72, cy - 11);
+        const graus = $("incidenceRange").value;
+        $("incidenceValue").textContent = `${graus}°`;
+        $("reflectionResult").textContent = `θᵢ = ${graus}° · θᵣ = ${graus}°`;
+      }
+
+      function desenharLente() {
+        const canvas = $("lensCanvas");
+        const { ctx, width, height } = prepararCanvas(canvas);
+        const p = Number($("objectRange").value);
+        const f = Number($("focalRange").value);
+        const nearFocus = Math.abs(p - f) < 1;
+        const pp = nearFocus ? Infinity : (f * p) / (p - f);
+        const A = nearFocus ? -Infinity : -pp / p;
+        const axisY = height * .59;
+        const centerX = width * .5;
+        const scale = Math.min((width * .42) / 120, 2.1);
+        const objectX = centerX - p * scale;
+        const imageX = nearFocus ? centerX + width * .46 : centerX + pp * scale;
+        const objectHeight = Math.min(height * .24, 48);
+        const imageHeight = nearFocus ? height * .22 : Math.min(height * .32, Math.abs(A) * objectHeight, height * .38);
+        const imageUp = !nearFocus && A > 0;
+
+        ctx.clearRect(0, 0, width, height);
+        linha(ctx, 16, axisY, width - 16, axisY, "#71839a", 1);
+        linha(ctx, centerX, 28, centerX, height - 24, "#67e8f9", 4);
+        ctx.fillStyle = "#9aacc1";
+        ctx.font = "12px DM Sans, sans-serif";
+        ctx.fillText("lente", centerX + 8, 25);
+        const focusOffset = f * scale;
+        [centerX - focusOffset, centerX + focusOffset].forEach((x) => {
+          ctx.beginPath();
+          ctx.arc(x, axisY, 4, 0, Math.PI * 2);
+          ctx.fillStyle = "#fcd34d";
+          ctx.fill();
+        });
+        ctx.fillStyle = "#fcd34d";
+        ctx.fillText("F", centerX - focusOffset - 4, axisY + 18);
+        ctx.fillText("F", centerX + focusOffset - 4, axisY + 18);
+        const objectTipY = axisY - objectHeight;
+        linha(ctx, objectX, axisY, objectX, objectTipY, "#c4b5fd", 4);
+        seta(ctx, objectX, axisY + 2, objectX, objectTipY, "#c4b5fd");
+        ctx.fillStyle = "#c4b5fd";
+        ctx.fillText("objeto", Math.max(5, objectX - 18), axisY + 25);
+
+        if (!nearFocus && Math.abs(imageX - centerX) < width * .48) {
+          const imageTipY = imageUp ? axisY - imageHeight : axisY + imageHeight;
+          linha(ctx, imageX, axisY, imageX, imageTipY, "#6ee7b7", 4);
+          if (imageUp) seta(ctx, imageX, axisY + 2, imageX, imageTipY, "#6ee7b7");
+          else seta(ctx, imageX, axisY - 2, imageX, imageTipY, "#6ee7b7");
+          ctx.fillStyle = "#6ee7b7";
+          ctx.fillText("imagem", Math.min(width - 55, imageX + 7), axisY + 25);
+        }
+
+        const rayY = axisY - objectHeight;
+        linha(ctx, objectX, rayY, centerX, rayY, "#fcd34d", 1.5, [5, 4]);
+        if (nearFocus) {
+          linha(ctx, centerX, rayY, width - 18, rayY, "#fcd34d", 1.5, [5, 4]);
+        } else if (pp < 0) {
+          const imageTipY = axisY - imageHeight;
+          const rayEndY = rayY + (width - 18 - centerX) * (rayY - imageTipY) / (centerX - imageX);
+          linha(ctx, centerX, rayY, width - 18, rayEndY, "#fcd34d", 1.5);
+          linha(ctx, imageX, imageTipY, centerX, rayY, "#fcd34d", 1.5, [5, 4]);
+        } else {
+          const rayEndX = Math.min(width - 18, imageX);
+          const rayEndY = axisY + (imageUp ? -imageHeight : imageHeight);
+          linha(ctx, centerX, rayY, rayEndX, rayEndY, "#fcd34d", 1.5);
+        }
+        const xText = Number.isFinite(pp) ? `Imagem: ${pp.toFixed(1)} cm` : "Imagem no infinito";
+        $("objectValue").textContent = `${p} cm`;
+        $("focalValue").textContent = `${f} cm`;
+        $("lensPosition").textContent = xText;
+        $("lensNature").textContent = nearFocus
+          ? "Objeto no foco: raios emergem paralelos"
+          : pp > 0
+            ? `Real e ${A < 0 ? "invertida" : "direita"}`
+            : "Virtual e direita";
+        $("lensMagnification").textContent = nearFocus
+          ? "Aumento: não definido (imagem no infinito)"
+          : `Aumento: ${A < 0 ? "−" : ""}${Math.abs(A).toFixed(2)}×`;
+      }
+
+      $("incidenceRange").addEventListener("input", desenharReflexao);
+      $("objectRange").addEventListener("input", desenharLente);
+      $("focalRange").addEventListener("input", desenharLente);
+      window.addEventListener("resize", () => {
+        desenharReflexao();
+        desenharLente();
+      });
+      desenharReflexao();
+      desenharLente();
+    </script>
+    <script src="./lesson-shell.js"></script>
+  </body>
+</html>

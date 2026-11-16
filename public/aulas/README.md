@@ -1,6 +1,6 @@
-# Física Lab | Aula
+# Monitoria BNCC | Aulas
 
-Base React para aulas de Física com identidade visual unificada, conteúdo separado da interface e espaço para simuladores.
+Aulas interativas da Monitoria BNCC, com conteúdo separado da interface e espaço para simuladores.
 
 ## Stack
 
@@ -33,6 +33,9 @@ src/
 ├── App.jsx
 ├── index.css
 └── main.jsx
+
+HTML individuais de aulas ficam na raiz desta pasta e compartilham
+`lesson-shell.css` e `lesson-shell.js` para o menu, ações e créditos.
 ```
 
 ## Criar uma nova aula
@@ -51,13 +54,8 @@ Assim, uma nova aula não precisa copiar o layout inteiro.
 
 ## Identidade
 
-Nome principal:
+Use **Monitoria BNCC** como nome da plataforma. Para cada página HTML individual,
+defina os metadados `lesson-title`, `lesson-discipline`, `lesson-test-target` e
+`lesson-technical`; o título do navegador e o rodapé técnico são montados a partir deles.
 
-**Física Lab | Aula**
-
-O mesmo padrão pode futuramente receber:
-
-- Física Lab | Simulador
-- Física Lab | Experimento
-- Física Lab | Exercícios
-- Física Lab | Monitoria
+O menu compartilhado reúne as âncoras da aula, a impressão em PDF e o acesso às questões.

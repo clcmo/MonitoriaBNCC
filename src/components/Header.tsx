@@ -17,7 +17,7 @@ export default function Header({ menuAberto, setMenuAberto }: HeaderProps) {
         <div className="brand">
           <span className="brand-icon">Σ</span>
           <span>
-            Monitoria Exatas
+            Monitoria BNCC
             <small>BNCC · Ensino Médio</small>
           </span>
         </div>
