@@ -7,6 +7,8 @@ const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 export interface MensagemContato {
   nome: string;
   email: string;
+  disciplina: string;
+  serie: string;
   assunto: string;
   mensagem: string;
 }
@@ -38,8 +40,10 @@ export async function enviarMensagemContato(dados: MensagemContato): Promise<voi
       SERVICE_ID,
       TEMPLATE_ID,
       {
-        from_name: dados.nome,
-        from_email: dados.email,
+        name: dados.nome,
+        email: dados.email,
+        discipline: dados.disciplina,
+        series: dados.serie,
         subject: dados.assunto,
         message: dados.mensagem,
         to_email: 'monitoriaetecbraz@gmail.com',

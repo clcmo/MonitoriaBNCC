@@ -25,18 +25,13 @@ export default function Contato() {
     setErroMsg('');
 
     try {
-      const detalhesAcademicos = [
-        `Componente curricular: ${form.disciplina}`,
-        form.serie ? `Série/Ano: ${form.serie.replace('_', 'º ')}` : '',
-      ]
-        .filter(Boolean)
-        .join('\n');
-
       await enviarMensagemContato({
         nome: form.nome,
         email: form.email,
+        disciplina: form.disciplina,
+        serie: form.serie ? form.serie.replace('_', 'º Ano — Ensino Médio') : 'Não informada',
         assunto: `[Monitoria - ${form.disciplina}] ${form.assunto}`,
-        mensagem: `${detalhesAcademicos}\n\n${form.mensagem}`,
+        mensagem: form.mensagem,
       });
       setStatus('sucesso');
       setForm({
