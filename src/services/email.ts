@@ -11,6 +11,19 @@ export interface MensagemContato {
   mensagem: string;
 }
 
+function isEmailJSResponse(
+  error: unknown
+): error is { status: number; text: string } {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'status' in error &&
+    typeof error.status === 'number' &&
+    'text' in error &&
+    typeof error.text === 'string'
+  );
+}
+
 // Dispara o e-mail de verdade via EmailJS — nenhuma senha ou backend envolvido.
 // As três variáveis vêm do painel do EmailJS (ver .env.example).
 export async function enviarMensagemContato(dados: MensagemContato): Promise<void> {
@@ -20,16 +33,24 @@ export async function enviarMensagemContato(dados: MensagemContato): Promise<voi
     );
   }
 
-  await emailjs.send(
-    SERVICE_ID,
-    TEMPLATE_ID,
-    {
-      from_name: dados.nome,
-      from_email: dados.email,
-      subject: dados.assunto,
-      message: dados.mensagem,
-      to_email: 'monitoriaetecbraz@gmail.com',
-    },
-    { publicKey: PUBLIC_KEY }
-  );
+  try {
+    await emailjs.send(
+      SERVICE_ID,
+      TEMPLATE_ID,
+      {
+        from_name: dados.nome,
+        from_email: dados.email,
+        subject: dados.assunto,
+        message: dados.mensagem,
+        to_email: 'monitoriaetecbraz@gmail.com',
+      },
+      { publicKey: PUBLIC_KEY }
+    );
+  } catch (error) {
+    if (isEmailJSResponse(error)) {
+      throw new Error(`Falha no envio pelo EmailJS (HTTP ${error.status}): ${error.text}`);
+    }
+
+    throw error;
+  }
 }
